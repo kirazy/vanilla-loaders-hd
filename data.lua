@@ -1,0 +1,7 @@
+require("prototypes.functions")
+require("prototypes.item.loader-item")
+require("prototypes.recipe.loader-recipe")
+require("prototypes.recipe.loader-recipe-belt-overhaul")
+require("prototypes.recipe.loader-recipe-update")
+require("prototypes.entity.loader-entity")
+require("prototypes.technology.loader-technology")
