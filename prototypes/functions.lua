@@ -5,7 +5,7 @@ local modDir = "__vanilla-loaders-hd__"
 -- Create color masks
 vanillaHD.tint_mask = {
 	["basic-loader"]   = {r = 227, g = 227, b = 227}, -- Corrected 6-1-2019
-	["loader"] 		     = {r = 240, g = 199, b =  86}, -- Corrected 6-1-2019
+	["loader"] 		   = {r = 240, g = 199, b =  86}, -- Corrected 6-1-2019
 	["fast-loader"]    = {r = 227, g =  68, b =  68}, -- Corrected 6-1-2019
 	["express-loader"] = {r =  92, g = 200, b = 250}, -- Corrected 6-1-2019
 	["purple-loader"]  = {r = 199, g =  69, b = 255}, -- Corrected 6-1-2019
@@ -22,8 +22,13 @@ function vanillaHD.patchLoaderEntity(loader)
 
 		-- Set flags
 		loader.flags = {"placeable-neutral", "placeable-player", "player-creation", "fast-replaceable-no-build-while-moving"}
+
+		-- Set remnant and explosions
+		loader.corpse = name.."-remnants"
+		loader.dying_explosion = name.."-explosion"
 		
 		-- Specifies the entity icons used by the game to generate alert messages
+		loader.icon_size = 64
 		loader.icons  = 
 		{
 			{
@@ -48,7 +53,7 @@ function vanillaHD.patchLoaderEntity(loader)
 					height   = 192,
 					priority = "extra-high",
 					scale    = 0.5,
-					width    = 192,
+					width    = 212,
 					y        = 0
 				}
 			},
@@ -83,7 +88,7 @@ function vanillaHD.patchLoaderEntity(loader)
 					height   = 192,
 					priority = "extra-high",
 					scale    = 0.5,
-					width    = 192,
+					width    = 212,
 					y        = 192
 				}
 			},
@@ -153,8 +158,8 @@ function vanillaHD.createLoaderEntity(name, beltname)
 	if data.raw["transport-belt"][beltname] then
 		local loader = table.deepcopy(data.raw["loader"]["loader"])
 		local basebelt = data.raw["transport-belt"][beltname]
-		loader.name            = name
-		loader.minable.result  = name
+		loader.name = name
+		loader.minable.result = name
 		
 		-- Inherit graphics from tier-appropriate belts
 		loader.belt_animation_set = basebelt.belt_animation_set
@@ -228,7 +233,8 @@ function vanillaHD.createLoaderRecipe(name, beltname, lastloader)
 	if data.raw["item"][beltname] then
 		local recipe = table.deepcopy(data.raw["recipe"]["express-loader"])
 		recipe.name = name
-		recipe.ingredients = {
+		recipe.ingredients = 
+		{
 			{beltname, 5},
 			{lastloader, 1}
 		}
@@ -240,14 +246,16 @@ end
 -- Function to add the loaders to the technology tree.
 function vanillaHD.patchLoaderTechnology(technology, recipe)
 	if data.raw["technology"][technology] then
-		table.insert(data.raw["technology"][technology].effects, {
-			type="unlock-recipe",
-			recipe=recipe
+		table.insert(data.raw["technology"][technology].effects, 
+		{
+			type = "unlock-recipe",
+			recipe = recipe
 		})
 	end
 end
 
--- Function to create vanilla-style tech icons
+-- Function to create vanilla-style tech icons.
+-- Defunct, Loader Redux no longer has separate technologies.
 function vanillaHD.patchTechnologyIcon(loader)
 	if data.raw["technology"][loader] then
 		data.raw["technology"][loader].icons = 
@@ -261,4 +269,53 @@ function vanillaHD.patchTechnologyIcon(loader)
 			}
 		}
 	end
+end
+
+-- This function creates particle entities.
+function vanillaHD.createParticles(name)
+	    -- loader-metal-particle-medium
+		local mediumLoaderParticle = table.deepcopy(data.raw["optimized-particle"]["splitter-metal-particle-medium"])
+		mediumLoaderParticle.name = name.."-metal-particle-medium"
+		mediumLoaderParticle.pictures.sheet.tint = vanillaHD.tint_mask[name]
+		mediumLoaderParticle.pictures.sheet.hr_version.tint = vanillaHD.tint_mask[name]
+		data:extend({mediumLoaderParticle})
+	
+		-- loader-metal-particle-big
+		local bigLoaderParticle = table.deepcopy(data.raw["optimized-particle"]["splitter-metal-particle-big"])
+		bigLoaderParticle.name = name.."-metal-particle-big"
+		bigLoaderParticle.pictures.sheet.tint = vanillaHD.tint_mask[name]
+		bigLoaderParticle.pictures.sheet.hr_version.tint = vanillaHD.tint_mask[name]
+		data:extend({bigLoaderParticle})
+end
+
+-- This function creates explosion entities.
+function vanillaHD.createExplosions(name, prefix)
+	local explosion = table.deepcopy(data.raw["explosion"]["splitter-explosion"])
+	explosion.name = name.."-explosion"
+	explosion.icon_size = 64
+	explosion.icons  = 
+	{
+		{
+			icon = modDir.."/graphics/icons/loader-icon-base.png"
+		},
+		{
+			icon = modDir.."/graphics/icons/loader-icon-mask.png",
+			tint = vanillaHD.tint_mask[name]
+		}
+	}
+
+	-- Prefix is an optional parameter
+	prefix = prefix or false
+
+	if prefix then
+		-- We want to reuse particles created elsewhere.
+		explosion.created_effect.action_delivery.target_effects[1].particle_name = prefix.."-metal-particle-medium"
+		explosion.created_effect.action_delivery.target_effects[4].particle_name = prefix.."-metal-particle-big"
+	else
+		-- We made our own, use those.
+		explosion.created_effect.action_delivery.target_effects[1].particle_name = name.."-metal-particle-medium"
+		explosion.created_effect.action_delivery.target_effects[4].particle_name = name.."-metal-particle-big"
+	end
+	
+	data:extend({explosion})
 end

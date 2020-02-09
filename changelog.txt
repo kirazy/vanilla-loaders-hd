@@ -1,18 +1,25 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.18.4
+Date: 2.XX.2020
+  Changes:
+    - Revamped sprites to match 0.18 color changes.
+    - Added remnants and explosion effects.
+    - Loaders no longer genereated through tint method, but for compatability with mods dependent on the method, the functions are maintained.
+---------------------------------------------------------------------------------------------------
 Version: 0.18.3
 Date: 2.4.2020
   Bugfixes:
-    - Fixed loader icons being cut off when Loader Redux is present
+    - Fixed loader icons being resized and cut off when Loader Redux is present.
 ---------------------------------------------------------------------------------------------------
 Version: 0.18.2
 Date: 1.21.2020
   Bugfixes:
-    - Fixed loaders appearing beneath spliters and underground belts (and added bonus, also chests!)
+    - Fixed loaders appearing beneath splitters and underground belts (and added bonus, also chests!).
 ---------------------------------------------------------------------------------------------------
 Version: 0.18.1
 Date: 1.21.2020
   Changes:
-    - Preliminary port to Factorio 0.18
+    - Preliminary port to Factorio 0.18.
 ---------------------------------------------------------------------------------------------------
 Version: 0.17.6
 Date: 5.9.2019

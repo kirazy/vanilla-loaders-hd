@@ -53,7 +53,7 @@ if settings.startup["vanillaLoaders-recipes-loaderOverhaul"].value == true then
 	
 	-- Check for presense of Bob's Logistics
 	if mods["boblogistics"] then
-		-- Check to see if we're using Bob's Logistics transport belt overhaul
+		-- Check to see if we're using Bob's Logistics transport belt overhaul, and if so, create Bob-style loader base recipes.
 		if settings.startup["bobmods-logistics-beltoverhaul"].value == true then
 			data:extend({
 				{	name = "loader",		 -- Loader (Yellow) (Bob Overhaul Base)
