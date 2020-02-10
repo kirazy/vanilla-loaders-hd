@@ -7,7 +7,6 @@
   "contact": "kirazy@live.com",
   "description": "Adds tiered loaders with a vanilla look and feel, now including HD sprites. Settings available for more complex recipes, particularly when paired with Bob's logistics. Supports Loader Redux integration for snapping logic.",
   "dependencies": [	"base >= 0.18.0",
-    "? angelsindustries >= 0.3.0",
     "? boblibrary >=0.18.0",
     "? boblogistics >=0.18.0",					
     "? bobplates >=0.18.0",

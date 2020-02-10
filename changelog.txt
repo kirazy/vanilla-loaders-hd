@@ -2,6 +2,7 @@
 Version: 0.18.4
 Date: 2.XX.2020
   Changes:
+    - Removed code relating to Angel Industries, as that mod no longer affects loaders.
     - Revamped sprites to match 0.18 color changes.
     - Added remnants and explosion effects.
     - Loaders no longer genereated through tint method, but for compatability with mods dependent on the method, the functions are maintained.
