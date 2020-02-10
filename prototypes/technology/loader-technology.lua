@@ -1,3 +1,8 @@
+-- Copyright (c) 2018 Kirazy
+-- Part of Vanilla Loaders HD
+--     
+-- See LICENSE.md in the project directory for license information.
+
 if mods["LoaderRedux"] then
 	-- When Bob's Logistics is present, create the basic loader research.
 	if mods["boblogistics"] and data.raw["loader"]["basic-loader"] then

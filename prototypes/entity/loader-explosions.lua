@@ -1,3 +1,8 @@
+-- Copyright (c) 2018 Kirazy
+-- Part of Vanilla Loaders HD
+--     
+-- See LICENSE.md in the project directory for license information.
+
 -- Create explosions for each of the base loaders.
 vanillaHD.createExplosions("loader","splitter")
 vanillaHD.createExplosions("fast-loader","fast-splitter")

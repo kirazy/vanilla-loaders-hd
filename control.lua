@@ -1,3 +1,9 @@
+-- Copyright (c) 2017 Thaui
+-- Copyright (c) 2018 Kirazy
+-- Part of Vanilla Loaders HD
+--     
+-- See LICENSE.md in the project directory for license information.
+
 -- Check for LoaderRedux, add basic-loader to the snapping whitelist
 function add_basic_loader()
 	--if game.active_mods["LoaderRedux"] then

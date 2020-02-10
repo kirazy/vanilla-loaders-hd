@@ -1,3 +1,8 @@
+-- Copyright (c) 2018 Kirazy
+-- Part of Vanilla Loaders HD
+--     
+-- See LICENSE.md in the project directory for license information.
+
 -- Check for Recipe Overhaul, and if true, establish the fundamental complex recipes
 if settings.startup["vanillaLoaders-recipes-loaderOverhaul"].value == true then
 	-- Check for presence of LoaderRedux, and check if we are supposed to use LoaderRedux recipes. If true, stop here.

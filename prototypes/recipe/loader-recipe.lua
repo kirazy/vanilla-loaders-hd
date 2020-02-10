@@ -1,3 +1,8 @@
+-- Copyright (c) 2018 Kirazy
+-- Part of Vanilla Loaders HD
+--     
+-- See LICENSE.md in the project directory for license information.
+
 -- Crafting Time Fix
 data.raw["recipe"]["loader"].energy_required = 5
 data.raw["recipe"]["fast-loader"].energy_required = 5

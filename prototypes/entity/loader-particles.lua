@@ -1,3 +1,8 @@
+-- Copyright (c) 2020 Kirazy
+-- Part of Vanilla Loaders HD
+--     
+-- See LICENSE.md in the project directory for license information.
+
 if mods["boblogistics-belt-reskin"] then 
     -- If Bob's Logistics Belt Reskin is present, utilize the particles created there.
     return

@@ -1,3 +1,8 @@
+-- Copyright (c) 2018 Kirazy
+-- Part of Vanilla Loaders HD
+--     
+-- See LICENSE.md in the project directory for license information.
+
 require("prototypes.functions")
 require("prototypes.item.loader-item")
 require("prototypes.recipe.loader-recipe")

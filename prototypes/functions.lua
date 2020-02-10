@@ -1,3 +1,9 @@
+-- Copyright (c) 2017 Thaui
+-- Copyright (c) 2018 Kirazy
+-- Part of Vanilla Loaders HD
+--     
+-- See LICENSE.md in the project directory for license information.
+
 -- Initialize function storage
 if not vanillaHD then vanillaHD = {} end
 local modDir = "__vanilla-loaders-hd__"

@@ -1,3 +1,8 @@
+-- Copyright (c) 2018 Kirazy
+-- Part of Vanilla Loaders HD
+--     
+-- See LICENSE.md in the project directory for license information.
+
 -- When Bob's Logistics is present.
 if mods["boblogistics"] then
 	-- Check for presence of LoaderRedux, and check if we are supposed to use LoaderRedux recipes. 

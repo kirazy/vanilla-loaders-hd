@@ -2,6 +2,7 @@
 Version: 0.18.4
 Date: 2.XX.2020
   Changes:
+    - Added license and copyright information to files.
     - Removed code relating to Angel Industries, as that mod no longer affects loaders.
     - Revamped sprites to match 0.18 color changes.
     - Added remnants and explosion effects.

@@ -1,3 +1,8 @@
+-- Copyright (c) 2017 Thaui
+-- Part of Vanilla Loaders HD
+--     
+-- See LICENSE.md in the project directory for license information.
+
 local function reloadTechnology(technology, recipe)
 	for k,force in pairs(game.forces) do
 		if force.technologies[technology] then
