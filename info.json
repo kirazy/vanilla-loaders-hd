@@ -11,7 +11,5 @@
     "? boblogistics >=0.18.0",					
     "? bobplates >=0.18.0",
     "? bobelectronics >= 0.18.0",
-    "? bob-basic-belt-reskin >= 0.18.1",
-    "? boblogistics-belt-reskin >= 0.18.1",
     "? LoaderRedux >= 1.5.0"]
 }

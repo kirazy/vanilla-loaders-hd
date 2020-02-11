@@ -3,10 +3,13 @@ Version: 0.18.4
 Date: 2.XX.2020
   Changes:
     - Added license and copyright information to files.
-    - Removed code relating to Angel Industries, as that mod no longer affects loaders.
+    - Removed code relating to Angel Industries, Deadlock Compact Loaders.
     - Revamped sprites to match 0.18 color changes.
     - Added remnants and explosion effects.
+    - Cleaned up how loader entities and items are reskinned.
     - Loaders no longer genereated through tint method, but for compatability with mods dependent on the method, the functions are maintained.
+  Bugfixes:
+    - Fixed loader entity icons.
 ---------------------------------------------------------------------------------------------------
 Version: 0.18.3
 Date: 2.4.2020

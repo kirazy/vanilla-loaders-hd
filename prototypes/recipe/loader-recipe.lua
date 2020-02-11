@@ -148,7 +148,10 @@ end
 
 -- When all is said and done, the default loader recipe needs to be tweaked so that it
 -- doesn't required a Tier 3 assembler to manufacture.
-data:extend({
+
+-- We're not sure why we coded this originally, but the way it is setup is
+-- conflicting, so let's turn it off for a moment.
+--[[data:extend({
 	{
 		type = "recipe",
 		name = "loader",
@@ -164,4 +167,4 @@ data:extend({
 		result_count = 1,
 		result = "loader",
 	}
-})
+})]]

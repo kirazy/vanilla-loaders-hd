@@ -19,218 +19,207 @@ vanillaHD.tint_mask = {
 }
 
 -- Used to patch loader entities, or create new ones, with vanilla-style graphics.
-function vanillaHD.patchLoaderEntity(loader)
-	if loader then
-		local name = loader.name
+-- Called by createLoaderEntity.
+function vanillaHD.patchLoaderEntity(name, beltname)
+	local loader = data.raw["loader"][name]
+	local basebelt = data.raw["transport-belt"][beltname]
 
-		-- Allow loaders to render at the same level as splitters, underground belts. And now chests in 0.18...
-		loader.structure_render_layer = "object"
+	-- Allow loaders to render at the same level as splitters, underground belts. And now chests in 0.18...
+	loader.structure_render_layer = "object"
 
-		-- Set flags
-		loader.flags = {"placeable-neutral", "placeable-player", "player-creation", "fast-replaceable-no-build-while-moving"}
+	-- Inherit graphics from tier-appropriate belts
+	loader.belt_animation_set = basebelt.belt_animation_set
 
-		-- Set remnant and explosions
-		loader.corpse = name.."-remnants"
-		loader.dying_explosion = name.."-explosion"
-		
-		-- Specifies the entity icons used by the game to generate alert messages
-		loader.icon_size = 64
-		loader.icons  = 
+	-- Inherit speed from tier-appropriate belts
+	loader.speed = basebelt.speed
+
+	-- Set flags
+	loader.flags = {"placeable-neutral", "placeable-player", "player-creation", "fast-replaceable-no-build-while-moving"}
+
+	-- Set remnant and explosions
+	loader.corpse = name.."-remnants"
+	loader.dying_explosion = name.."-explosion"
+	
+	-- Specifies the entity icons used by the game to generate alert messages
+	loader.icon_size = 64
+	loader.icons  = 
+	{
 		{
-			{
-				icon = modDir.."/graphics/icons/loader-icon-base.png"
-			},
-			{
-				icon = modDir.."/graphics/icons/loader-icon-mask.png",
-				tint = vanillaHD.tint_mask[name]
-			}
+			icon = modDir.."/graphics/icons/loader-icon-base.png"
+		},
+		{
+			icon = modDir.."/graphics/icons/loader-icon-mask.png",
+			tint = vanillaHD.tint_mask[name]
 		}
-		
-		loader.structure.direction_in.sheets = 
+	}
+	
+	loader.structure.direction_in.sheets = 
+	{
 		{
+			filename = modDir.."/graphics/entity/loader/loader-structure-base.png",				
+			width    = 96,
+			height   = 96,
+			y        = 0,
+			hr_version = 
 			{
-				filename = modDir.."/graphics/entity/loader/loader-structure-base.png",				
-				width    = 96,
-				height   = 96,
+				filename = modDir.."/graphics/entity/loader/hr-loader-structure-base.png",
+				height   = 192,
+				priority = "extra-high",
+				scale    = 0.5,
+				width    = 212,
+				y        = 0
+			}
+		},
+		{
+			filename = modDir.."/graphics/entity/loader/loader-structure-mask.png",			
+			width    = 96,
+			height   = 96,
+			y        = 0,
+			tint	 = vanillaHD.tint_mask[name],
+			hr_version = 
+			{
+				filename = modDir.."/graphics/entity/loader/hr-loader-structure-mask.png",
+				height   = 192,
+				priority = "extra-high",
+				scale    = 0.5,
+				width    = 192,
 				y        = 0,
-				hr_version = 
-				{
-					filename = modDir.."/graphics/entity/loader/hr-loader-structure-base.png",
-					height   = 192,
-					priority = "extra-high",
-					scale    = 0.5,
-					width    = 212,
-					y        = 0
-				}
-			},
-			{
-				filename = modDir.."/graphics/entity/loader/loader-structure-mask.png",			
-				width    = 96,
-				height   = 96,
-				y        = 0,
-				tint	 = vanillaHD.tint_mask[name],
-				hr_version = 
-				{
-					filename = modDir.."/graphics/entity/loader/hr-loader-structure-mask.png",
-					height   = 192,
-					priority = "extra-high",
-					scale    = 0.5,
-					width    = 192,
-					y        = 0,
-					tint     = vanillaHD.tint_mask[name]
-				}
+				tint     = vanillaHD.tint_mask[name]
 			}
 		}
-		loader.structure.direction_out.sheets = 
+	}
+	loader.structure.direction_out.sheets = 
+	{
 		{
+			filename = modDir.."/graphics/entity/loader/loader-structure-base.png",			
+			width    = 96,
+			height   = 96,
+			y        = 96,
+			hr_version = 
 			{
-				filename = modDir.."/graphics/entity/loader/loader-structure-base.png",			
-				width    = 96,
-				height   = 96,
-				y        = 96,
-				hr_version = 
-				{
-					filename = modDir.."/graphics/entity/loader/hr-loader-structure-base.png",
-					height   = 192,
-					priority = "extra-high",
-					scale    = 0.5,
-					width    = 212,
-					y        = 192
-				}
-			},
+				filename = modDir.."/graphics/entity/loader/hr-loader-structure-base.png",
+				height   = 192,
+				priority = "extra-high",
+				scale    = 0.5,
+				width    = 212,
+				y        = 192
+			}
+		},
+		{
+			filename = modDir.."/graphics/entity/loader/loader-structure-mask.png",			
+			width    = 96,
+			height   = 96,
+			y        = 96,
+			tint	 = vanillaHD.tint_mask[name],
+			hr_version = 
 			{
-				filename = modDir.."/graphics/entity/loader/loader-structure-mask.png",			
-				width    = 96,
-				height   = 96,
-				y        = 96,
-				tint	 = vanillaHD.tint_mask[name],
-				hr_version = 
-				{
-					filename = modDir.."/graphics/entity/loader/hr-loader-structure-mask.png",
-					height   = 192,
-					priority = "extra-high",
-					scale    = 0.5,
-					width    = 192,
-					y        = 192,
-					tint     = vanillaHD.tint_mask[name]
-				}
+				filename = modDir.."/graphics/entity/loader/hr-loader-structure-mask.png",
+				height   = 192,
+				priority = "extra-high",
+				scale    = 0.5,
+				width    = 192,
+				y        = 192,
+				tint     = vanillaHD.tint_mask[name]
 			}
 		}
+	}
 
-		-- Add back flange beneath items on the belt
-		loader.structure.back_patch =
+	-- Add back flange beneath items on the belt
+	loader.structure.back_patch =
+	{
+		sheet =
 		{
-		  sheet =
-		  {
-			filename = modDir.."/graphics/entity/loader/loader-structure-back-patch.png",
+		filename = modDir.."/graphics/entity/loader/loader-structure-back-patch.png",
+		priority = "extra-high",
+		width = 96,
+		height = 96,
+		hr_version =
+		{
+			filename = modDir.."/graphics/entity/loader/hr-loader-structure-back-patch.png",
 			priority = "extra-high",
-			width = 96,
-			height = 96,
-			hr_version =
-			{
-			  filename = modDir.."/graphics/entity/loader/hr-loader-structure-back-patch.png",
-			  priority = "extra-high",
-			  width = 192,
-			  height = 192,
-			  scale = 0.5
-			}
-		  }
+			width = 192,
+			height = 192,
+			scale = 0.5
 		}
+		}
+	}
 
-		-- Little piece of texture that extends into territory occupied by items while on belt, but rendered beneath them.
-		loader.structure.front_patch =
+	-- Little piece of texture that extends into territory occupied by items while on belt, but rendered beneath them.
+	loader.structure.front_patch =
+	{
+		sheet =
 		{
-		  sheet =
-		  {
-			filename = modDir.."/graphics/entity/loader/loader-structure-front-patch.png",
+		filename = modDir.."/graphics/entity/loader/loader-structure-front-patch.png",
+		priority = "extra-high",
+		width = 96,
+		height = 96,
+		hr_version =
+		{
+			filename = modDir.."/graphics/entity/loader/hr-loader-structure-front-patch.png",
 			priority = "extra-high",
-			width = 96,
-			height = 96,
-			hr_version =
-			{
-			  filename = modDir.."/graphics/entity/loader/hr-loader-structure-front-patch.png",
-			  priority = "extra-high",
-			  width = 192,
-			  height = 192,
-			  scale = 0.5
-			}
-		  }
+			width = 192,
+			height = 192,
+			scale = 0.5
 		}
-	end
+		}
+	}
 end
 
 -- Used to create new loader entities
 function vanillaHD.createLoaderEntity(name, beltname)
 	if data.raw["transport-belt"][beltname] then
 		local loader = table.deepcopy(data.raw["loader"]["loader"])
-		local basebelt = data.raw["transport-belt"][beltname]
+
 		loader.name = name
 		loader.minable.result = name
 		
-		-- Inherit graphics from tier-appropriate belts
-		loader.belt_animation_set = basebelt.belt_animation_set
-
-		-- Inherit speed from tier-appropriate belts
-		loader.speed = basebelt.speed
+		-- Add loader entity to main data table
+		data:extend({loader})
 
 		-- Generate entity graphics
-		vanillaHD.patchLoaderEntity(loader)
-
-		data:extend({loader})
+		vanillaHD.patchLoaderEntity(name, beltname)
 	end
-end
-
-function vanillaHD.patchBeltGraphics(name, beltname)
-    local loader = data.raw["loader"][name]
-    local basebelt = data.raw["transport-belt"][beltname]
-
-    -- Inherit graphics from tier-appropriate belts
-	loader.belt_animation_set = basebelt.belt_animation_set
 end
 
 -- Patch existing loader items, or create new ones, with vanilla-style graphics
-function vanillaHD.patchLoaderItem(item, beltname, subgroup)
-	if item then
-		local baseitem = data.raw["item"][beltname]
-		local name = item.name
-		
-		-- Optional parameter
-		subgroup = subgroup or baseitem.subgroup
+function vanillaHD.patchLoaderItem(name, beltname)
+	local item = data.raw["item"][name]
+	local basebelt = data.raw["item"][beltname]
 
-		-- Clear existing presets
-		item.flags = nil
-		item.icon = nil
+	-- Clear existing presets
+	item.flags = nil
+	item.icon = nil
 
-		-- Main function
-		item.icon_size = 64
-		item.icons  = 
+	-- Main function
+	item.icon_size = 64
+	item.icons  = 
+	{
 		{
-			{
-				icon = modDir.."/graphics/icons/loader-icon-base.png"
-			},
-			{
-				icon = modDir.."/graphics/icons/loader-icon-mask.png",
-				tint = vanillaHD.tint_mask[name]
-			}
+			icon = modDir.."/graphics/icons/loader-icon-base.png"
+		},
+		{
+			icon = modDir.."/graphics/icons/loader-icon-mask.png",
+			tint = vanillaHD.tint_mask[name]
 		}
-    	item.subgroup = subgroup
-		item.order = string.gsub(string.gsub(item.order,"^[a-z]","d"),"transport%-belt","loader")		
-		
-	end
+	}
+
+	-- Configure UI grouping and sorting
+	item.subgroup = basebelt.subgroup
+	item.order = string.gsub(string.gsub(item.order,"^[a-z]","d"),"transport%-belt","loader")
 end
 
 -- Used to create new loader items
-function vanillaHD.createLoaderItem(name, beltname, subgroup)
+function vanillaHD.createLoaderItem(name, beltname)
 	if data.raw["item"][beltname] then
-		local baseitem = data.raw["item"][beltname]
 		local item = table.deepcopy(data.raw["item"]["loader"])
 		item.name = name
 		item.place_result = name
 		
-		-- Generate item graphics
-		vanillaHD.patchLoaderItem(item, beltname, subgroup)
-        
+		-- Add loader item to main data table
 		data:extend({item})
+		
+		-- Generate item graphics
+		vanillaHD.patchLoaderItem(name, beltname)
 	end
 end
 
@@ -257,23 +246,6 @@ function vanillaHD.patchLoaderTechnology(technology, recipe)
 			type = "unlock-recipe",
 			recipe = recipe
 		})
-	end
-end
-
--- Function to create vanilla-style tech icons.
--- Defunct, Loader Redux no longer has separate technologies.
-function vanillaHD.patchTechnologyIcon(loader)
-	if data.raw["technology"][loader] then
-		data.raw["technology"][loader].icons = 
-		{
-			{
-				icon = modDir.."/graphics/technology/loader-tech-base.png"
-			},
-			{
-				icon = modDir.."/graphics/technology/loader-tech-mask.png",
-				tint = vanillaHD.tint_mask[loader]
-			}
-		}
 	end
 end
 
