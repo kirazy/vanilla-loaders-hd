@@ -1,3 +1,8 @@
+-- Copyright (c) 2018 Kirazy
+-- Part of Vanilla Loaders HD
+--     
+-- See LICENSE.md in the project directory for license information.
+
 -- Reskin base loader entities
 vanillaHD.patchLoaderEntity("loader","transport-belt")
 vanillaHD.patchLoaderEntity("fast-loader","fast-transport-belt")
