@@ -1,4 +1,9 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.18.5
+Date: 2.XX.2020
+  Features:
+    - Added function to make adding a loader by other mod authors simple (vanillaHD.addLoader). See mod page for details.
+---------------------------------------------------------------------------------------------------
 Version: 0.18.4
 Date: 2.11.2020
   Major Changes:

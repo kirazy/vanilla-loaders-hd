@@ -8,6 +8,41 @@
 if not vanillaHD then vanillaHD = {} end
 local modDir = "__vanilla-loaders-hd__"
 
+-- ##################################################################################
+-- This function is designed to be used by other mods to create vanilla-esque loaders
+-- 
+-- Parameters:
+-- name			 - string; the name of your loader 
+--				   (e.g. name = "basic-loader")
+-- color		 - table;  table of rgb values, determines your loader's color 
+--				   (e.g. color = {r = 255, g = 255, b = 255} for white)
+-- belt_name	 - string; the belt tier your loader connects to 
+-- 				   (e.g. belt_name = "transport-belt" for yellow belts)
+-- technology	 - string; the name of the technology that unlocks your loader 
+-- 				   (e.g. technology = "logistics" for yellow belt tier)
+-- previous_tier - string; the name of the loader that is a component in the initial 
+-- 				   recipe of your loader
+--				   (e.g. previous_tier = "express-loader" to build from blue loaders)
+-- 
+-- This will create item, entity, recipe entries which you can edit further. It will
+-- also create particles, explosions, and remnants.
+-- 
+-- The initial recipe for a loader added using this function are 5x the belt you
+-- specified, and 1x the previous_tier loader you specified.
+
+function vanillaHD.addLoader(name, color, belt_name, technology, previous_tier)
+	vanillaHD.tint_mask[name] = color
+	vanillaHD.createLoaderItem(name, belt_name)
+	vanillaHD.createLoaderRecipe(name, belt_name, previous_tier)
+	vanillaHD.createParticles(name)
+	vanillaHD.createExplosions(name)
+	vanillaHD.createRemnants(name)
+	vanillaHD.createLoaderEntity(name, belt_name)	
+	vanillaHD.patchLoaderTechnology(technology, name)
+end
+
+-- ##################################################################################
+
 -- Create color masks.
 vanillaHD.tint_mask = {
 	["basic-loader"]   = {r = 161, g = 161, b = 161}, -- Corrected 2020-02-11
@@ -29,19 +64,19 @@ if mods["boblogistics-belt-reskin"] then
 end
 
 -- Used to patch loader entities, or create new ones, with vanilla-style graphics.
--- Called by createLoaderEntity.
-function vanillaHD.patchLoaderEntity(name, beltname)
+-- Called by createLoaderEntity
+function vanillaHD.patchLoaderEntity(name, belt_name)
 	local loader = data.raw["loader"][name]
-	local basebelt = data.raw["transport-belt"][beltname]
+	local base_belt = data.raw["transport-belt"][belt_name]
 
 	-- Allow loaders to render at the same level as splitters, underground belts. And now chests in 0.18...
 	loader.structure_render_layer = "object"
 
 	-- Inherit graphics from tier-appropriate belts
-	loader.belt_animation_set = basebelt.belt_animation_set
+	loader.belt_animation_set = base_belt.belt_animation_set
 
 	-- Inherit speed from tier-appropriate belts
-	loader.speed = basebelt.speed
+	loader.speed = base_belt.speed
 
 	-- Set flags
 	loader.flags = {"placeable-neutral", "placeable-player", "player-creation", "fast-replaceable-no-build-while-moving"}
@@ -176,8 +211,8 @@ function vanillaHD.patchLoaderEntity(name, beltname)
 end
 
 -- Used to create new loader entities
-function vanillaHD.createLoaderEntity(name, beltname)
-	if data.raw["transport-belt"][beltname] then
+function vanillaHD.createLoaderEntity(name, belt_name)
+	if data.raw["transport-belt"][belt_name] then
 		local loader = table.deepcopy(data.raw["loader"]["loader"])
 
 		loader.name = name
@@ -187,14 +222,15 @@ function vanillaHD.createLoaderEntity(name, beltname)
 		data:extend({loader})
 
 		-- Generate entity graphics
-		vanillaHD.patchLoaderEntity(name, beltname)
+		vanillaHD.patchLoaderEntity(name, belt_name)
 	end
 end
 
 -- Patch existing loader items, or create new ones, with vanilla-style graphics
-function vanillaHD.patchLoaderItem(name, beltname)
+-- Called by createLoaderItem
+function vanillaHD.patchLoaderItem(name, belt_name)
 	local item = data.raw["item"][name]
-	local basebelt = data.raw["item"][beltname]
+	local base_belt = data.raw["item"][belt_name]
 
 	-- Clear existing presets
 	item.flags = nil
@@ -213,14 +249,14 @@ function vanillaHD.patchLoaderItem(name, beltname)
 		}
 	}
 
-	-- Configure UI grouping and sorting
-	item.subgroup = basebelt.subgroup
+	-- Inherit UI grouping and sorting from base_belt item
+	item.subgroup = base_belt.subgroup
 	item.order = string.gsub(string.gsub(item.order,"^[a-z]","d"),"transport%-belt","loader")
 end
 
 -- Used to create new loader items
-function vanillaHD.createLoaderItem(name, beltname)
-	if data.raw["item"][beltname] then
+function vanillaHD.createLoaderItem(name, belt_name)
+	if data.raw["item"][belt_name] then
 		local item = table.deepcopy(data.raw["item"]["loader"])
 		
 		item.name = name
@@ -230,19 +266,19 @@ function vanillaHD.createLoaderItem(name, beltname)
 		data:extend({item})
 		
 		-- Generate item graphics
-		vanillaHD.patchLoaderItem(name, beltname)
+		vanillaHD.patchLoaderItem(name, belt_name)
 	end
 end
 
 -- Function to create the default recipes for each of the loaders.
-function vanillaHD.createLoaderRecipe(name, beltname, previousloader)
-	if data.raw["item"][beltname] then
+function vanillaHD.createLoaderRecipe(name, belt_name, previous_tier)
+	if data.raw["item"][belt_name] then
 		local recipe = table.deepcopy(data.raw["recipe"]["express-loader"])
 		recipe.name = name
 		recipe.ingredients = 
 		{
-			{beltname, 5},
-			{previousloader, 1}
+			{belt_name, 5},
+			{previous_tier, 1}
 		}
 		recipe.result = name
 		data:extend({recipe})
