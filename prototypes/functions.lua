@@ -24,14 +24,21 @@ local modDir = "__vanilla-loaders-hd__"
 -- 				   recipe of your loader
 --				   (e.g. previous_tier = "express-loader" to build from blue loaders)
 -- 
--- This will create item, entity, recipe entries which you can edit further. It will
--- also create particles, explosions, and remnants.
+-- This will create item, entity, recipe entries which you can edit further. 
+-- It will also create particles, explosions, and remnants.
 -- 
 -- The initial recipe for a loader added using this function are 5x the belt you
 -- specified, and 1x the previous_tier loader you specified.
+--
+-- To support snapping behavior if this mod is installed side-by-side with Loader
+-- Redux, you will need to call Loader Redux's remote interface. See control.lua for
+-- an example.
 
 function vanillaHD.addLoader(name, color, belt_name, technology, previous_tier)
+	-- Specify loader color
 	vanillaHD.tint_mask[name] = color
+
+	-- Create the loader
 	vanillaHD.createLoaderItem(name, belt_name)
 	vanillaHD.createLoaderRecipe(name, belt_name, previous_tier)
 	vanillaHD.createParticles(name)
@@ -40,7 +47,6 @@ function vanillaHD.addLoader(name, color, belt_name, technology, previous_tier)
 	vanillaHD.createLoaderEntity(name, belt_name)	
 	vanillaHD.patchLoaderTechnology(technology, name)
 end
-
 -- ##################################################################################
 
 -- Create color masks.
@@ -61,6 +67,11 @@ end
 -- Match the tint used in Bob's Logistics Belt Reskin
 if mods["boblogistics-belt-reskin"] then
 	vanillaHD.tint_mask["purple-loader"] = {r = 249, g =  71, b = 255}
+end
+
+-- Used in control.lua to register the loader entity with Loader Redux.
+function vanillaHD.registerLoader(name)
+	remote.call("loader-redux", "add_loader", name)
 end
 
 -- Used to patch loader entities, or create new ones, with vanilla-style graphics.

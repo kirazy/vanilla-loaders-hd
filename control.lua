@@ -4,18 +4,14 @@
 --     
 -- See LICENSE.md in the project directory for license information.
 
+-- ##################################################################################
 -- Check for LoaderRedux, add basic-loader to the snapping whitelist
-function add_basic_loader()
-	--if game.active_mods["LoaderRedux"] then
-	remote.call("loader-redux", "add_loader", "basic-loader")
-	--end
-end
-
 script.on_load(function()
 	if remote.interfaces["loader-redux"] then
-	add_basic_loader()
+		remote.call("loader-redux", "add_loader", "basic-loader")
 	end
 end)
+-- ##################################################################################
 
 -- Filter Settings
 script.on_event(defines.events.on_entity_settings_pasted, function(event)
