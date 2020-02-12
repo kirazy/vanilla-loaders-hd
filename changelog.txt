@@ -13,6 +13,7 @@ Date: 2.11.2020
     - Added explosions to destroyed entities.
     - Improved color matching to Bob's Basic-tier of transport belts.
     - Added color matching for Bob's Logistics Belt Reskin.
+    - Item icon adjustments.
     - Cleaned up how loader entities and items are reskinned.
   Bugfixes:
     - Fixed loader entity icons.
