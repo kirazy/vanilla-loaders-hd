@@ -1,13 +1,19 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.18.4
-Date: 2.XX.2020
+Date: 2.11.2020
+  Major Changes:
+    - Recipe overhaul is now default on; see mod images page for details.
+    - Recipe revisions to the Basic Loader. Now takes stone and burner inserters depending on settings.
+    - Removed setting: "Loader Redux recipes" has been removed.
+    - New setting: "Loader Redux: Reskin only". When on, Vanilla Loaders HD will only change entity and icon sprites; no recipe changes will occur.
+    - No longer creates a Basic Loader when only reskinning Loader Redux.
   Changes:
     - Added license and copyright information to files.
-    - Removed code relating to Angel Industries, Deadlock Compact Loaders.
-    - Revamped sprites to match 0.18 color changes.
-    - Added remnants and explosion effects.
+    - Removed optional dependence on Angel Industries, Deadlock Compact Loaders, Bob's Basic Belt Reskin, and Bob's Logistics Belt Reskin
+    - Added explosions to destroyed entities.
+    - Improved color matching to Bob's Basic-tier of transport belts.
+    - Added color matching for Bob's Logistics Belt Reskin.
     - Cleaned up how loader entities and items are reskinned.
-    - Loaders no longer genereated through tint method, but for compatability with mods dependent on the method, the functions are maintained.
   Bugfixes:
     - Fixed loader entity icons.
 ---------------------------------------------------------------------------------------------------

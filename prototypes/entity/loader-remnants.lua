@@ -53,4 +53,4 @@ end
 
 if data.raw["transport-belt"]["ultimate-transport-belt"] then
     vanillaHD.createRemnants("green-loader")
-end
+end]]
