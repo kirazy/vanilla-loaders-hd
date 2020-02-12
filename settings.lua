@@ -10,7 +10,7 @@ data:extend(
 		type = "bool-setting",
 		name = "vanillaLoaders-recipes-loaderOverhaul",
 		setting_type = "startup",
-		default_value = false
+		default_value = true
 	}
 })
 	
@@ -33,16 +33,9 @@ data:extend(
 	{
 		-- Use LoaderRedux recipes
 		type = "bool-setting",
-		name = "vanillaLoaders-recipes-loaderReduxCompliant",
+		name = "vanillaLoaders-reskinLoaderReduxOnly",
 		setting_type = "startup",
 		default_value = false
-	},
-	{
-		-- Add a LoaderRedux-styled basic-loader
-		type = "bool-setting",
-		name = "vanillaLoaders-recipes-loaderReduxBasicLoader",
-		setting_type = "startup",
-		default_value = true
 	}
 })
 end

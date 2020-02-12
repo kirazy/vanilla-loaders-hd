@@ -5,9 +5,8 @@
 
 -- When Bob's Logistics is present.
 if mods["boblogistics"] then
-	-- Check for presence of LoaderRedux, and check if we are supposed to use LoaderRedux recipes. 
-	-- If true, stop here.
-	if mods["LoaderRedux"] and settings.startup["vanillaLoaders-recipes-loaderReduxCompliant"].value == true then return end
+	-- Check if we're only reskinning Loader Redux.
+	if mods["LoaderRedux"] and settings.startup["vanillaLoaders-reskinLoaderReduxOnly"].value == true then return end
 
 	-- If both Bob's Logistics Belt Overhaul and Vanilla Loaders Overhaul are enabled
 	if settings.startup["bobmods-logistics-beltoverhaul"].value == true and settings.startup["vanillaLoaders-recipes-loaderOverhaul"].value == true then	

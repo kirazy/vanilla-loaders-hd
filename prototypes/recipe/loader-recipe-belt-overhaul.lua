@@ -3,12 +3,12 @@
 --     
 -- See LICENSE.md in the project directory for license information.
 
--- Check for Recipe Overhaul, and if true, establish the fundamental complex recipes
+-- Check for recipe overhaul, and if true, create base overhaul recipes.
 if settings.startup["vanillaLoaders-recipes-loaderOverhaul"].value == true then
-	-- Check for presence of LoaderRedux, and check if we are supposed to use LoaderRedux recipes. If true, stop here.
-	if mods["LoaderRedux"] and settings.startup["vanillaLoaders-recipes-loaderReduxCompliant"].value == true then return end
+	-- Check if we're only reskinning Loader Redux.
+	if mods["LoaderRedux"] and settings.startup["vanillaLoaders-reskinLoaderReduxOnly"].value == true then return end
 	
-	-- Create the complex Vanilla loader recipes
+	-- Create the Vanilla Complex base loader recipes
 	data:extend({
 		{	name = "loader",		 -- Loader (Yellow)
 			type = "recipe",
@@ -18,7 +18,8 @@ if settings.startup["vanillaLoaders-recipes-loaderOverhaul"].value == true then
 			{
 				{"electronic-circuit", 5},
 				{"transport-belt", 	   5},
-				{"iron-gear-wheel",	  16},
+				{"iron-gear-wheel",	   8},
+				{"iron-plate",		  16},
 				{"inserter", 		   4}
 			},
 			result_count = 1,
@@ -133,12 +134,12 @@ if settings.startup["vanillaLoaders-recipes-loaderOverhaul"].value == true then
 				},
 			})			
 
-			-- Now that recipes have been created and initialized in their base-complex form, 
-			-- check for whether we want to include inserters.
+			-- Check if we want inserters.
 			if settings.startup["vanillaLoaders-recipes-includeInserters"].value == true then
 				-- Check if we're using Bob's Logistics inserter overhaul
 				if settings.startup["bobmods-logistics-inserteroverhaul"].value == true then
 					-- Add overhauled inserters to loader recipes.
+					bobmods.lib.recipe.add_ingredient("basic-loader",   {"burner-inserter", 			  5})
 					bobmods.lib.recipe.add_ingredient("loader",         {"yellow-filter-inserter",		  5})
 					bobmods.lib.recipe.add_ingredient("fast-loader",    {"red-stack-filter-inserter",	  5})
 					bobmods.lib.recipe.add_ingredient("express-loader", {"stack-filter-inserter",		  5})
@@ -146,6 +147,7 @@ if settings.startup["vanillaLoaders-recipes-loaderOverhaul"].value == true then
 					bobmods.lib.recipe.add_ingredient("green-loader",   {"express-stack-filter-inserter", 5})
 				else
 					-- Add default inserters to loader recipes.
+					bobmods.lib.recipe.add_ingredient("basic-loader",   {"burner-inserter",		   5})
 					bobmods.lib.recipe.add_ingredient("loader",         {"inserter", 			   5})
 					bobmods.lib.recipe.add_ingredient("fast-loader",    {"long-handed-inserter",   5})
 					bobmods.lib.recipe.add_ingredient("express-loader", {"fast-inserter", 		   5})
@@ -154,7 +156,7 @@ if settings.startup["vanillaLoaders-recipes-loaderOverhaul"].value == true then
 				end
 			end
 
-			-- Check if we want to require the previous tier in the recipes, if so, make changes.
+			-- Check if we want to require the previous tier.
 			if settings.startup["bobmods-logistics-beltrequireprevious"].value == true then
 				bobmods.lib.recipe.add_ingredient("loader",         {"basic-loader",     1})
 				bobmods.lib.recipe.add_ingredient("loader",         {"iron-gear-wheel", 10})
@@ -178,7 +180,7 @@ if settings.startup["vanillaLoaders-recipes-loaderOverhaul"].value == true then
 			end			
 			
 		else 
-		-- Create the complex Bob's Logistics loader recipies
+		-- Create the Vanilla Complex modded loader recipies
 		data:extend({
 			{	name = "purple-loader",	-- Turbo Loader (Purple)
 				type = "recipe",

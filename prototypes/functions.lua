@@ -4,19 +4,29 @@
 --     
 -- See LICENSE.md in the project directory for license information.
 
--- Initialize function storage
+-- Initialize function storage.
 if not vanillaHD then vanillaHD = {} end
 local modDir = "__vanilla-loaders-hd__"
 
--- Create color masks
+-- Create color masks.
 vanillaHD.tint_mask = {
-	["basic-loader"]   = {r = 227, g = 227, b = 227}, -- Corrected 6-1-2019
-	["loader"] 		   = {r = 240, g = 199, b =  86}, -- Corrected 6-1-2019
-	["fast-loader"]    = {r = 227, g =  68, b =  68}, -- Corrected 6-1-2019
-	["express-loader"] = {r =  92, g = 200, b = 250}, -- Corrected 6-1-2019
-	["purple-loader"]  = {r = 199, g =  69, b = 255}, -- Corrected 6-1-2019
-	["green-loader"]   = {r =  74, g = 255, b = 137}, -- Corrected 6-1-2019
+	["basic-loader"]   = {r = 161, g = 161, b = 161}, -- Corrected 2020-02-11
+	["loader"] 		   = {r = 240, g = 199, b =  86}, -- Corrected 2019-06-01
+	["fast-loader"]    = {r = 227, g =  68, b =  68}, -- Corrected 2019-06-01
+	["express-loader"] = {r =  92, g = 200, b = 250}, -- Corrected 2019-06-01
+	["purple-loader"]  = {r = 199, g =  69, b = 255}, -- Corrected 2019-06-01
+	["green-loader"]   = {r =  74, g = 255, b = 137}, -- Corrected 2019-06-01
 }
+
+-- Match the tint used in Bob's Logistics Belt Reskin / Bob's Logistics Basic Belt Reskin.
+if mods["boblogistics-belt-reskin"] or mods["bob-basic-belt-reskin"] then
+	vanillaHD.tint_mask["basic-loader"] = {r = 227, g = 227, b = 227} -- Corrected 2019-06-01
+end
+
+-- Match the tint used in Bob's Logistics Belt Reskin
+if mods["boblogistics-belt-reskin"] then
+	vanillaHD.tint_mask["purple-loader"] = {r = 249, g =  71, b = 255}
+end
 
 -- Used to patch loader entities, or create new ones, with vanilla-style graphics.
 -- Called by createLoaderEntity.
@@ -37,7 +47,7 @@ function vanillaHD.patchLoaderEntity(name, beltname)
 	loader.flags = {"placeable-neutral", "placeable-player", "player-creation", "fast-replaceable-no-build-while-moving"}
 
 	-- Set remnant and explosions
-	loader.corpse = name.."-remnants"
+	-- loader.corpse = name.."-remnants"
 	loader.dying_explosion = name.."-explosion"
 	
 	-- Specifies the entity icons used by the game to generate alert messages
@@ -66,7 +76,7 @@ function vanillaHD.patchLoaderEntity(name, beltname)
 				height   = 192,
 				priority = "extra-high",
 				scale    = 0.5,
-				width    = 212,
+				width    = 192,
 				y        = 0
 			}
 		},
@@ -101,7 +111,7 @@ function vanillaHD.patchLoaderEntity(name, beltname)
 				height   = 192,
 				priority = "extra-high",
 				scale    = 0.5,
-				width    = 212,
+				width    = 192,
 				y        = 192
 			}
 		},
@@ -212,6 +222,7 @@ end
 function vanillaHD.createLoaderItem(name, beltname)
 	if data.raw["item"][beltname] then
 		local item = table.deepcopy(data.raw["item"]["loader"])
+		
 		item.name = name
 		item.place_result = name
 		
@@ -224,14 +235,14 @@ function vanillaHD.createLoaderItem(name, beltname)
 end
 
 -- Function to create the default recipes for each of the loaders.
-function vanillaHD.createLoaderRecipe(name, beltname, lastloader)
+function vanillaHD.createLoaderRecipe(name, beltname, previousloader)
 	if data.raw["item"][beltname] then
 		local recipe = table.deepcopy(data.raw["recipe"]["express-loader"])
 		recipe.name = name
 		recipe.ingredients = 
 		{
 			{beltname, 5},
-			{lastloader, 1}
+			{previousloader, 1}
 		}
 		recipe.result = name
 		data:extend({recipe})
