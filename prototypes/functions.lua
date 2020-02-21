@@ -44,39 +44,187 @@ function vanillaHD.addLoader(name, color, belt_name, technology, previous_tier)
 	vanillaHD.createParticles(name)
 	vanillaHD.createExplosions(name)
 	vanillaHD.createRemnants(name)
-	vanillaHD.createLoaderEntity(name, belt_name)	
+	vanillaHD.createLoaderEntity(name, belt_name, true)	
 	vanillaHD.patchLoaderTechnology(technology, name)
 end
 -- ##################################################################################
 
 -- Create color masks.
 vanillaHD.tint_mask = {
-	["basic-loader"]   = {r = 161, g = 161, b = 161}, -- Corrected 2020-02-11
-	["loader"] 		   = {r = 240, g = 199, b =  86}, -- Corrected 2019-06-01
-	["fast-loader"]    = {r = 227, g =  68, b =  68}, -- Corrected 2019-06-01
-	["express-loader"] = {r =  92, g = 200, b = 250}, -- Corrected 2019-06-01
-	["purple-loader"]  = {r = 199, g =  69, b = 255}, -- Corrected 2019-06-01
-	["green-loader"]   = {r =  74, g = 255, b = 137}, -- Corrected 2019-06-01
+	["basic-loader"]   = {r = 161, g = 161, b = 161, a = 0.82*255}, -- Corrected 2020-02-11
+	["loader"] 		   = {r = 255, g = 195, b =  64, a = 0.82*255}, -- Corrected 2020-02-21
+	-- ["test-loader"]    = {r = 255, g = 195, b =  64, a = 0.82*255}, -- Corrected 2019-06-01
+	["fast-loader"]    = {r = 227, g =  68, b =  68, a = 0.82*255}, -- Corrected 2019-06-01
+	["express-loader"] = {r =  92, g = 200, b = 250, a = 0.82*255}, -- Corrected 2019-06-01
+	["purple-loader"]  = {r = 199, g =  69, b = 255, a = 0.82*255}, -- Corrected 2019-06-01
+	["green-loader"]   = {r =  74, g = 255, b = 137, a = 0.82*255}, -- Corrected 2019-06-01
 }
 
 -- Match the tint used in Bob's Logistics Belt Reskin / Bob's Logistics Basic Belt Reskin.
 if mods["boblogistics-belt-reskin"] or mods["bob-basic-belt-reskin"] then
-	vanillaHD.tint_mask["basic-loader"] = {r = 227, g = 227, b = 227} -- Corrected 2019-06-01
+	vanillaHD.tint_mask["basic-loader"] = {r = 227, g = 227, b = 227, a = 0.82*255} -- Corrected 2019-06-01
 end
 
 -- Match the tint used in Bob's Logistics Belt Reskin
 if mods["boblogistics-belt-reskin"] then
-	vanillaHD.tint_mask["purple-loader"] = {r = 249, g =  71, b = 255}
+	vanillaHD.tint_mask["purple-loader"] = {r = 249, g =  71, b = 255, a = 0.82*255}
 end
 
--- Used in control.lua to register the loader entity with Loader Redux.
-function vanillaHD.registerLoader(name)
-	remote.call("loader-redux", "add_loader", name)
+-- Generate loader structure colors via tint method vanillaHD.tint_mask[name]
+local function make_tinted_loader(name, tint)
+	local loader = data.raw["loader"][name]
+
+	loader.structure.direction_in.sheets = 
+	{
+		{
+			filename = modDir.."/graphics/entity/loader/loader-structure-base.png",				
+			width    = 96,
+			height   = 96,
+			y        = 0,
+			hr_version = 
+			{
+				filename = modDir.."/graphics/entity/loader/hr-loader-structure-base.png",
+				height   = 192,
+				priority = "extra-high",
+				scale    = 0.5,
+				width    = 212,
+				y        = 0
+			}
+		},
+		{
+			filename = modDir.."/graphics/entity/loader/loader-structure-mask.png",			
+			width    = 96,
+			height   = 96,
+			y        = 0,
+			tint	 = tint,
+			hr_version = 
+			{
+				filename = modDir.."/graphics/entity/loader/hr-loader-structure-mask.png",
+				height   = 192,
+				priority = "extra-high",
+				scale    = 0.5,
+				width    = 212,
+				y        = 0,
+				tint     = tint,
+			}
+		}
+	}
+	loader.structure.direction_out.sheets = 
+	{
+		{
+			filename = modDir.."/graphics/entity/loader/loader-structure-base.png",			
+			width    = 96,
+			height   = 96,
+			y        = 96,
+			hr_version = 
+			{
+				filename = modDir.."/graphics/entity/loader/hr-loader-structure-base.png",
+				height   = 192,
+				priority = "extra-high",
+				scale    = 0.5,
+				width    = 212,
+				y        = 192
+			}
+		},
+		{
+			filename = modDir.."/graphics/entity/loader/loader-structure-mask.png",			
+			width    = 96,
+			height   = 96,
+			y        = 96,
+			tint	 = tint,
+			hr_version = 
+			{
+				filename = modDir.."/graphics/entity/loader/hr-loader-structure-mask.png",
+				height   = 192,
+				priority = "extra-high",
+				scale    = 0.5,
+				width    = 212,
+				y        = 192,
+				tint     = tint
+			}
+		}
+	}
+end
+
+-- Generate loader strucutre colors via image masking
+local function make_masked_loader(name, use_alternate)
+	local loader = data.raw["loader"][name]
+
+	if use_alternate then
+		name = name.."-alternate"
+	end
+
+	loader.structure.direction_in.sheets = 
+	{
+		{
+			filename = modDir.."/graphics/entity/loader/loader-structure-base.png",				
+			width    = 96,
+			height   = 96,
+			y        = 0,
+			hr_version = 
+			{
+				filename = modDir.."/graphics/entity/loader/hr-loader-structure-base.png",
+				height   = 192,
+				priority = "extra-high",
+				scale    = 0.5,
+				width    = 212,
+				y        = 0
+			}
+		},
+		{
+			filename = modDir.."/graphics/entity/loader/masks/"..name.."-structure-mask.png",			
+			width    = 96,
+			height   = 96,
+			y        = 0,
+			hr_version = 
+			{
+				filename = modDir.."/graphics/entity/loader/masks/hr-"..name.."-structure-mask.png",
+				height   = 192,
+				priority = "extra-high",
+				scale    = 0.5,
+				width    = 212,
+				y        = 0,
+			}
+		}
+	}
+	loader.structure.direction_out.sheets = 
+	{
+		{
+			filename = modDir.."/graphics/entity/loader/loader-structure-base.png",			
+			width    = 96,
+			height   = 96,
+			y        = 96,
+			hr_version = 
+			{
+				filename = modDir.."/graphics/entity/loader/hr-loader-structure-base.png",
+				height   = 192,
+				priority = "extra-high",
+				scale    = 0.5,
+				width    = 212,
+				y        = 192
+			}
+		},
+		{
+			filename = modDir.."/graphics/entity/loader/masks/"..name.."-structure-mask.png",			
+			width    = 96,
+			height   = 96,
+			y        = 96,
+			hr_version = 
+			{
+				filename = modDir.."/graphics/entity/loader/masks/hr-"..name.."-structure-mask.png",
+				height   = 192,
+				priority = "extra-high",
+				scale    = 0.5,
+				width    = 212,
+				y        = 192,
+			}
+		}
+	}
 end
 
 -- Used to patch loader entities, or create new ones, with vanilla-style graphics.
 -- Called by createLoaderEntity
-function vanillaHD.patchLoaderEntity(name, belt_name)
+function vanillaHD.patchLoaderEntity(name, belt_name, is_external)
 	local loader = data.raw["loader"][name]
 	local base_belt = data.raw["transport-belt"][belt_name]
 
@@ -109,76 +257,22 @@ function vanillaHD.patchLoaderEntity(name, belt_name)
 		}
 	}
 	
-	loader.structure.direction_in.sheets = 
-	{
-		{
-			filename = modDir.."/graphics/entity/loader/loader-structure-base.png",				
-			width    = 96,
-			height   = 96,
-			y        = 0,
-			hr_version = 
-			{
-				filename = modDir.."/graphics/entity/loader/hr-loader-structure-base.png",
-				height   = 192,
-				priority = "extra-high",
-				scale    = 0.5,
-				width    = 192,
-				y        = 0
-			}
-		},
-		{
-			filename = modDir.."/graphics/entity/loader/loader-structure-mask.png",			
-			width    = 96,
-			height   = 96,
-			y        = 0,
-			tint	 = vanillaHD.tint_mask[name],
-			hr_version = 
-			{
-				filename = modDir.."/graphics/entity/loader/hr-loader-structure-mask.png",
-				height   = 192,
-				priority = "extra-high",
-				scale    = 0.5,
-				width    = 192,
-				y        = 0,
-				tint     = vanillaHD.tint_mask[name]
-			}
-		}
-	}
-	loader.structure.direction_out.sheets = 
-	{
-		{
-			filename = modDir.."/graphics/entity/loader/loader-structure-base.png",			
-			width    = 96,
-			height   = 96,
-			y        = 96,
-			hr_version = 
-			{
-				filename = modDir.."/graphics/entity/loader/hr-loader-structure-base.png",
-				height   = 192,
-				priority = "extra-high",
-				scale    = 0.5,
-				width    = 192,
-				y        = 192
-			}
-		},
-		{
-			filename = modDir.."/graphics/entity/loader/loader-structure-mask.png",			
-			width    = 96,
-			height   = 96,
-			y        = 96,
-			tint	 = vanillaHD.tint_mask[name],
-			hr_version = 
-			{
-				filename = modDir.."/graphics/entity/loader/hr-loader-structure-mask.png",
-				height   = 192,
-				priority = "extra-high",
-				scale    = 0.5,
-				width    = 192,
-				y        = 192,
-				tint     = vanillaHD.tint_mask[name]
-			}
-		}
-	}
+	-- Use tint method to make the loader
+	--if is_external == true then
+		make_tinted_loader(name, vanillaHD.tint_mask[name])
+
+	-- Use image mask to make the loader
+	-- else
+	-- 	if mods["boblogistics-belt-reskin"] then
+	-- 		if name == "basic-loader" or name == "purple-loader" then
+	-- 			make_masked_loader(name, true)
+	-- 		else
+	-- 			make_masked_loader(name)
+	-- 		end
+	-- 	else
+	-- 		make_masked_loader(name)
+	-- 	end
+	-- end
 
 	-- Add back flange beneath items on the belt
 	loader.structure.back_patch =
@@ -222,7 +316,7 @@ function vanillaHD.patchLoaderEntity(name, belt_name)
 end
 
 -- Used to create new loader entities
-function vanillaHD.createLoaderEntity(name, belt_name)
+function vanillaHD.createLoaderEntity(name, belt_name, is_external)
 	if data.raw["transport-belt"][belt_name] then
 		local loader = table.deepcopy(data.raw["loader"]["loader"])
 
@@ -233,7 +327,7 @@ function vanillaHD.createLoaderEntity(name, belt_name)
 		data:extend({loader})
 
 		-- Generate entity graphics
-		vanillaHD.patchLoaderEntity(name, belt_name)
+		vanillaHD.patchLoaderEntity(name, belt_name, is_external)
 	end
 end
 

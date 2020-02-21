@@ -13,3 +13,6 @@ require("prototypes.entity.loader-explosions")
 require("prototypes.entity.loader-remnants")
 require("prototypes.entity.loader-entity")
 require("prototypes.technology.loader-technology")
+
+-- Debug loader
+vanillaHD.addLoader("test-loader", vanillaHD.tint_mask["test-loader"], "transport-belt", "logistics", "loader")
