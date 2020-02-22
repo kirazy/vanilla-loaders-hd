@@ -108,7 +108,7 @@ function vanillaHD.patchLoaderEntity(name, belt_name, is_external)
 	{
 		{
 			filename = modDir.."/graphics/entity/loader/loader-structure-base.png",				
-			width    = 96,
+			width    = 106,
 			height   = 96,
 			y        = 0,
 			hr_version = 
@@ -123,7 +123,7 @@ function vanillaHD.patchLoaderEntity(name, belt_name, is_external)
 		},
 		{
 			filename = modDir.."/graphics/entity/loader/loader-structure-mask.png",			
-			width    = 96,
+			width    = 106,
 			height   = 96,
 			y        = 0,
 			tint	 = vanillaHD.tint_mask[name],
@@ -144,7 +144,7 @@ function vanillaHD.patchLoaderEntity(name, belt_name, is_external)
 	{
 		{
 			filename = modDir.."/graphics/entity/loader/loader-structure-base.png",			
-			width    = 96,
+			width    = 106,
 			height   = 96,
 			y        = 96,
 			hr_version = 
@@ -159,7 +159,7 @@ function vanillaHD.patchLoaderEntity(name, belt_name, is_external)
 		},
 		{
 			filename = modDir.."/graphics/entity/loader/loader-structure-mask.png",			
-			width    = 96,
+			width    = 106,
 			height   = 96,
 			y        = 96,
 			tint	 = vanillaHD.tint_mask[name],
