@@ -183,13 +183,13 @@ function vanillaHD.patchLoaderEntity(name, belt_name, is_external)
 		{
 		filename = modDir.."/graphics/entity/loader/loader-structure-back-patch.png",
 		priority = "extra-high",
-		width = 96,
+		width = 106,
 		height = 96,
 		hr_version =
 		{
 			filename = modDir.."/graphics/entity/loader/hr-loader-structure-back-patch.png",
 			priority = "extra-high",
-			width = 192,
+			width = 212,
 			height = 192,
 			scale = 0.5
 		}
@@ -203,13 +203,13 @@ function vanillaHD.patchLoaderEntity(name, belt_name, is_external)
 		{
 		filename = modDir.."/graphics/entity/loader/loader-structure-front-patch.png",
 		priority = "extra-high",
-		width = 96,
+		width = 106,
 		height = 96,
 		hr_version =
 		{
 			filename = modDir.."/graphics/entity/loader/hr-loader-structure-front-patch.png",
 			priority = "extra-high",
-			width = 192,
+			width = 212,
 			height = 192,
 			scale = 0.5
 		}
