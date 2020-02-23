@@ -1,8 +1,10 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.18.5
-Date: 2.XX.2020
+Date: 2.23.2020
   Features:
     - Added function to make adding a loader by other mod authors simple (vanillaHD.addLoader). See mod page for details.
+  Changes:
+    - Rebuilt sprites from scratch, now finished for 0.18.
 ---------------------------------------------------------------------------------------------------
 Version: 0.18.4
 Date: 2.11.2020
