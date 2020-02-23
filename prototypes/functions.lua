@@ -88,7 +88,7 @@ function vanillaHD.patchLoaderEntity(name, belt_name, is_external)
 	loader.flags = {"placeable-neutral", "placeable-player", "player-creation", "fast-replaceable-no-build-while-moving"}
 
 	-- Set remnant and explosions
-	-- loader.corpse = name.."-remnants"
+	loader.corpse = name.."-remnants"
 	loader.dying_explosion = name.."-explosion"
 	
 	-- Specifies the entity icons used by the game to generate alert messages
