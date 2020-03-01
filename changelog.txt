@@ -1,8 +1,8 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.18.6
-Date: X.XX.2020
-  Features:
-    - Added remnants.
+Date: 2.29.2020
+  Bugfixes:
+    - Fixed startup issue when Loader Redux is present, but Bob's Logistics is not.
 ---------------------------------------------------------------------------------------------------
 Version: 0.18.5
 Date: 2.23.2020

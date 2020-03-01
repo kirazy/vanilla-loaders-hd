@@ -14,7 +14,7 @@ vanillaHD.patchLoaderItem("fast-loader","fast-transport-belt")
 vanillaHD.patchLoaderItem("express-loader","express-transport-belt")
 
 -- Check for LoaderRedux; this step is not necessary otherwise.
-if mods["LoaderRedux"] then
+if mods["LoaderRedux"] and mods["boblogistics"] then
     -- Patch loader entities
 	vanillaHD.patchLoaderEntity("purple-loader","turbo-transport-belt")
     vanillaHD.patchLoaderEntity("green-loader","ultimate-transport-belt")
