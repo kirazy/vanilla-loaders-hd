@@ -106,6 +106,7 @@ function vanillaHD.patchLoaderEntity(name, belt_name, is_external)
 	
 	loader.structure.direction_in.sheets = 
 	{
+		-- Base
 		{
 			filename = modDir.."/graphics/entity/loader/loader-structure-base.png",				
 			width    = 106,
@@ -121,6 +122,7 @@ function vanillaHD.patchLoaderEntity(name, belt_name, is_external)
 				y        = 0
 			}
 		},
+		-- Mask
 		{
 			filename = modDir.."/graphics/entity/loader/loader-structure-mask.png",			
 			width    = 106,
@@ -137,11 +139,30 @@ function vanillaHD.patchLoaderEntity(name, belt_name, is_external)
 				y        = 0,
 				tint     = vanillaHD.tint_mask[name],
 			}
+		},
+		-- Shadow
+		{
+			filename = modDir.."/graphics/entity/loader/loader-structure-shadow.png",			
+			draw_as_shadow = true,
+			width    = 106,
+			height   = 96,
+			y        = 0,
+			hr_version = 
+			{
+				filename = modDir.."/graphics/entity/loader/hr-loader-structure-shadow.png",
+				draw_as_shadow = true,
+				height   = 192,
+				priority = "extra-high",
+				scale    = 0.5,
+				width    = 212,
+				y        = 0,
+			}
 		}
 	}
 
 	loader.structure.direction_out.sheets = 
 	{
+		-- Base
 		{
 			filename = modDir.."/graphics/entity/loader/loader-structure-base.png",			
 			width    = 106,
@@ -157,6 +178,7 @@ function vanillaHD.patchLoaderEntity(name, belt_name, is_external)
 				y        = 192
 			}
 		},
+		-- Mask
 		{
 			filename = modDir.."/graphics/entity/loader/loader-structure-mask.png",			
 			width    = 106,
@@ -172,6 +194,24 @@ function vanillaHD.patchLoaderEntity(name, belt_name, is_external)
 				width    = 212,
 				y        = 192,
 				tint     = vanillaHD.tint_mask[name]
+			}
+		},
+		-- Shadow
+		{
+			filename = modDir.."/graphics/entity/loader/loader-structure-shadow.png",			
+			width    = 106,
+			height   = 96,
+			y        = 96,
+			draw_as_shadow = true,
+			hr_version = 
+			{
+				filename = modDir.."/graphics/entity/loader/hr-loader-structure-shadow.png",
+				height   = 192,
+				priority = "extra-high",
+				scale    = 0.5,
+				width    = 212,
+				y        = 192,
+				draw_as_shadow = true,
 			}
 		}
 	}
