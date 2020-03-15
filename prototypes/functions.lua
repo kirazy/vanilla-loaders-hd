@@ -104,6 +104,11 @@ function vanillaHD.patchLoaderEntity(name, belt_name, is_external)
 		}
 	}
 	
+	-- Clear existing sheet
+	loader.structure.direction_in.sheet = nil
+	loader.structure.direction_out.sheet = nil
+
+	-- Reskin loader
 	loader.structure.direction_in.sheets = 
 	{
 		-- Base
