@@ -3,6 +3,7 @@ Version: 0.18.7
 Date: 2020.04.07
   Features:
     - Moved shadows to their own layer.
+  Bugfixes:
     - Fixed stray code related to not-yet-implemented remnants.
 ---------------------------------------------------------------------------------------------------
 Version: 0.18.6
