@@ -23,7 +23,8 @@ local modDir = "__vanilla-loaders-hd__"
 -- previous_tier - string; the name of the loader that will upgrade into your loader;
 --				   also the loader that will be an ingredient in the base recipe.
 --				   (e.g. previous_tier = "express-loader" to build from blue loaders)
--- next_tier     - string; the name of the loader that your loader will upgrade into
+-- next_tier     - string; optional; the name of the loader that your loader will 
+-- 				   upgrade into.
 -- 
 -- This will create item, entity, recipe entries which you can edit further. 
 -- It will also create particles, explosions, and remnants.
