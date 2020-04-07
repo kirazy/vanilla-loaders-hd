@@ -1,8 +1,13 @@
 ---------------------------------------------------------------------------------------------------
-Version: 0.18.7
-Date: 2020.XX.XX
+Version: 0.18.9
+Date: 2020.04.07
   Changes:
-    - XX
+    - Modified upgrade path handler, clarified intended usage of next_tier parameter.
+---------------------------------------------------------------------------------------------------
+Version: 0.18.8
+Date: 2020.04.07
+  Bugfixes:
+    - Added method to addLoader function to handle upgrade paths.
 ---------------------------------------------------------------------------------------------------
 Version: 0.18.7
 Date: 2020.04.07
