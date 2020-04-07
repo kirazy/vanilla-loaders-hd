@@ -20,9 +20,11 @@ local modDir = "__vanilla-loaders-hd__"
 -- 				   (e.g. belt_name = "transport-belt" for yellow belts)
 -- technology	 - string; the name of the technology that unlocks your loader 
 -- 				   (e.g. technology = "logistics" for yellow belt tier)
--- previous_tier - string; the name of the loader that is a component in the initial 
--- 				   recipe of your loader
+-- previous_tier - string; the name of the loader that will upgrade into your loader;
+--				   also the loader that will be an ingredient in the base recipe.
 --				   (e.g. previous_tier = "express-loader" to build from blue loaders)
+-- next_tier     - string; optional; the name of the loader that your loader will 
+-- 				   upgrade into.
 -- 
 -- This will create item, entity, recipe entries which you can edit further. 
 -- It will also create particles, explosions, and remnants.
@@ -34,7 +36,7 @@ local modDir = "__vanilla-loaders-hd__"
 -- Redux, you will need to call Loader Redux's remote interface. See control.lua for
 -- an example.
 
-function vanillaHD.addLoader(name, color, belt_name, technology, previous_tier)
+function vanillaHD.addLoader(name, color, belt_name, technology, previous_tier, next_tier)
 	-- Specify loader color
 	vanillaHD.tint_mask[name] = color
 
@@ -46,6 +48,15 @@ function vanillaHD.addLoader(name, color, belt_name, technology, previous_tier)
 	-- vanillaHD.createRemnants(name)
 	vanillaHD.createLoaderEntity(name, belt_name, true)	
 	vanillaHD.patchLoaderTechnology(technology, name)
+
+	-- Handle upgrade paths
+	data.raw["loader"][previous_tier].next_upgrade = name
+	if next_tier then
+		data.raw["loader"][name].next_upgrade = next_tier
+	else
+		data.raw["loader"][name].next_upgrade = nil
+	end
+
 end
 -- ##################################################################################
 
