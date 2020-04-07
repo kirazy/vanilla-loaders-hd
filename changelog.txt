@@ -1,9 +1,9 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.18.7
-Date: 2020.XX.XX
+Date: 2020.04.07
   Features:
-    - Added loader remnants. One day.
     - Moved shadows to their own layer.
+    - Fixed stray code related to not-yet-implemented remnants.
 ---------------------------------------------------------------------------------------------------
 Version: 0.18.6
 Date: 2020.03.01

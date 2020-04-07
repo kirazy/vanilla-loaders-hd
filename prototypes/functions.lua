@@ -43,7 +43,7 @@ function vanillaHD.addLoader(name, color, belt_name, technology, previous_tier)
 	vanillaHD.createLoaderRecipe(name, belt_name, previous_tier)
 	vanillaHD.createParticles(name)
 	vanillaHD.createExplosions(name)
-	vanillaHD.createRemnants(name)
+	-- vanillaHD.createRemnants(name)
 	vanillaHD.createLoaderEntity(name, belt_name, true)	
 	vanillaHD.patchLoaderTechnology(technology, name)
 end
