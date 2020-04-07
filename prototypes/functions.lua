@@ -24,7 +24,8 @@ local modDir = "__vanilla-loaders-hd__"
 --				   also the loader that will be an ingredient in the base recipe.
 --				   (e.g. previous_tier = "express-loader" to build from blue loaders)
 -- next_tier     - string; optional; the name of the loader that your loader will 
--- 				   upgrade into.
+-- 				   upgrade into. Note, only specify this if you are adding a loader in
+--				   between already existing tiers of loaders.
 -- 
 -- This will create item, entity, recipe entries which you can edit further. 
 -- It will also create particles, explosions, and remnants.
@@ -35,6 +36,12 @@ local modDir = "__vanilla-loaders-hd__"
 -- To support snapping behavior if this mod is installed side-by-side with Loader
 -- Redux, you will need to call Loader Redux's remote interface. See control.lua for
 -- an example.
+--
+-- If you are creating multiple loaders, create them in sequence according to tier. It is
+-- not necessary to specify next_tier in this instance, the function will correct upgrade
+-- paths. 
+--
+-- Only specify next_tier when inserting between already existing loaders.
 
 function vanillaHD.addLoader(name, color, belt_name, technology, previous_tier, next_tier)
 	-- Specify loader color
@@ -49,8 +56,11 @@ function vanillaHD.addLoader(name, color, belt_name, technology, previous_tier, 
 	vanillaHD.createLoaderEntity(name, belt_name, true)	
 	vanillaHD.patchLoaderTechnology(technology, name)
 
-	-- Handle upgrade paths
+	-- Point the upgrade_path in the previous tier loader to the current loader
 	data.raw["loader"][previous_tier].next_upgrade = name
+
+	-- Point the upgrade path in the current tier loader to the next loader
+	-- To only be used if inserting a loader in between pre-existing tiers of loaders.
 	if next_tier then
 		data.raw["loader"][name].next_upgrade = next_tier
 	else

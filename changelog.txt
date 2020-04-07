@@ -2,7 +2,7 @@
 Version: 0.18.9
 Date: 2020.04.07
   Changes:
-    - Modified upgrade path handler, clarified intended usage of next_tier parameter.
+    - Clarified intended usage of next_tier parameter.
 ---------------------------------------------------------------------------------------------------
 Version: 0.18.8
 Date: 2020.04.07
