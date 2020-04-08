@@ -66,7 +66,6 @@ function vanillaHD.addLoader(name, color, belt_name, technology, previous_tier, 
 	else
 		data.raw["loader"][name].next_upgrade = nil
 	end
-
 end
 -- ##################################################################################
 
