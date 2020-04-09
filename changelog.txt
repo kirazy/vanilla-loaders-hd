@@ -2,7 +2,9 @@
 Version: 0.18.9
 Date: 2020.04.07
   Changes:
-    - Clarified intended usage of next_tier parameter.
+    - Clarified intended usage of next_tier parameter in vanillaHD.addLoader function.
+  Bugfixes:
+    - Corrected minor graphical issue with right-facing, inward-pointing mask.
 ---------------------------------------------------------------------------------------------------
 Version: 0.18.8
 Date: 2020.04.07
