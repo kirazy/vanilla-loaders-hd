@@ -5,7 +5,7 @@
   "title": "Vanilla Loaders HD",
   "author": "Kirazy",
   "contact": "kirazy@live.com",
-  "description": "Adds the vanilla loaders to the game with customizable recipe difficulty, and with support for cargo wagons via lua scripting. Supports belts added by Bob's Logistics. When installed side-by-side with Loader Redux, will use Loader Redux's snapping logic and train loading. Additionally, with a startup setting, may be used to only reskin Loader Redux.",
+  "description": "Adds the vanilla loaders to the game with customizable recipe difficulty, and with support for cargo wagons via lua scripting. Supports belts added by Bob's Logistics. When installed side-by-side with Loader Redux, will use Loader Redux's snapping logic and train loading. Additionally, with a startup setting, may be used as a dumb mod to simply reskin Loader Redux.",
   "dependencies": [	"base >= 0.18.0",
     "? boblibrary >=0.18.0",
     "? boblogistics >=0.18.0",					
