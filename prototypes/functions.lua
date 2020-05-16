@@ -323,7 +323,7 @@ function vanillaHD.patchLoaderItem(name, belt_name)
 
 	-- Inherit UI grouping and sorting from base_belt item
 	item.subgroup = base_belt.subgroup
-	item.order = string.gsub(string.gsub(item.order,"^[a-z]","d"),"transport%-belt","loader")
+	item.order = string.gsub(string.gsub(item.order,"^[a-z]","d[loader]"),"transport%-belt","loader")
 end
 
 -- Used to create new loader items
