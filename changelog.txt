@@ -1,8 +1,8 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.18.9
-Date: 2020.07.XX
+Date: 2020.07.06
   Changes:
-    - Moved some function calls from data-updates to data
+    - Moved some function calls from data-updates to data.
 ---------------------------------------------------------------------------------------------------
 Version: 0.18.8
 Date: 2020.04.07
