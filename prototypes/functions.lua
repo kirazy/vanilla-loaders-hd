@@ -46,7 +46,7 @@ function vanillaHD.addLoader(name, color, belt_name, technology, previous_tier, 
 	vanillaHD.createParticles(name)
 	vanillaHD.createExplosions(name)
 	-- vanillaHD.createRemnants(name)
-	vanillaHD.createLoaderEntity(name, belt_name, true)	
+	vanillaHD.createLoaderEntity(name, belt_name)	
 	vanillaHD.patchLoaderTechnology(technology, name)
 
 	-- Handle upgrade paths
@@ -82,7 +82,7 @@ end
 
 -- Used to patch loader entities, or create new ones, with vanilla-style graphics.
 -- Called by createLoaderEntity
-function vanillaHD.patchLoaderEntity(name, belt_name, is_external)
+function vanillaHD.patchLoaderEntity(name, belt_name)
 	local loader = data.raw["loader"][name]
 	local base_belt = data.raw["transport-belt"][belt_name]
 
@@ -274,7 +274,7 @@ function vanillaHD.patchLoaderEntity(name, belt_name, is_external)
 end
 
 -- Used to create new loader entities
-function vanillaHD.createLoaderEntity(name, belt_name, is_external)
+function vanillaHD.createLoaderEntity(name, belt_name)
 	if data.raw["transport-belt"][belt_name] then
 		local loader = table.deepcopy(data.raw["loader"]["loader"])
 
@@ -285,7 +285,8 @@ function vanillaHD.createLoaderEntity(name, belt_name, is_external)
 		data:extend({loader})
 
 		-- Generate entity graphics
-		vanillaHD.patchLoaderEntity(name, belt_name, is_external)
+		vanillaHD.patchLoaderEntity(name, belt_name)
+		vanillaHD.patchLoaderItemOrder(name, belt_name)
 	end
 end
 
@@ -311,6 +312,11 @@ function vanillaHD.patchLoaderItem(name, belt_name)
 			tint = vanillaHD.tint_mask[name]
 		}
 	}
+end
+
+function vanillaHD.patchLoaderItemOrder(name, belt_name)
+	local item = data.raw["item"][name]
+	local base_belt = data.raw["item"][belt_name]
 
 	-- Inherit UI grouping and sorting from base_belt item
 	item.subgroup = base_belt.subgroup
