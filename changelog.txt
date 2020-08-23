@@ -1,4 +1,11 @@
 ---------------------------------------------------------------------------------------------------
+Version: 1.0.1
+Date: 2020.08.XX
+  Features:
+    - Added localization support for German
+  Changes:
+    - Moved to 1.0
+---------------------------------------------------------------------------------------------------
 Version: 0.18.9
 Date: 2020.07.06
   Changes:
@@ -30,7 +37,7 @@ Date: 2020.02.23
 ---------------------------------------------------------------------------------------------------
 Version: 0.18.4
 Date: 2020.02.11
-  Major Changes:
+  Features:
     - Recipe overhaul is now default on; see mod images page for details.
     - Recipe revisions to the Basic Loader. Now takes stone and burner inserters depending on settings.
     - Removed setting: "Loader Redux recipes" has been removed.
