@@ -1,415 +1,471 @@
 -- Copyright (c) 2017 Thaui
 -- Copyright (c) 2018 Kirazy
 -- Part of Vanilla Loaders HD
---     
+--
 -- See LICENSE.md in the project directory for license information.
 
 -- Initialize function storage.
 if not vanillaHD then vanillaHD = {} end
-local modDir = "__vanilla-loaders-hd__"
 
--- ##################################################################################
--- This function is designed to be used by other mods to create vanilla-esque loaders
--- 
--- Parameters:
--- name			 - string; the name of your loader 
---				   (e.g. name = "basic-loader")
--- color		 - table;  table of rgb values, determines your loader's color 
---				   (e.g. color = {r = 255, g = 255, b = 255} for white)
--- belt_name	 - string; the belt tier your loader connects to 
--- 				   (e.g. belt_name = "transport-belt" for yellow belts)
--- technology	 - string; the name of the technology that unlocks your loader 
--- 				   (e.g. technology = "logistics" for yellow belt tier)
--- previous_tier - string; the name of the loader that will upgrade into your loader;
---				   also the loader that will be an ingredient in the base recipe.
---				   (e.g. previous_tier = "express-loader" to build from blue loaders)
--- next_tier     - string; optional; the name of the loader that your loader will 
--- 				   upgrade into.
--- 
--- This will create item, entity, recipe entries which you can edit further. 
--- It will also create particles, explosions, and remnants.
--- 
--- The initial recipe for a loader added using this function are 5x the belt you
--- specified, and 1x the previous_tier loader you specified.
---
--- To support snapping behavior if this mod is installed side-by-side with Loader
--- Redux, you will need to call Loader Redux's remote interface. See control.lua for
--- an example.
-
-function vanillaHD.addLoader(name, color, belt_name, technology, previous_tier, next_tier)
-	-- Specify loader color
-	vanillaHD.tint_mask[name] = color
-
-	-- Create the loader
-	vanillaHD.createLoaderItem(name, belt_name)
-	vanillaHD.createLoaderRecipe(name, belt_name, previous_tier)
-	vanillaHD.createParticles(name)
-	vanillaHD.createExplosions(name)
-	-- vanillaHD.createRemnants(name)
-	vanillaHD.createLoaderEntity(name, belt_name)	
-	vanillaHD.patchLoaderTechnology(technology, name)
-
-	-- Handle upgrade paths
-	data.raw["loader"][previous_tier].next_upgrade = name
-	if next_tier then
-		data.raw["loader"][name].next_upgrade = next_tier
-	else
-		data.raw["loader"][name].next_upgrade = nil
-	end
-
-end
--- ##################################################################################
-
--- Create color masks.
+-- Loader tints
 vanillaHD.tint_mask = {
-	["basic-loader"]   = {r = 125, g = 125, b = 125, a = 0.82*255}, -- Corrected 2020-02-21
-	["loader"] 		   = {r = 255, g = 195, b =  64, a = 0.82*255}, -- Corrected 2020-02-21
-	["fast-loader"]    = {r = 227, g =  23, b =  23, a = 0.82*255}, -- Corrected 2020-02-21
-	["express-loader"] = {r =  67, g = 192, b = 250, a = 0.82*255}, -- Corrected 2020-02-21
-	["purple-loader"]  = {r = 165, g =  16, b = 229, a = 0.82*255}, -- Corrected 2020-02-21
-	["green-loader"]   = {r =  22, g = 242, b =  99, a = 0.82*255}, -- Corrected 2020-02-21
+	-- Bob's Logistics
+	["basic-loader"] = util.color("7d7d7dd9"),
+	["loader"] = util.color("ffc340d9"),
+	["fast-loader"] = util.color("e31717d9"),
+	["express-loader"] = util.color("43c0fad9"),
+	["purple-loader"] = util.color("a510e5d9"),
+	["green-loader"] = util.color("16f263d9"),
 }
+
+if mods["UltimateBelts_Owoshima_And_Pankeko-Mod"] then
+	-- Pankeko Ultimate Belts
+	vanillaHD.tint_mask["ultra-fast"] = util.color("2bc24bDB")
+	vanillaHD.tint_mask["extreme-fast"] = util.color("c4632fDB")
+	vanillaHD.tint_mask["ultra-express"] = util.color("6f2de0D1")
+	vanillaHD.tint_mask["extreme-express"] = util.color("3d3af0DB")
+	vanillaHD.tint_mask["ultimate"] = util.color("999999D1")
+else
+	-- Ultimate Belts
+	vanillaHD.tint_mask["ultra-fast"] = util.color("00b30cFF")
+	vanillaHD.tint_mask["extreme-fast"] = util.color("e00000FF")
+	vanillaHD.tint_mask["ultra-express"] = util.color("3604b5E8")
+	vanillaHD.tint_mask["extreme-express"] = util.color("002bffFF")
+	vanillaHD.tint_mask["ultimate"] = util.color("00ffddD1")
+end
 
 -- Match the tint used in Bob's Logistics Belt Reskin / Bob's Logistics Basic Belt Reskin.
 if mods["boblogistics-belt-reskin"] or mods["bob-basic-belt-reskin"] then
-	vanillaHD.tint_mask["basic-loader"] = {r = 0, g = 0, b = 0, a = 0} -- Corrected 2020-02-21
+	vanillaHD.tint_mask["basic-loader"] = util.color("00000000")
 end
 
 -- Match the tint used in Bob's Logistics Belt Reskin
 if mods["boblogistics-belt-reskin"] then
-	vanillaHD.tint_mask["purple-loader"] = {r = 223, g =  30, b = 229, a = 0.82*255} -- Corrected 2020-02-21
+	vanillaHD.tint_mask["purple-loader"] = util.color("df1ee5d9")
 end
 
--- Used to patch loader entities, or create new ones, with vanilla-style graphics.
--- Called by createLoaderEntity
-function vanillaHD.patchLoaderEntity(name, belt_name)
-	local loader = data.raw["loader"][name]
-	local base_belt = data.raw["transport-belt"][belt_name]
-
-	-- Allow loaders to render at the same level as splitters, underground belts. And now chests in 0.18...
-	loader.structure_render_layer = "object"
-
-	-- Inherit graphics from tier-appropriate belts
-	loader.belt_animation_set = base_belt.belt_animation_set
-
-	-- Inherit speed from tier-appropriate belts
-	loader.speed = base_belt.speed
-
-	-- Set flags
-	loader.flags = {"placeable-neutral", "placeable-player", "player-creation", "fast-replaceable-no-build-while-moving"}
-
-	-- Set remnant and explosions
-	-- loader.corpse = name.."-remnants"
-	loader.dying_explosion = name.."-explosion"
-	
-	-- Specifies the entity icons used by the game to generate alert messages
-	loader.icon_size = 64
-	loader.icons  = 
-	{
-		{
-			icon = modDir.."/graphics/icons/loader-icon-base.png"
-		},
-		{
-			icon = modDir.."/graphics/icons/loader-icon-mask.png",
-			tint = vanillaHD.tint_mask[name]
-		}
-	}
-	
-	-- Clear existing sheet
-	loader.structure.direction_in.sheet = nil
-	loader.structure.direction_out.sheet = nil
-
-	-- Reskin loader
-	loader.structure.direction_in.sheets = 
-	{
-		-- Base
-		{
-			filename = modDir.."/graphics/entity/loader/loader-structure-base.png",				
-			width    = 106,
-			height   = 96,
-			y        = 0,
-			hr_version = 
-			{
-				filename = modDir.."/graphics/entity/loader/hr-loader-structure-base.png",
-				height   = 192,
-				priority = "extra-high",
-				scale    = 0.5,
-				width    = 212,
-				y        = 0
-			}
-		},
-		-- Mask
-		{
-			filename = modDir.."/graphics/entity/loader/loader-structure-mask.png",			
-			width    = 106,
-			height   = 96,
-			y        = 0,
-			tint	 = vanillaHD.tint_mask[name],
-			hr_version = 
-			{
-				filename = modDir.."/graphics/entity/loader/hr-loader-structure-mask.png",
-				height   = 192,
-				priority = "extra-high",
-				scale    = 0.5,
-				width    = 212,
-				y        = 0,
-				tint     = vanillaHD.tint_mask[name],
-			}
-		},
-		-- Shadow
-		{
-			filename = modDir.."/graphics/entity/loader/loader-structure-shadow.png",			
-			draw_as_shadow = true,
-			width    = 106,
-			height   = 96,
-			y        = 0,
-			hr_version = 
-			{
-				filename = modDir.."/graphics/entity/loader/hr-loader-structure-shadow.png",
-				draw_as_shadow = true,
-				height   = 192,
-				priority = "extra-high",
-				scale    = 0.5,
-				width    = 212,
-				y        = 0,
-			}
-		}
-	}
-
-	loader.structure.direction_out.sheets = 
-	{
-		-- Base
-		{
-			filename = modDir.."/graphics/entity/loader/loader-structure-base.png",			
-			width    = 106,
-			height   = 96,
-			y        = 96,
-			hr_version = 
-			{
-				filename = modDir.."/graphics/entity/loader/hr-loader-structure-base.png",
-				height   = 192,
-				priority = "extra-high",
-				scale    = 0.5,
-				width    = 212,
-				y        = 192
-			}
-		},
-		-- Mask
-		{
-			filename = modDir.."/graphics/entity/loader/loader-structure-mask.png",			
-			width    = 106,
-			height   = 96,
-			y        = 96,
-			tint	 = vanillaHD.tint_mask[name],
-			hr_version = 
-			{
-				filename = modDir.."/graphics/entity/loader/hr-loader-structure-mask.png",
-				height   = 192,
-				priority = "extra-high",
-				scale    = 0.5,
-				width    = 212,
-				y        = 192,
-				tint     = vanillaHD.tint_mask[name]
-			}
-		},
-		-- Shadow
-		{
-			filename = modDir.."/graphics/entity/loader/loader-structure-shadow.png",			
-			width    = 106,
-			height   = 96,
-			y        = 96,
-			draw_as_shadow = true,
-			hr_version = 
-			{
-				filename = modDir.."/graphics/entity/loader/hr-loader-structure-shadow.png",
-				height   = 192,
-				priority = "extra-high",
-				scale    = 0.5,
-				width    = 212,
-				y        = 192,
-				draw_as_shadow = true,
-			}
-		}
-	}
-
-	-- Add back flange beneath items on the belt
-	loader.structure.back_patch =
-	{
-		sheet =
-		{
-		filename = modDir.."/graphics/entity/loader/loader-structure-back-patch.png",
-		priority = "extra-high",
-		width = 106,
-		height = 96,
-		hr_version =
-		{
-			filename = modDir.."/graphics/entity/loader/hr-loader-structure-back-patch.png",
-			priority = "extra-high",
-			width = 212,
-			height = 192,
-			scale = 0.5
-		}
-		}
-	}
-
-	-- Little piece of texture that extends into territory occupied by items while on belt, but rendered beneath them.
-	loader.structure.front_patch =
-	{
-		sheet =
-		{
-		filename = modDir.."/graphics/entity/loader/loader-structure-front-patch.png",
-		priority = "extra-high",
-		width = 106,
-		height = 96,
-		hr_version =
-		{
-			filename = modDir.."/graphics/entity/loader/hr-loader-structure-front-patch.png",
-			priority = "extra-high",
-			width = 212,
-			height = 192,
-			scale = 0.5
-		}
-		}
-	}
+-- Debug functions
+local debug = true
+function vanillaHD.debug_error(string)
+	if not debug then return end
+	error("Vanilla Loaders HD: "..string)
 end
 
--- Used to create new loader entities
-function vanillaHD.createLoaderEntity(name, belt_name)
-	if data.raw["transport-belt"][belt_name] then
-		local loader = table.deepcopy(data.raw["loader"]["loader"])
+function vanillaHD.debug_log(string)
+	if not debug then return end
+	log("Vanilla Loaders HD: "..string)
+end
 
-		loader.name = name
-		loader.minable.result = name
-		
-		-- Add loader entity to main data table
-		data:extend({loader})
+-- List of particles to copy and edit from standard splitter
+local particle_list = {
+    ["metal-particle-medium"] = 1,
+    ["metal-particle-big"] = 4,
+}
 
-		-- Generate entity graphics
-		vanillaHD.patchLoaderEntity(name, belt_name)
-		vanillaHD.patchLoaderItemOrder(name, belt_name)
+-- Returns `icons` table when called
+local function loader_icons(name)
+    return
+    {
+        { icon = "__vanilla-loaders-hd__/graphics/icons/loader-icon-base.png", icon_size = 64, icon_mipmaps = 4 },
+        { icon = "__vanilla-loaders-hd__/graphics/icons/loader-icon-mask.png", icon_size = 64, icon_mipmaps = 4, tint = vanillaHD.tint_mask[name] }
+    }
+end
+
+-- Creates explosions and particles, returns the prototype name of the explosion
+local function create_loader_explosions_and_particles(name)
+    -- Make the explosion, building off of the standard splitter
+    local working_explosion = util.copy(data.raw.explosion["splitter-explosion"])
+    working_explosion.name = "vanillaHD-"..name.."-explosion"
+    working_explosion.icons = loader_icons(name)
+
+    -- Make the particles
+    for particle, key in pairs(particle_list) do
+        -- Build off of the standard splitter
+        local working_particle = util.copy(data.raw["optimized-particle"]["splitter-"..particle])
+
+        -- Customize the colors
+        working_particle.name = "vanillaHD-"..name.."-"..particle
+        working_particle.pictures.sheet.tint = vanillaHD.tint_mask[name]
+        working_particle.pictures.sheet.hr_version.tint = vanillaHD.tint_mask[name]
+
+        -- Extend the particle
+        data:extend({working_particle})
+
+        -- Assign to the explosion
+        working_explosion["created_effect"]["action_delivery"]["target_effects"][key].particle_name = working_particle.name
+    end
+
+    -- Extend the explosion
+    data:extend({working_explosion})
+
+    return working_explosion.name
+end
+
+-- Create remnants, returns the prototype name of the remnant
+local function create_loader_remnants(name)
+    -- Make the remnant, building off the standard underground belt
+    local working_remnant = util.copy(data.raw.corpse["underground-belt-remnants"])
+    working_remnant.name = "vanillaHD-"..name.."-remnants"
+    working_remnant.icons = loader_icons(name)
+    working_remnant.selection_box = {{-0.5, -1}, {0.5, 1}}
+    working_remnant.tile_width = 1
+    working_remnant.tile_height = 2
+
+    -- Setup the sprite sheet
+    working_remnant.animation = {
+        layers = {
+            -- Base
+            {
+                filename = "__vanilla-loaders-hd__/graphics/entity/loader/remnants/loader-remnants-base.png",
+                width = 106,
+                height = 96,
+                direction_count = 8,
+                hr_version = {
+                    filename = "__vanilla-loaders-hd__/graphics/entity/loader/remnants/hr-loader-remnants-base.png",
+                    width = 212,
+                    height = 192,
+                    direction_count = 8,
+                    scale = 0.5,
+                },
+            },
+            -- Mask
+            {
+                filename = "__vanilla-loaders-hd__/graphics/entity/loader/remnants/loader-remnants-base.png",
+                width = 106,
+                height = 96,
+                direction_count = 8,
+                hr_version = {
+                    filename = "__vanilla-loaders-hd__/graphics/entity/loader/remnants/hr-loader-remnants-base.png",
+                    width = 212,
+                    height = 192,
+                    direction_count = 8,
+                    scale = 0.5,
+                },
+            },
+        }
+    }
+
+    -- Extend the remnant
+    data:extend({working_remnant})
+
+    return working_remnant.name
+end
+
+-- Loader setup helper functions
+function vanillaHD.set_item_order(item, belt)
+	if type(item) == "string" then
+		item = data.raw.item[item]
 	end
-end
 
--- Patch existing loader items, or create new ones, with vanilla-style graphics
--- Called by createLoaderItem
-function vanillaHD.patchLoaderItem(name, belt_name)
-	local item = data.raw["item"][name]
-	local base_belt = data.raw["item"][belt_name]
-
-	-- Clear existing presets
-	item.flags = nil
-	item.icon = nil
-
-	-- Main function
-	item.icon_size = 64
-	item.icons  = 
-	{
-		{
-			icon = modDir.."/graphics/icons/loader-icon-base.png"
-		},
-		{
-			icon = modDir.."/graphics/icons/loader-icon-mask.png",
-			tint = vanillaHD.tint_mask[name]
-		}
-	}
-end
-
-function vanillaHD.patchLoaderItemOrder(name, belt_name)
-	local item = data.raw["item"][name]
-	local base_belt = data.raw["item"][belt_name]
-
-	-- Inherit UI grouping and sorting from base_belt item
-	item.subgroup = base_belt.subgroup
-	item.order = string.gsub(string.gsub(item.order,"^[a-z]","d"),"transport%-belt","loader")
-end
-
--- Used to create new loader items
-function vanillaHD.createLoaderItem(name, belt_name)
-	if data.raw["item"][belt_name] then
-		local item = table.deepcopy(data.raw["item"]["loader"])
-		
-		item.name = name
-		item.place_result = name
-		
-		-- Add loader item to main data table
-		data:extend({item})
-		
-		-- Generate item graphics
-		vanillaHD.patchLoaderItem(name, belt_name)
+	if type(belt) == "string" then
+		belt = data.raw.item[belt]
 	end
+
+	item.subgroup = belt.subgroup
+	item.order = string.gsub(string.gsub(belt.order, "^[a-z]", "d"), "transport%-belt", "loader")
 end
 
--- Function to create the default recipes for each of the loaders.
-function vanillaHD.createLoaderRecipe(name, belt_name, previous_tier)
-	if data.raw["item"][belt_name] then
-		local recipe = table.deepcopy(data.raw["recipe"]["express-loader"])
-		recipe.name = name
-		recipe.ingredients = 
-		{
-			{belt_name, 5},
-			{previous_tier, 1}
-		}
-		recipe.result = name
-		data:extend({recipe})
-	end
-end
+local function adjust_item_properties(item, belt)
+	item.icons = loader_icons(item.name)
 
--- Function to add the loaders to the technology tree.
-function vanillaHD.patchLoaderTechnology(technology, recipe)
-	if data.raw["technology"][technology] then
-		table.insert(data.raw["technology"][technology].effects, 
-		{
-			type = "unlock-recipe",
-			recipe = recipe
-		})
-	end
-end
-
--- This function creates particle entities.
-function vanillaHD.createParticles(name)
-	    -- loader-metal-particle-medium
-		local mediumLoaderParticle = table.deepcopy(data.raw["optimized-particle"]["splitter-metal-particle-medium"])
-		mediumLoaderParticle.name = name.."-metal-particle-medium"
-		mediumLoaderParticle.pictures.sheet.tint = vanillaHD.tint_mask[name]
-		mediumLoaderParticle.pictures.sheet.hr_version.tint = vanillaHD.tint_mask[name]
-		data:extend({mediumLoaderParticle})
-	
-		-- loader-metal-particle-big
-		local bigLoaderParticle = table.deepcopy(data.raw["optimized-particle"]["splitter-metal-particle-big"])
-		bigLoaderParticle.name = name.."-metal-particle-big"
-		bigLoaderParticle.pictures.sheet.tint = vanillaHD.tint_mask[name]
-		bigLoaderParticle.pictures.sheet.hr_version.tint = vanillaHD.tint_mask[name]
-		data:extend({bigLoaderParticle})
-end
-
--- This function creates explosion entities.
-function vanillaHD.createExplosions(name, prefix)
-	local explosion = table.deepcopy(data.raw["explosion"]["splitter-explosion"])
-	explosion.name = name.."-explosion"
-	explosion.icon_size = 64
-	explosion.icons  = 
-	{
-		{
-			icon = modDir.."/graphics/icons/loader-icon-base.png"
-		},
-		{
-			icon = modDir.."/graphics/icons/loader-icon-mask.png",
-			tint = vanillaHD.tint_mask[name]
-		}
-	}
-
-	-- Prefix is an optional parameter
-	prefix = prefix or false
-
-	if prefix then
-		-- We want to reuse particles created elsewhere.
-		explosion.created_effect.action_delivery.target_effects[1].particle_name = prefix.."-metal-particle-medium"
-		explosion.created_effect.action_delivery.target_effects[4].particle_name = prefix.."-metal-particle-big"
+	if mods["LoaderRedux"] and settings.startup["vanillaLoaders-reskinLoaderReduxOnly"].value == true then
+		-- Do nothing
 	else
-		-- We made our own, use those.
-		explosion.created_effect.action_delivery.target_effects[1].particle_name = name.."-metal-particle-medium"
-		explosion.created_effect.action_delivery.target_effects[4].particle_name = name.."-metal-particle-big"
+		item.flags = nil
+		vanillaHD.set_item_order(item, belt)
 	end
-	
-	data:extend({explosion})
+end
+
+local function adjust_entity_properties(entity, belt)
+    entity.icons = loader_icons(entity.name)
+    -- entity.corpse = create_loader_remnants(entity.name)
+	entity.dying_explosion = create_loader_explosions_and_particles(entity.name)
+
+	if mods["LoaderRedux"] and settings.startup["vanillaLoaders-reskinLoaderReduxOnly"].value == true then
+		-- Do nothing
+	else
+		entity.belt_animation_set = belt.belt_animation_set
+		entity.speed = belt.speed
+	end
+
+    entity.structure = {
+        back_patch = {
+            sheet = {
+                filename = "__vanilla-loaders-hd__/graphics/entity/loader/loader-structure-back-patch.png",
+                priority = "extra-high",
+                width = 106,
+                height = 96,
+                hr_version = {
+                    filename = "__vanilla-loaders-hd__/graphics/entity/loader/hr-loader-structure-back-patch.png",
+                    priority = "extra-high",
+                    width = 212,
+                    height = 192,
+                    scale = 0.5
+                }
+            }
+        },
+        direction_in = {
+            sheets = {
+                -- Base
+                {
+                    filename = "__vanilla-loaders-hd__/graphics/entity/loader/loader-structure-base.png",
+                    priority = "extra-high",
+                    width = 106,
+                    height = 96,
+                    hr_version = {
+                        filename = "__vanilla-loaders-hd__/graphics/entity/loader/hr-loader-structure-base.png",
+                        priority = "extra-high",
+                        width = 212,
+                        height = 192,
+                        scale = 0.5,
+                    }
+                },
+                -- Mask
+                {
+                    filename = "__vanilla-loaders-hd__/graphics/entity/loader/loader-structure-mask.png",
+                    priority = "extra-high",
+                    width = 106,
+                    height = 96,
+                    tint = vanillaHD.tint_mask[entity.name],
+                    hr_version = {
+                        filename = "__vanilla-loaders-hd__/graphics/entity/loader/hr-loader-structure-mask.png",
+                        priority = "extra-high",
+                        width = 212,
+                        height = 192,
+                        tint = vanillaHD.tint_mask[entity.name],
+                        scale = 0.5,
+                    }
+                },
+                -- Shadow
+                {
+                    filename = "__vanilla-loaders-hd__/graphics/entity/loader/loader-structure-shadow.png",
+                    priority = "extra-high",
+                    width = 106,
+                    height = 96,
+                    draw_as_shadow = true,
+                    hr_version = {
+                        filename = "__vanilla-loaders-hd__/graphics/entity/loader/hr-loader-structure-shadow.png",
+                        priority = "extra-high",
+                        width = 212,
+                        height = 192,
+                        draw_as_shadow = true,
+                        scale = 0.5,
+                    }
+                }
+            }
+        },
+        direction_out = {
+            sheets = {
+                -- Base
+                {
+                    filename = "__vanilla-loaders-hd__/graphics/entity/loader/loader-structure-base.png",
+                    priority = "extra-high",
+                    width = 106,
+                    height = 96,
+                    y = 96,
+                    hr_version = {
+                        filename = "__vanilla-loaders-hd__/graphics/entity/loader/hr-loader-structure-base.png",
+                        priority = "extra-high",
+                        width = 212,
+                        height = 192,
+                        y = 192,
+                        scale = 0.5,
+                    }
+                },
+                -- Mask
+                {
+                    filename = "__vanilla-loaders-hd__/graphics/entity/loader/loader-structure-mask.png",
+                    priority = "extra-high",
+                    width = 106,
+                    height = 96,
+                    y = 96,
+                    tint = vanillaHD.tint_mask[entity.name],
+                    hr_version = {
+                        filename = "__vanilla-loaders-hd__/graphics/entity/loader/hr-loader-structure-mask.png",
+                        priority = "extra-high",
+                        width = 212,
+                        height = 192,
+                        y = 192,
+                        tint = vanillaHD.tint_mask[entity.name],
+                        scale = 0.5,
+                    }
+                },
+                -- Shadow
+                {
+                    filename = "__vanilla-loaders-hd__/graphics/entity/loader/loader-structure-shadow.png",
+                    priority = "extra-high",
+                    width = 106,
+                    height = 96,
+                    y = 96,
+                    draw_as_shadow = true,
+                    hr_version = {
+                        filename = "__vanilla-loaders-hd__/graphics/entity/loader/hr-loader-structure-shadow.png",
+                        priority = "extra-high",
+                        width = 212,
+                        height = 192,
+                        y = 192,
+                        draw_as_shadow = true,
+                        scale = 0.5,
+                    }
+                }
+            }
+        },
+        front_patch = {
+            sheet = {
+                filename = "__vanilla-loaders-hd__/graphics/entity/loader/loader-structure-front-patch.png",
+                priority = "extra-high",
+                width = 106,
+                height = 96,
+                hr_version = {
+                    filename = "__vanilla-loaders-hd__/graphics/entity/loader/hr-loader-structure-front-patch.png",
+                    priority = "extra-high",
+                    width = 212,
+                    height = 192,
+                    scale = 0.5
+                }
+            }
+        }
+    }
+end
+
+-- Setup the loader
+-- name                 prototype name for the loader
+-- source_belt_name     prototype name for the belt the loader will use
+-- parameters
+-- > previous_tier      string; the prototype name of the previous tier of loader, used to set upgrade path of the previous_tier and default recipe (required if no recipe already exists, optional otherwise)
+-- > ingredients        table of Types/IngredientPrototype; used preferrentially in place of previous_tier in recipes (optional)
+-- > technology         string; the prototype name of the technology that unlocks the loader (optional)
+-- > next_tier          string; for upgrade planner, the prototype name of the next tier of loader (optional)
+-- > tint               table of Types/Color; an alpha value of 0.82 is suggested for optimal results (optional)
+function vanillaHD.setup_loader(name, source_belt_name, parameters)
+    -- Fetch the source belt
+    local belt_item = data.raw.item[source_belt_name]
+    local belt_entity = data.raw["transport-belt"][source_belt_name]
+
+    -- Validate the source belt
+    if not belt_item or not belt_entity then
+        vanillaHD.debug_error("the belt "..source_belt_name.." does not exist, loader "..name.." was not created.")
+        return
+    end
+
+    -- Check if a tint was specified, and if so, add it to the tint_mask table
+    if parameters and parameters.tint then vanillaHD.tint_mask[name] = parameters.tint end
+    if not vanillaHD.tint_mask[name] then
+        vanillaHD.debug_log("no tint is defined for loader "..name..", the default tint (black) will be used instead.")
+    end
+
+    -- SETUP LOADER ITEM
+    -- ----------------------------------------------------------------------------------------------------
+    -- Check if the item exists, if so, link to it, otherwise create it
+    local loader_item
+    if data.raw.item[name] then
+        -- Link to the item
+        loader_item = data.raw.item[name]
+
+        -- Adjust properties
+        adjust_item_properties(loader_item, belt_item)
+    else
+        -- Build off the standard loader item
+        loader_item = util.copy(data.raw.item.loader)
+        loader_item.name = name
+        loader_item.place_result = name
+
+        -- Adjust properties
+        adjust_item_properties(loader_item, belt_item)
+
+        -- Extend the item
+        data:extend({loader_item})
+	end
+
+	-- Handle Loader Redux exception
+	if mods["LoaderRedux"] and settings.startup["vanillaLoaders-reskinLoaderReduxOnly"].value == true then
+		-- Do nothing
+	else
+		-- SETUP LOADER RECIPE
+		-- ----------------------------------------------------------------------------------------------------
+		-- Check if the recipe exists, if so, set energy_required, otherwise create it
+		local loader_recipe = data.raw.recipe[name]
+		if loader_recipe and not mods["LoaderRedux"] then
+			loader_recipe.energy_required = 5
+		else
+			-- Validate parameters
+			if parameters and not (parameters.ingredients or parameters.previous_tier) then
+				vanillaHD.debug_error("the recipe for loader "..name.." does not exist, but no ingredient parameters were specified.")
+				return
+			end
+
+			-- Create the loader recipe
+			data:extend({
+				{
+					type = "recipe",
+					name = name,
+					enabled = false,
+					energy_required = 5,
+					ingredients = parameters.ingredients or ({{parameters.previous_tier, 1}, {source_belt_name, 5}}),
+					result = name,
+				}
+			})
+		end
+
+		-- SETUP LOADER TECHNOLOGY UNLOCK
+		-- ----------------------------------------------------------------------------------------------------
+		if parameters and parameters.technology and data.raw.technology[parameters.technology] then
+			table.insert(data.raw.technology[parameters.technology].effects, {
+				type = "unlock-recipe",
+				recipe = name,
+			})
+		else
+			vanillaHD.debug_log("technology parameter was not specified for loader "..name..".")
+		end
+	end
+
+    -- SETUP LOADER ENTITY
+    -- ----------------------------------------------------------------------------------------------------
+    -- Check if the entity exists, if so, link to it, otherwise create it
+    local loader_entity
+    if data.raw.loader[name] then
+        -- Link to the entity
+        loader_entity = data.raw.loader[name]
+
+        -- Adjust properties
+        adjust_entity_properties(loader_entity, belt_entity)
+    else
+        -- Build off the standard loader entity
+        loader_entity = util.copy(data.raw.loader.loader)
+        loader_entity.name = name
+        loader_entity.minable.result = name
+
+        -- Adjust properties
+        adjust_entity_properties(loader_entity, belt_entity)
+
+        -- Extend the entity
+        data:extend({loader_entity})
+	end
+
+	if mods["LoaderRedux"] and settings.startup["vanillaLoaders-reskinLoaderReduxOnly"].value == true then
+		return
+	end
+
+    -- Handle upgrade paths
+    if parameters and parameters.previous_tier then
+        data.raw.loader[parameters.previous_tier].next_upgrade = name
+    else
+        vanillaHD.debug_log("previous_tier parameter was not specified for loader "..name..".")
+    end
+
+    if parameters and parameters.next_tier then
+        data.raw.loader[name].next_upgrade = parameters.next_tier
+    else
+        vanillaHD.debug_log("next_tier parameter was not specified for loader "..name..".")
+    end
+end
+
+-- This function is deprecated; use vanillaHD.setup_loader instead
+function vanillaHD.addLoader(name, color, belt_name, technology, previous_tier, next_tier)
+	vanillaHD.setup_loader(name, belt_name, {
+		previous_tier = previous_tier,
+		next_tier = next_tier,
+		technology = technology,
+		tint = color,
+	})
 end

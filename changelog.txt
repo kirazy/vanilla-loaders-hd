@@ -1,9 +1,10 @@
 ---------------------------------------------------------------------------------------------------
-Version: 1.0.1
+Version: 1.0.0
 Date: 2020.08.XX
   Features:
     - Added localization support for German
   Changes:
+    - Moved mod name and description to locale file for use with Factorio Mod Translations project
     - Moved to 1.0
 ---------------------------------------------------------------------------------------------------
 Version: 0.18.9
@@ -99,7 +100,7 @@ Date: 2019.03.01
   Changes:
     - Removed support for Loader Redux technologies (no longer supported in Loader Redux).
   Bugfixes:
-    - With added support for structure_render_layer (0.17.3), fixed loaders appearing beneath underground belts/splitters.  
+    - With added support for structure_render_layer (0.17.3), fixed loaders appearing beneath underground belts/splitters.
 ---------------------------------------------------------------------------------------------------
 Version: 0.17.1
 Date: 2019.02.26
@@ -209,7 +210,7 @@ Date: 2018.05.21
     - Added Basic Loader (Tier 0) for Bob's Logistics.
     - Added "Recipe overhaul" and "Recipes include inserters" settings. Description above.
   Changes:
-    - Changed lowest tier loader to have at most 4 items, allowing it to be built sooner in assemblers. 
+    - Changed lowest tier loader to have at most 4 items, allowing it to be built sooner in assemblers.
   Bugfixes:
     - Fixed ShinyIcon support.
     - Fixed inventory sorting absent ShinyIcon. Loaders will now be on Bob's Logistics tab when mod is present.

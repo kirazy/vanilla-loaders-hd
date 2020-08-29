@@ -1,20 +1,20 @@
 -- Copyright (c) 2018 Kirazy
 -- Part of Vanilla Loaders HD
---     
+--
 -- See LICENSE.md in the project directory for license information.
 
 -- Check for recipe overhaul, and if true, create base overhaul recipes.
 if settings.startup["vanillaLoaders-recipes-loaderOverhaul"].value == true then
 	-- Check if we're only reskinning Loader Redux.
 	if mods["LoaderRedux"] and settings.startup["vanillaLoaders-reskinLoaderReduxOnly"].value == true then return end
-	
+
 	-- Create the Vanilla Complex base loader recipes
 	data:extend({
 		{	name = "loader",		 -- Loader (Yellow)
 			type = "recipe",
 			enabled = false,
 			energy_required = 5,
-			ingredients = 
+			ingredients =
 			{
 				{"electronic-circuit", 5},
 				{"transport-belt", 	   5},
@@ -26,10 +26,10 @@ if settings.startup["vanillaLoaders-recipes-loaderOverhaul"].value == true then
 			result = "loader",
 		},
 		{	name = "fast-loader",	 -- Fast Loader (Red)
-			type = "recipe",			
+			type = "recipe",
 			enabled = false,
 			energy_required = 5,
-			ingredients = 
+			ingredients =
 			{
 				{"electronic-circuit", 10},
 				{"loader", 				1},
@@ -44,7 +44,7 @@ if settings.startup["vanillaLoaders-recipes-loaderOverhaul"].value == true then
 			category = "crafting-with-fluid",
 			enabled = false,
 			energy_required = 5,
-			ingredients = 
+			ingredients =
 			{
 				{"advanced-circuit", 	  10},
 				{"fast-loader", 		   1},
@@ -56,17 +56,17 @@ if settings.startup["vanillaLoaders-recipes-loaderOverhaul"].value == true then
 			result = "express-loader",
 		}
 	})
-	
+
 	-- Check for presense of Bob's Logistics
 	if mods["boblogistics"] then
 		-- Check to see if we're using Bob's Logistics transport belt overhaul, and if so, create Bob-style loader base recipes.
 		if settings.startup["bobmods-logistics-beltoverhaul"].value == true then
 			data:extend({
 				{	name = "loader",		 -- Loader (Yellow) (Bob Overhaul Base)
-					type = "recipe",					
+					type = "recipe",
 					enabled = false,
 					energy_required = 5,
-					ingredients = 
+					ingredients =
 					{
 						{"electronic-circuit", 5},
 						{"transport-belt", 	   5},
@@ -77,10 +77,10 @@ if settings.startup["vanillaLoaders-recipes-loaderOverhaul"].value == true then
 					result = "loader",
 				},
 				{	name = "fast-loader",	 -- Fast Loader (Red) (Bob Overhaul Base)
-					type = "recipe",					
+					type = "recipe",
 					enabled = false,
 					energy_required = 5,
-					ingredients = 
+					ingredients =
 					{
 						{"electronic-circuit",  5},
 						{"fast-transport-belt", 5},
@@ -91,10 +91,10 @@ if settings.startup["vanillaLoaders-recipes-loaderOverhaul"].value == true then
 					result = "fast-loader",
 				},
 				{	name = "express-loader", -- Express Loader (Blue) (Bob Overhaul Base)
-					type = "recipe",					
+					type = "recipe",
 					enabled = false,
 					energy_required = 5,
-					ingredients = 
+					ingredients =
 					{
 						{"advanced-circuit", 	   5},
 						{"express-transport-belt", 5},
@@ -105,10 +105,10 @@ if settings.startup["vanillaLoaders-recipes-loaderOverhaul"].value == true then
 					result = "express-loader",
 				},
 				{	name = "purple-loader",  -- Turbo Loader (Purple) (Bob Overhaul Base)
-					type = "recipe",					
+					type = "recipe",
 					enabled = false,
 					energy_required = 5,
-					ingredients = 
+					ingredients =
 					{
 						{"processing-unit", 	 5},
 						{"turbo-transport-belt", 5},
@@ -119,10 +119,10 @@ if settings.startup["vanillaLoaders-recipes-loaderOverhaul"].value == true then
 					result = "purple-loader",
 				},
 				{	name = "green-loader",	 -- Ultimate Loader (Green) (Bob Overhaul Base)
-					type = "recipe",					
+					type = "recipe",
 					enabled = false,
 					energy_required = 5,
-					ingredients = 
+					ingredients =
 					{
 						{"processing-unit", 		5},
 						{"ultimate-transport-belt", 5},
@@ -132,7 +132,7 @@ if settings.startup["vanillaLoaders-recipes-loaderOverhaul"].value == true then
 					result_count = 1,
 					result = "green-loader",
 				},
-			})			
+			})
 
 			-- Check if we want inserters.
 			if settings.startup["vanillaLoaders-recipes-includeInserters"].value == true then
@@ -161,33 +161,33 @@ if settings.startup["vanillaLoaders-recipes-loaderOverhaul"].value == true then
 				bobmods.lib.recipe.add_ingredient("loader",         {"basic-loader",     1})
 				bobmods.lib.recipe.add_ingredient("loader",         {"iron-gear-wheel", 10})
 				bobmods.lib.recipe.add_ingredient("loader",         {"iron-plate",   	 4})
-				
+
 				bobmods.lib.recipe.add_ingredient("fast-loader",    {"loader", 		   	 1})
 				bobmods.lib.recipe.add_ingredient("fast-loader",    {"iron-gear-wheel", 10})
 				bobmods.lib.recipe.add_ingredient("fast-loader",    {"steel-plate",		 4})
-				
+
 				bobmods.lib.recipe.add_ingredient("express-loader", {"fast-loader",      1})
 				bobmods.lib.recipe.add_ingredient("express-loader", {"iron-gear-wheel", 10})
 				bobmods.lib.recipe.add_ingredient("express-loader", {"steel-plate",      4})
-				
+
 				bobmods.lib.recipe.add_ingredient("purple-loader",  {"express-loader",   1})
 				bobmods.lib.recipe.add_ingredient("purple-loader",  {"iron-gear-wheel", 10})
 				bobmods.lib.recipe.add_ingredient("purple-loader",  {"steel-plate",      4})
-				
+
 				bobmods.lib.recipe.add_ingredient("green-loader",   {"purple-loader",    1})
 				bobmods.lib.recipe.add_ingredient("green-loader",   {"iron-gear-wheel", 10})
 				bobmods.lib.recipe.add_ingredient("green-loader",   {"steel-plate",      4})
-			end			
-			
-		else 
+			end
+
+		else
 		-- Create the Vanilla Complex modded loader recipies
 		data:extend({
 			{	name = "purple-loader",	-- Turbo Loader (Purple)
 				type = "recipe",
-				category = "crafting-with-fluid",				
+				category = "crafting-with-fluid",
 				enabled = false,
 				energy_required = 5,
-				ingredients = 
+				ingredients =
 				{
 					{"processing-unit", 	10},
 					{"express-loader",   	 1},
@@ -200,10 +200,10 @@ if settings.startup["vanillaLoaders-recipes-loaderOverhaul"].value == true then
 			},
 			{	name = "green-loader",  -- Ultimate Loader (Green)
 				type = "recipe",
-				category = "crafting-with-fluid",				
+				category = "crafting-with-fluid",
 				enabled = false,
 				energy_required = 5,
-				ingredients = 
+				ingredients =
 				{
 					{"processing-unit", 	   10},
 					{"purple-loader", 		    1},
@@ -215,6 +215,6 @@ if settings.startup["vanillaLoaders-recipes-loaderOverhaul"].value == true then
 				result = "green-loader",
 			}
 		})
-		end	
+		end
 	end
 end
