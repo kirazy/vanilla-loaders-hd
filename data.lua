@@ -82,5 +82,5 @@ for _, name in pairs(sorted_loaders) do
 end
 
 -- Process recipe updates
-require("prototypes.recipe.recipe-belt-overhaul")
 require("prototypes.recipe.recipe-complex-overhaul")
+require("prototypes.recipe.recipe-belt-overhaul")
