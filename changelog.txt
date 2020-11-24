@@ -1,11 +1,13 @@
 ---------------------------------------------------------------------------------------------------
-Version: 1.0.0
-Date: 2020.08.XX
+Version: 1.1.0
+Date: 2020.11.24
   Features:
-    - Added localization support for German
+    - Added localization support for Czech, French, German, Italian, and Polish
+    - Renamed from Vanilla Loaders HD to Vanilla Loaders
   Changes:
     - Moved mod name and description to locale file for use with Factorio Mod Translations project
-    - Moved to 1.0
+    - Reworked internals
+    - Moved to 1.1
 ---------------------------------------------------------------------------------------------------
 Version: 0.18.9
 Date: 2020.07.06

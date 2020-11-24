@@ -45,7 +45,7 @@ if mods["boblogistics-belt-reskin"] then
 end
 
 -- Debug functions
-local debug = true
+local debug = false
 function vanillaHD.debug_error(string)
 	if not debug then return end
 	error("Vanilla Loaders HD: "..string)
@@ -183,7 +183,8 @@ local function adjust_entity_properties(entity, belt)
 
 	if mods["LoaderRedux"] and settings.startup["vanillaLoaders-reskinLoaderReduxOnly"].value == true then
 		-- Do nothing
-	else
+    else
+        entity.structure_render_layer = "object"
 		entity.belt_animation_set = belt.belt_animation_set
 		entity.speed = belt.speed
 	end
