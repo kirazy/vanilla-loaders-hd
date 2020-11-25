@@ -459,6 +459,16 @@ function vanillaHD.setup_loader(name, source_belt_name, parameters)
     else
         vanillaHD.debug_log("next_tier parameter was not specified for loader "..name..".")
     end
+
+    -- SETUP LOADER TECHNOLOGIES
+    -- ----------------------------------------------------------------------------------------------------
+    local loader_technology = data.raw.technology["parameters.technology"]
+    if loader_technology then
+        table.insert(loader_technology.effects, {
+            type = "unlock-recipe",
+            recipe = name,
+        })
+    end
 end
 
 -- This function is deprecated; use vanillaHD.setup_loader instead

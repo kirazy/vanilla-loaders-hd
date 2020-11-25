@@ -16,9 +16,9 @@ require("prototypes.functions")
 
 -- Setup the standard set of loaders
 local loaders = {
-    ["loader"] = {source_belt = "transport-belt"},
-    ["fast-loader"] = {source_belt = "fast-transport-belt"},
-    ["express-loader"] = {source_belt = "express-transport-belt"},
+    ["loader"] = {source_belt = "transport-belt", parameters = {technology = "logistics"}},
+    ["fast-loader"] = {source_belt = "fast-transport-belt", parameters = {previous_tier = "loader", technology = "logistics-2"}},
+    ["express-loader"] = {source_belt = "express-transport-belt", parameters = {previous_tier = "fast-loader", technology = "logistics-3"}},
 }
 
 -- Handle Bob's Logistics
@@ -34,7 +34,7 @@ if mods["boblogistics"] then
         }
 
         loaders["basic-loader"] = {source_belt = "basic-transport-belt", parameters = {ingredients = basic_loader_ingredients, technology = "logistics-0"}}
-        loaders["loader"].parameters= {previous_tier = "basic-loader"}
+        loaders["loader"].parameters.previous_tier = "basic-loader"
     end
 
     -- Setup the turbo and ultimate loaders
@@ -47,6 +47,9 @@ if mods["LoaderRedux"] then
     if settings.startup["vanillaLoaders-reskinLoaderReduxOnly"].value == true then
         -- Prepare loaders for reskinning only
         if loaders["basic-loader"] then loaders["basic-loader"] = nil end -- LR doesn't support the basic loader
+        loaders["loader"].parameters = nil
+        loaders["fast-loader"].parameters = nil
+        loaders["express-loader"].parameters = nil
         if loaders["purple-loader"] then loaders["purple-loader"].parameters = nil end
         if loaders["green-loader"] then loaders["green-loader"].parameters = nil end
     else
@@ -60,8 +63,6 @@ if mods["LoaderRedux"] then
                 {"iron-plate", 5}
             }}
         end
-        loaders["fast-loader"].parameters = {previous_tier = "loader"}
-        loaders["express-loader"].parameters = {previous_tier = "fast-loader"}
     end
 end
 
