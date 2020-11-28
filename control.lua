@@ -1,21 +1,13 @@
 -- Copyright (c) 2017 Thaui
 -- Copyright (c) 2018 Kirazy
 -- Part of Vanilla Loaders HD
---     
+--
 -- See LICENSE.md in the project directory for license information.
 
--- ##################################################################################
--- Check for LoaderRedux, add basic-loader to the snapping whitelist
-script.on_load(function()
-	if remote.interfaces["loader-redux"] then
-		remote.call("loader-redux", "add_loader", "basic-loader")
-	end
-end)
--- ##################################################################################
+-- ########## CONTROL ##########
 
 -- Filter Settings
-script.on_event(defines.events.on_entity_settings_pasted, function(event)
-	if game.active_mods["LoaderRedux"] then return end
+local function do_entity_settings_pasted(event)
 	local source = event.source
 	local dest = event.destination
 	local filter = {}
@@ -33,7 +25,7 @@ script.on_event(defines.events.on_entity_settings_pasted, function(event)
 			end
 		end
 	end
-end)
+end
 
 --clean_loaders
 function clean_loaders()
@@ -84,16 +76,14 @@ function find_loader(w,ent)
 end
 
 --train state
-script.on_event(defines.events.on_train_changed_state, function(event)
-	if game.active_mods["LoaderRedux"] then return end -- Check for LoaderRedux, defer to LoaderRedux if true.
+local function do_train_changed_state(event)
 	for i,w in pairs(event.train.carriages) do
 		find_loader(w)
 	end
-end)
+end
 
 --built
-script.on_event(defines.events.on_built_entity, function(event)
-	if game.active_mods["LoaderRedux"] then return end -- Check for LoaderRedux, defer to LoaderRedux if true.
+local function do_built_entity(event)
 	local ent=event.created_entity
 	if ent.type=="loader" then
 		local w=ent.surface.find_entities_filtered{type="cargo-wagon",area={{ent.position.x-2,ent.position.y-2},{ent.position.x+2,ent.position.y+2}}}
@@ -109,12 +99,10 @@ script.on_event(defines.events.on_built_entity, function(event)
 	elseif ent.type=="locomotive" then
 		find_loader(ent)
 	end
-end)
+end
 
 --on tick
-script.on_event(defines.events.on_tick, function(event)
-	if game.active_mods["LoaderRedux"] then return end -- Check for LoaderRedux, defer to LoaderRedux if true.
-	
+local function do_tick(event)
 	if global.loaders==nil then
 	--first load
 		global.loaders={}
@@ -133,7 +121,7 @@ script.on_event(defines.events.on_tick, function(event)
 			loader_work(t[1],t[2].get_inventory(defines.inventory.cargo_wagon),t[3])
 		end
 	end
-end)
+end
 
 function loader_active(ent,direction)
 	if ent.loader_type=="output" and ent.direction==direction then
@@ -225,3 +213,31 @@ function loader_work(ent,w,direction)
 		end
 	end
 end
+
+-- ########## INIT ##########
+
+local function do_init()
+	if remote.interfaces["loader-redux"] then
+		-- add basic-loader to the snapping whitelist
+		remote.call("loader-redux", "add_loader", "basic-loader")
+		-- LoaderRedux will handle control functionality
+		script.on_event(defines.events.on_entity_settings_pasted, nil)
+		script.on_event(defines.events.on_train_changed_state, nil)
+		script.on_event(defines.events.on_built_entity, nil)
+		script.on_event(defines.events.on_tick, nil)
+	else
+		-- register control functions
+		script.on_event(defines.events.on_entity_settings_pasted, do_entity_settings_pasted)
+		script.on_event(defines.events.on_train_changed_state, do_train_changed_state)
+		script.on_event(defines.events.on_built_entity, do_built_entity)
+		script.on_event(defines.events.on_tick, do_tick)
+	end
+end
+
+script.on_load(function()
+	do_init()
+end)
+
+script.on_init(function()
+	do_init()
+end)
