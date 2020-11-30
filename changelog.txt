@@ -1,4 +1,9 @@
 ---------------------------------------------------------------------------------------------------
+Version: 1.1.3
+Date: 2020.11.30
+  Bugfixes:
+    - Fixed that loaders were not registering adjacent cargo wagons when built by construction robots
+---------------------------------------------------------------------------------------------------
 Version: 1.1.2
 Date: 2020.11.28
   Changes:

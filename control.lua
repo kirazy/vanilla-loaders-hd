@@ -224,12 +224,14 @@ local function do_init()
 		script.on_event(defines.events.on_entity_settings_pasted, nil)
 		script.on_event(defines.events.on_train_changed_state, nil)
 		script.on_event(defines.events.on_built_entity, nil)
+		script.on_event(defines.events.on_robot_built_entity, nil)
 		script.on_event(defines.events.on_tick, nil)
 	else
 		-- register control functions
 		script.on_event(defines.events.on_entity_settings_pasted, do_entity_settings_pasted)
 		script.on_event(defines.events.on_train_changed_state, do_train_changed_state)
 		script.on_event(defines.events.on_built_entity, do_built_entity)
+		script.on_event(defines.events.on_robot_built_entity, do_built_entity)
 		script.on_event(defines.events.on_tick, do_tick)
 	end
 end
