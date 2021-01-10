@@ -1,4 +1,9 @@
 ---------------------------------------------------------------------------------------------------
+Version: 1.1.4
+Date: 2021.01.09
+  Bugfixes:
+    - Fixed a control-related crash when pasting settings between logistic chests while AAI Containers & Warehouses mod was present
+---------------------------------------------------------------------------------------------------
 Version: 1.1.3
 Date: 2020.11.30
   Bugfixes:

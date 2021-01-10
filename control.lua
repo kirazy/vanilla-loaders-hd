@@ -5,28 +5,6 @@
 -- See LICENSE.md in the project directory for license information.
 
 -- ########## CONTROL ##########
-
--- Filter Settings
-local function do_entity_settings_pasted(event)
-	local source = event.source
-	local dest = event.destination
-	local filter = {}
-	if source and source.filter_slot_count>0 then
-		filter = loader_filter(source)
-	end
-	if dest and dest.filter_slot_count>0 then
-		if filter then
-			for i=1, dest.filter_slot_count do
-				dest.set_filter(i,filter[i])
-			end
-		else
-			for i=1, dest.filter_slot_count do
-				dest.set_filter(i,nil)
-			end
-		end
-	end
-end
-
 --clean_loaders
 function clean_loaders()
 	for i,t in pairs(global.loaders) do
@@ -221,14 +199,12 @@ local function do_init()
 		-- add basic-loader to the snapping whitelist
 		remote.call("loader-redux", "add_loader", "basic-loader")
 		-- LoaderRedux will handle control functionality
-		script.on_event(defines.events.on_entity_settings_pasted, nil)
 		script.on_event(defines.events.on_train_changed_state, nil)
 		script.on_event(defines.events.on_built_entity, nil)
 		script.on_event(defines.events.on_robot_built_entity, nil)
 		script.on_event(defines.events.on_tick, nil)
 	else
 		-- register control functions
-		script.on_event(defines.events.on_entity_settings_pasted, do_entity_settings_pasted)
 		script.on_event(defines.events.on_train_changed_state, do_train_changed_state)
 		script.on_event(defines.events.on_built_entity, do_built_entity)
 		script.on_event(defines.events.on_robot_built_entity, do_built_entity)
