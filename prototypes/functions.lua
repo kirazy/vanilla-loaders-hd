@@ -387,7 +387,8 @@ function vanillaHD.setup_loader(name, source_belt_name, parameters)
 		-- Check if the recipe exists, if so, set energy_required, otherwise create it
 		local loader_recipe = data.raw.recipe[name]
 		if loader_recipe and not mods["LoaderRedux"] then
-			loader_recipe.energy_required = 5
+            loader_recipe.energy_required = 5
+            loader_recipe.hidden = nil
 		else
 			-- Validate parameters
 			if parameters and not (parameters.ingredients or parameters.previous_tier) then

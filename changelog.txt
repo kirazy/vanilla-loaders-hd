@@ -1,4 +1,9 @@
 ---------------------------------------------------------------------------------------------------
+Version: 1.1.5
+Date: 2021.02.04
+  Bugfixes:
+    - Fixed that recipes were hidden from the crafting grid when not using the recipe overhaul
+---------------------------------------------------------------------------------------------------
 Version: 1.1.4
 Date: 2021.01.09
   Bugfixes:
