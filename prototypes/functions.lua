@@ -10,12 +10,12 @@ if not vanillaHD then vanillaHD = {} end
 -- Loader tints
 vanillaHD.tint_mask = {
 	-- Bob's Logistics
-	["basic-loader"] = util.color("7d7d7dd9"),
-	["loader"] = util.color("ffc340d9"),
-	["fast-loader"] = util.color("e31717d9"),
-	["express-loader"] = util.color("43c0fad9"),
-	["purple-loader"] = util.color("a510e5d9"),
-	["green-loader"] = util.color("16f263d9"),
+	["basic-loader"] = util.color("7d7d7dd1"),
+	["loader"] = util.color("ffc340d1"),
+	["fast-loader"] = util.color("e31717d1"),
+	["express-loader"] = util.color("43c0fad1"),
+	["purple-loader"] = util.color("a510e5d1"),
+	["green-loader"] = util.color("16f263d1"),
 }
 
 if mods["UltimateBelts_Owoshima_And_Pankeko-Mod"] then
@@ -41,7 +41,7 @@ end
 
 -- Match the tint used in Bob's Logistics Belt Reskin
 if mods["boblogistics-belt-reskin"] then
-	vanillaHD.tint_mask["purple-loader"] = util.color("df1ee5d9")
+	vanillaHD.tint_mask["purple-loader"] = util.color("df1ee5d1")
 end
 
 -- Debug functions
