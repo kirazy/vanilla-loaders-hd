@@ -1,5 +1,11 @@
 ---------------------------------------------------------------------------------------------------
 Version: 1.1.5
+Date: 2021.02.26
+  Changes:
+    - Adjust tint alpha values to use 85% instead of 82%, as was originally intended
+    - Images are now losslessly compressed, instead of lossy; there is a modest increase in filesize
+---------------------------------------------------------------------------------------------------
+Version: 1.1.5
 Date: 2021.02.04
   Bugfixes:
     - Fixed that recipes were hidden from the crafting grid when not using the recipe overhaul
