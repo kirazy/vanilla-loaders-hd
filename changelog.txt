@@ -5,7 +5,7 @@ Date: 2021.03.28
     - Added support for Ultimate Belts by Tyarns; note: throughput of the Ultimate loader is constrainted to 240 items/s if you attach a circuit to the belt immediately in front of the loader, otherwise the full 270 items/s is available
 ---------------------------------------------------------------------------------------------------
 Version: 1.1.6
-Date: 2021.02.26
+Date: 2021-03-28
   Changes:
     - Adjust tint alpha values to use 85% instead of 82%, as was originally intended
     - Images are now losslessly compressed, instead of lossy; there is a modest increase in filesize
