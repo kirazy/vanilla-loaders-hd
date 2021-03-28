@@ -20,18 +20,18 @@ vanillaHD.tint_mask = {
 
 if mods["UltimateBelts_Owoshima_And_Pankeko-Mod"] then
 	-- Pankeko Ultimate Belts
-	vanillaHD.tint_mask["ultra-fast"] = util.color("2bc24bDB")
-	vanillaHD.tint_mask["extreme-fast"] = util.color("c4632fDB")
-	vanillaHD.tint_mask["ultra-express"] = util.color("6f2de0D1")
-	vanillaHD.tint_mask["extreme-express"] = util.color("3d3af0DB")
-	vanillaHD.tint_mask["ultimate"] = util.color("999999D1")
+	vanillaHD.tint_mask["ub-ultra-fast-loader"] = util.color("2bc24bDB")
+	vanillaHD.tint_mask["ub-extreme-fast-loader"] = util.color("c4632fDB")
+	vanillaHD.tint_mask["ub-ultra-express-loader"] = util.color("6f2de0D1")
+	vanillaHD.tint_mask["ub-extreme-express-loader"] = util.color("3d3af0DB")
+	vanillaHD.tint_mask["ub-ultimate-loader"] = util.color("999999D1")
 else
 	-- Ultimate Belts
-	vanillaHD.tint_mask["ultra-fast"] = util.color("00b30cFF")
-	vanillaHD.tint_mask["extreme-fast"] = util.color("e00000FF")
-	vanillaHD.tint_mask["ultra-express"] = util.color("3604b5E8")
-	vanillaHD.tint_mask["extreme-express"] = util.color("002bffFF")
-	vanillaHD.tint_mask["ultimate"] = util.color("00ffddD1")
+	vanillaHD.tint_mask["ub-ultra-fast-loader"] = util.color("00b30cFF")
+	vanillaHD.tint_mask["ub-extreme-fast-loader"] = util.color("e00000FF")
+	vanillaHD.tint_mask["ub-ultra-express-loader"] = util.color("3604b5E8")
+	vanillaHD.tint_mask["ub-extreme-express-loader"] = util.color("002bffFF")
+	vanillaHD.tint_mask["ub-ultimate-loader"] = util.color("00ffddD1")
 end
 
 -- Match the tint used in Bob's Logistics Belt Reskin / Bob's Logistics Basic Belt Reskin.
@@ -63,20 +63,20 @@ local particle_list = {
 }
 
 -- Returns `icons` table when called
-local function loader_icons(name)
+local function loader_icons(name, base_tint)
     return
     {
-        { icon = "__vanilla-loaders-hd__/graphics/icons/loader-icon-base.png", icon_size = 64, icon_mipmaps = 4 },
+        { icon = "__vanilla-loaders-hd__/graphics/icons/loader-icon-base.png", icon_size = 64, icon_mipmaps = 4, tint = base_tint},
         { icon = "__vanilla-loaders-hd__/graphics/icons/loader-icon-mask.png", icon_size = 64, icon_mipmaps = 4, tint = vanillaHD.tint_mask[name] }
     }
 end
 
 -- Creates explosions and particles, returns the prototype name of the explosion
-local function create_loader_explosions_and_particles(name)
+local function create_loader_explosions_and_particles(name, base_tint)
     -- Make the explosion, building off of the standard splitter
     local working_explosion = util.copy(data.raw.explosion["splitter-explosion"])
     working_explosion.name = "vanillaHD-"..name.."-explosion"
-    working_explosion.icons = loader_icons(name)
+    working_explosion.icons = loader_icons(name, base_tint)
 
     -- Make the particles
     for particle, key in pairs(particle_list) do
@@ -102,11 +102,11 @@ local function create_loader_explosions_and_particles(name)
 end
 
 -- Create remnants, returns the prototype name of the remnant
-local function create_loader_remnants(name)
+local function create_loader_remnants(name, base_tint)
     -- Make the remnant, building off the standard underground belt
     local working_remnant = util.copy(data.raw.corpse["underground-belt-remnants"])
     working_remnant.name = "vanillaHD-"..name.."-remnants"
-    working_remnant.icons = loader_icons(name)
+    working_remnant.icons = loader_icons(name, base_tint)
     working_remnant.selection_box = {{-0.5, -1}, {0.5, 1}}
     working_remnant.tile_width = 1
     working_remnant.tile_height = 2
@@ -165,8 +165,8 @@ function vanillaHD.set_item_order(item, belt)
 	item.order = string.gsub(string.gsub(belt.order, "^[a-z]", "d"), "transport%-belt", "loader")
 end
 
-local function adjust_item_properties(item, belt)
-	item.icons = loader_icons(item.name)
+local function adjust_item_properties(item, belt, base_tint)
+	item.icons = loader_icons(item.name, base_tint)
 
 	if mods["LoaderRedux"] and settings.startup["vanillaLoaders-reskinLoaderReduxOnly"].value == true then
 		-- Do nothing
@@ -176,8 +176,8 @@ local function adjust_item_properties(item, belt)
 	end
 end
 
-local function adjust_entity_properties(entity, belt)
-    entity.icons = loader_icons(entity.name)
+local function adjust_entity_properties(entity, belt, base_tint)
+    entity.icons = loader_icons(entity.name, base_tint)
     -- entity.corpse = create_loader_remnants(entity.name)
 	entity.dying_explosion = create_loader_explosions_and_particles(entity.name)
 
@@ -196,11 +196,13 @@ local function adjust_entity_properties(entity, belt)
                 priority = "extra-high",
                 width = 106,
                 height = 96,
+                tint = base_tint,
                 hr_version = {
                     filename = "__vanilla-loaders-hd__/graphics/entity/loader/hr-loader-structure-back-patch.png",
                     priority = "extra-high",
                     width = 212,
                     height = 192,
+                    tint = base_tint,
                     scale = 0.5
                 }
             }
@@ -213,11 +215,13 @@ local function adjust_entity_properties(entity, belt)
                     priority = "extra-high",
                     width = 106,
                     height = 96,
+                    tint = base_tint,
                     hr_version = {
                         filename = "__vanilla-loaders-hd__/graphics/entity/loader/hr-loader-structure-base.png",
                         priority = "extra-high",
                         width = 212,
                         height = 192,
+                        tint = base_tint,
                         scale = 0.5,
                     }
                 },
@@ -264,12 +268,14 @@ local function adjust_entity_properties(entity, belt)
                     width = 106,
                     height = 96,
                     y = 96,
+                    tint = base_tint,
                     hr_version = {
                         filename = "__vanilla-loaders-hd__/graphics/entity/loader/hr-loader-structure-base.png",
                         priority = "extra-high",
                         width = 212,
                         height = 192,
                         y = 192,
+                        tint = base_tint,
                         scale = 0.5,
                     }
                 },
@@ -317,11 +323,13 @@ local function adjust_entity_properties(entity, belt)
                 priority = "extra-high",
                 width = 106,
                 height = 96,
+                tint = base_tint,
                 hr_version = {
                     filename = "__vanilla-loaders-hd__/graphics/entity/loader/hr-loader-structure-front-patch.png",
                     priority = "extra-high",
                     width = 212,
                     height = 192,
+                    tint = base_tint,
                     scale = 0.5
                 }
             }
@@ -339,6 +347,8 @@ end
 -- > next_tier          string; for upgrade planner, the prototype name of the next tier of loader (optional)
 -- > tint               table of Types/Color; an alpha value of 0.82 is suggested for optimal results (optional)
 function vanillaHD.setup_loader(name, source_belt_name, parameters)
+    if not parameters then parameters = {} end
+
     -- Fetch the source belt
     local belt_item = data.raw.item[source_belt_name]
     local belt_entity = data.raw["transport-belt"][source_belt_name]
@@ -364,7 +374,7 @@ function vanillaHD.setup_loader(name, source_belt_name, parameters)
         loader_item = data.raw.item[name]
 
         -- Adjust properties
-        adjust_item_properties(loader_item, belt_item)
+        adjust_item_properties(loader_item, belt_item, parameters.base_tint)
     else
         -- Build off the standard loader item
         loader_item = util.copy(data.raw.item.loader)
@@ -372,7 +382,7 @@ function vanillaHD.setup_loader(name, source_belt_name, parameters)
         loader_item.place_result = name
 
         -- Adjust properties
-        adjust_item_properties(loader_item, belt_item)
+        adjust_item_properties(loader_item, belt_item, parameters.base_tint)
 
         -- Extend the item
         data:extend({loader_item})
@@ -430,7 +440,7 @@ function vanillaHD.setup_loader(name, source_belt_name, parameters)
         loader_entity = data.raw.loader[name]
 
         -- Adjust properties
-        adjust_entity_properties(loader_entity, belt_entity)
+        adjust_entity_properties(loader_entity, belt_entity, parameters.base_tint)
     else
         -- Build off the standard loader entity
         loader_entity = util.copy(data.raw.loader.loader)
@@ -438,7 +448,7 @@ function vanillaHD.setup_loader(name, source_belt_name, parameters)
         loader_entity.minable.result = name
 
         -- Adjust properties
-        adjust_entity_properties(loader_entity, belt_entity)
+        adjust_entity_properties(loader_entity, belt_entity, parameters.base_tint)
 
         -- Extend the entity
         data:extend({loader_entity})
@@ -449,13 +459,13 @@ function vanillaHD.setup_loader(name, source_belt_name, parameters)
 	end
 
     -- Handle upgrade paths
-    if parameters and parameters.previous_tier then
+    if parameters.previous_tier then
         data.raw.loader[parameters.previous_tier].next_upgrade = name
     else
         vanillaHD.debug_log("previous_tier parameter was not specified for loader "..name..".")
     end
 
-    if parameters and parameters.next_tier then
+    if parameters.next_tier then
         data.raw.loader[name].next_upgrade = parameters.next_tier
     else
         vanillaHD.debug_log("next_tier parameter was not specified for loader "..name..".")

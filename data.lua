@@ -4,15 +4,6 @@
 -- See LICENSE.md in the project directory for license information.
 
 require("prototypes.functions")
--- require("prototypes.item.loader-item")
--- require("prototypes.recipe.loader-recipe")
--- require("prototypes.recipe.loader-recipe-belt-overhaul")
--- require("prototypes.recipe.loader-recipe-update")
--- require("prototypes.entity.loader-particles")
--- require("prototypes.entity.loader-explosions")
--- require("prototypes.entity.loader-remnants")
--- require("prototypes.entity.loader-entity")
--- require("prototypes.technology.loader-technology")
 
 -- Setup the standard set of loaders
 local loaders = {
@@ -53,7 +44,7 @@ if mods["LoaderRedux"] then
         if loaders["purple-loader"] then loaders["purple-loader"].parameters = nil end
         if loaders["green-loader"] then loaders["green-loader"].parameters = nil end
     else
-        -- Restore the loader recipes to their basic state
+        -- Restore the loader recipe to their basic state
         if not loaders["basic-loader"] then
             loaders["loader"].parameters = {ingredients = {
                 {"electronic-circuit", 5},
@@ -66,6 +57,15 @@ if mods["LoaderRedux"] then
     end
 end
 
+-- Ultimate belts
+if mods["UltimateBelts"] then
+    loaders["ub-ultra-fast-loader"] = {source_belt = "ultra-fast-belt", parameters = {technology = "ultra-fast-logistics", previous_tier = "express-loader", base_tint = util.color("404040")}}
+    loaders["ub-extreme-fast-loader"] = {source_belt = "extreme-fast-belt", parameters = {technology = "extreme-fast-logistics", previous_tier = "ub-ultra-fast-loader", base_tint = util.color("404040")}}
+    loaders["ub-ultra-express-loader"] = {source_belt = "ultra-express-belt", parameters = {technology = "ultra-express-logistics", previous_tier = "ub-extreme-fast-loader", base_tint = util.color("404040")}}
+    loaders["ub-extreme-express-loader"] = {source_belt = "extreme-express-belt", parameters = {technology = "extreme-express-logistics", previous_tier = "ub-ultra-express-loader", base_tint = util.color("404040")}}
+    loaders["ub-ultimate-loader"] = {source_belt = "ultimate-belt", parameters = {technology = "ultimate-logistics", previous_tier = "ub-extreme-express-loader", base_tint = util.color("404040")}}
+end
+
 -- Required execution order
 local sorted_loaders = {
     "basic-loader",
@@ -74,6 +74,11 @@ local sorted_loaders = {
     "express-loader",
     "purple-loader",
     "green-loader",
+    "ub-ultra-fast-loader",
+    "ub-extreme-fast-loader",
+    "ub-ultra-express-loader",
+    "ub-extreme-express-loader",
+    "ub-ultimate-loader",
 }
 
 for _, name in pairs(sorted_loaders) do

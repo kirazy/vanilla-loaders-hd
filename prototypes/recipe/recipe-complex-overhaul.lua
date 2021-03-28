@@ -207,7 +207,84 @@ if settings.startup["vanillaLoaders-recipes-loaderOverhaul"].value == true then
 		})
 		end
 	end
+
+    if mods["UltimateBelts"] then
+        data:extend({
+            {
+                name = "ub-ultra-fast-loader",
+                type = "recipe",
+                enabled = false,
+                energy_required = 5,
+                ingredients = {
+                    {type = "item", name = "iron-gear-wheel", amount = 15},
+                    {type = "item", name = "advanced-circuit", amount = 10},
+                    {type = "item", name = "express-loader", amount = 2},
+                },
+                result_count = 1,
+                result = "ub-ultra-fast-loader",
+            },
+            {
+                name = "ub-extreme-fast-loader",
+                type = "recipe",
+                enabled = false,
+                energy_required = 5,
+                ingredients = {
+                    {type = "item", name = "iron-gear-wheel", amount = 15},
+                    {type = "item", name = "processing-unit", amount = 5},
+                    {type = "item", name = "express-loader", amount = 1},
+                    {type = "item", name = "ub-ultra-fast-loader", amount = 1},
+                },
+                result_count = 1,
+                result = "ub-extreme-fast-loader",
+            },
+            {
+                name = "ub-ultra-express-loader",
+                type = "recipe",
+                enabled = false,
+                energy_required = 5,
+                ingredients = {
+                    {type = "item", name = "iron-gear-wheel", amount = 15},
+                    {type = "item", name = "processing-unit", amount = 5},
+                    {type = "item", name = "express-loader", amount = 1},
+                    {type = "item", name = "ub-extreme-fast-loader", amount = 1},
+                    {type = "item", name = "speed-module", amount = 1},
+                },
+                result_count = 1,
+                result = "ub-ultra-express-loader",
+            },
+            {
+                name = "ub-extreme-express-loader",
+                type = "recipe",
+                enabled = false,
+                energy_required = 5,
+                ingredients = {
+                    {type = "item", name = "iron-gear-wheel", amount = 15},
+                    {type = "item", name = "processing-unit", amount = 5},
+                    {type = "item", name = "express-loader", amount = 1},
+                    {type = "item", name = "ub-ultra-express-loader", amount = 1},
+                    {type = "item", name = "speed-module-2", amount = 1},
+                },
+                result_count = 1,
+                result = "ub-extreme-express-loader",
+            },
+            {
+                name = "ub-ultimate-loader",
+                type = "recipe",
+                enabled = false,
+                energy_required = 5,
+                ingredients = {
+                    {type = "item", name = "iron-gear-wheel", amount = 15},
+                    {type = "item", name = "processing-unit", amount = 5},
+                    {type = "item", name = "express-loader", amount = 1},
+                    {type = "item", name = "ub-extreme-express-loader", amount = 1},
+                    {type = "item", name = "speed-module-3", amount = 1},
+                },
+                result_count = 1,
+                result = "ub-ultimate-loader",
+            },
+        })
+    end
 else
 	-- Unhide the loader recipes
-	
+
 end

@@ -198,6 +198,12 @@ local function do_init()
 	if remote.interfaces["loader-redux"] then
 		-- add basic-loader to the snapping whitelist
 		remote.call("loader-redux", "add_loader", "basic-loader")
+		remote.call("loader-redux", "add_loader", "ub-ultra-fast-loader")
+		remote.call("loader-redux", "add_loader", "ub-extreme-fast-loader")
+		remote.call("loader-redux", "add_loader", "ub-ultra-express-loader")
+		remote.call("loader-redux", "add_loader", "ub-extreme-express-loader")
+		remote.call("loader-redux", "add_loader", "ub-ultimate-loader")
+
 		-- LoaderRedux will handle control functionality
 		script.on_event(defines.events.on_train_changed_state, nil)
 		script.on_event(defines.events.on_built_entity, nil)

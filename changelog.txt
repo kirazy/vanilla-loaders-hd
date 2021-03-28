@@ -1,4 +1,9 @@
 ---------------------------------------------------------------------------------------------------
+Version: 1.1.7
+Date: 2021.03.28
+  Features:
+    - Added support for Ultimate Belts by Tyarns; note: throughput of the Ultimate loader is constrainted to 240 items/s if you attach a circuit to the belt immediately in front of the loader, otherwise the full 270 items/s is available
+---------------------------------------------------------------------------------------------------
 Version: 1.1.6
 Date: 2021.02.26
   Changes:
