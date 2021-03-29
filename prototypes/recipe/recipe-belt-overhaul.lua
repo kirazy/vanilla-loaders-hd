@@ -1,5 +1,5 @@
--- Copyright (c) 2018 Kirazy
--- Part of Vanilla Loaders HD
+-- Copyright (c) 2021 Kirazy
+-- Part of Vanilla Loaders
 --
 -- See LICENSE.md in the project directory for license information.
 

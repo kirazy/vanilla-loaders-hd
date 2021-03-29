@@ -1,6 +1,6 @@
 -- Copyright (c) 2017 Thaui
--- Part of Vanilla Loaders HD
---     
+-- Part of Vanilla Loaders
+--
 -- See LICENSE.md in the project directory for license information.
 
 local function reloadTechnology(technology, recipe)

@@ -11,6 +11,6 @@
         "? boblogistics",
         "? bobplates",
         "? bobelectronics",
-        "? LoaderRedux"
+        "! LoaderRedux"
     ]
 }

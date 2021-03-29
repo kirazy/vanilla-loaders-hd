@@ -1,5 +1,5 @@
--- Copyright (c) 2018 Kirazy
--- Part of Vanilla Loaders HD
+-- Copyright (c) 2021 Kirazy
+-- Part of Vanilla Loaders
 --
 -- See LICENSE.md in the project directory for license information.
 
@@ -34,28 +34,28 @@ if mods["boblogistics"] then
 end
 
 -- Check to see if we're just reskinning Loader Redux
-if mods["LoaderRedux"] then
-    if settings.startup["vanillaLoaders-reskinLoaderReduxOnly"].value == true then
-        -- Prepare loaders for reskinning only
-        if loaders["basic-loader"] then loaders["basic-loader"] = nil end -- LR doesn't support the basic loader
-        loaders["loader"].parameters = nil
-        loaders["fast-loader"].parameters = nil
-        loaders["express-loader"].parameters = nil
-        if loaders["purple-loader"] then loaders["purple-loader"].parameters = nil end
-        if loaders["green-loader"] then loaders["green-loader"].parameters = nil end
-    else
-        -- Restore the loader recipe to their basic state
-        if not loaders["basic-loader"] then
-            loaders["loader"].parameters = {ingredients = {
-                {"electronic-circuit", 5},
-                {"transport-belt", 5},
-                {"inserter", 5},
-                {"iron-gear-wheel", 5},
-                {"iron-plate", 5}
-            }}
-        end
-    end
-end
+-- if mods["LoaderRedux"] then
+--     if settings.startup["vanillaLoaders-reskinLoaderReduxOnly"].value == true then
+--         -- Prepare loaders for reskinning only
+--         if loaders["basic-loader"] then loaders["basic-loader"] = nil end -- LR doesn't support the basic loader
+--         loaders["loader"].parameters = nil
+--         loaders["fast-loader"].parameters = nil
+--         loaders["express-loader"].parameters = nil
+--         if loaders["purple-loader"] then loaders["purple-loader"].parameters = nil end
+--         if loaders["green-loader"] then loaders["green-loader"].parameters = nil end
+--     else
+--         -- Restore the loader recipe to their basic state
+--         if not loaders["basic-loader"] then
+--             loaders["loader"].parameters = {ingredients = {
+--                 {"electronic-circuit", 5},
+--                 {"transport-belt", 5},
+--                 {"inserter", 5},
+--                 {"iron-gear-wheel", 5},
+--                 {"iron-plate", 5}
+--             }}
+--         end
+--     end
+-- end
 
 -- Ultimate belts
 if mods["UltimateBelts"] then

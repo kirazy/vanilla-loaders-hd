@@ -1,7 +1,10 @@
 ---------------------------------------------------------------------------------------------------
 Version: 1.1.8
 Date: ????
-  Changes:
+  Features:
+    - Loaders can now load/unload cargo wagons/locomotives at full throughput with Ultimate Belts; note: sideloading of underground belts from loaders is limited to 120 items/s for cargo wagons/locomotives and regular storage chests
+    - Marked incompatible with Loader Redux for performance reasons due to runtime scripts overlapping
+    - Added snapping logic from Loader Redux (per MIT license), and adapted train settings from Loader Redux (per MIT license)
 ---------------------------------------------------------------------------------------------------
 Version: 1.1.7
 Date: 2021-03-28
