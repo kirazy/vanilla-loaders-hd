@@ -1,7 +1,8 @@
 ---------------------------------------------------------------------------------------------------
 Version: 1.1.8
 Date: ????
-  Changes:
+  Bugfixes:
+    - Fixed that Vanilla Loaders could load before Ultimate Belts in some circumstances and create the loaders incorrectly
 ---------------------------------------------------------------------------------------------------
 Version: 1.1.7
 Date: 2021-03-28
