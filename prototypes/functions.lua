@@ -62,6 +62,24 @@ local particle_list = {
     ["metal-particle-big"] = 4,
 }
 
+-- Check if work needs to be done for the loader in question
+local function defer_to_loader_redux(name)
+    local lr_blacklist = {
+        ["loader"] = true,
+        ["fast-loader"] = true,
+        ["express-loader"] = true,
+        ["purple-loader"] = true,
+        ["green-loader"] = true,
+        ["basic-loader"] = true,
+    }
+
+    if mods["LoaderRedux"] and settings.startup["vanillaLoaders-reskinLoaderReduxOnly"].value == true and lr_blacklist[name] then
+        return true
+    else
+        return false
+    end
+end
+
 -- Returns `icons` table when called
 local function loader_icons(name, base_tint)
     return
@@ -168,9 +186,7 @@ end
 local function adjust_item_properties(item, belt, base_tint)
 	item.icons = loader_icons(item.name, base_tint)
 
-	if mods["LoaderRedux"] and settings.startup["vanillaLoaders-reskinLoaderReduxOnly"].value == true then
-		-- Do nothing
-	else
+	if not defer_to_loader_redux(item.name) then
 		item.flags = nil
 		vanillaHD.set_item_order(item, belt)
 	end
@@ -181,9 +197,7 @@ local function adjust_entity_properties(entity, belt, base_tint)
     -- entity.corpse = create_loader_remnants(entity.name)
 	entity.dying_explosion = create_loader_explosions_and_particles(entity.name)
 
-	if mods["LoaderRedux"] and settings.startup["vanillaLoaders-reskinLoaderReduxOnly"].value == true then
-		-- Do nothing
-    else
+	if not defer_to_loader_redux(entity.name) then
         entity.structure_render_layer = "object"
 		entity.belt_animation_set = belt.belt_animation_set
 		entity.speed = belt.speed
@@ -389,9 +403,7 @@ function vanillaHD.setup_loader(name, source_belt_name, parameters)
 	end
 
 	-- Handle Loader Redux exception
-	if mods["LoaderRedux"] and settings.startup["vanillaLoaders-reskinLoaderReduxOnly"].value == true then
-		-- Do nothing
-	else
+	if not defer_to_loader_redux(name) then
 		-- SETUP LOADER RECIPE
 		-- ----------------------------------------------------------------------------------------------------
 		-- Check if the recipe exists, if so, set energy_required, otherwise create it
@@ -454,9 +466,8 @@ function vanillaHD.setup_loader(name, source_belt_name, parameters)
         data:extend({loader_entity})
 	end
 
-	if mods["LoaderRedux"] and settings.startup["vanillaLoaders-reskinLoaderReduxOnly"].value == true then
-		return
-	end
+    -- Leave following tweaks to Loader Redux
+	if defer_to_loader_redux(name) then return end
 
     -- Handle upgrade paths
     if parameters.previous_tier then

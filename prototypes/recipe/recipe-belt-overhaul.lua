@@ -3,6 +3,8 @@
 --
 -- See LICENSE.md in the project directory for license information.
 
+-- These instructions replace ingredients in the core set of loaders for vanilla Factorio and Bob's logistics only
+
 -- Check if we're only reskinning Loader Redux.
 if mods["LoaderRedux"] and settings.startup["vanillaLoaders-reskinLoaderReduxOnly"].value == true then return end
 

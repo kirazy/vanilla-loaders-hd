@@ -1,7 +1,8 @@
 ---------------------------------------------------------------------------------------------------
 Version: 1.1.9
 Date: ????
-  Changes:
+  Bugfixes:
+    - Fixed that when the setting "Loader Redux: Reskin only" was enabled, Ultimate loaders were not created with the correct belt speeds
 ---------------------------------------------------------------------------------------------------
 Version: 1.1.8
 Date: 2021-12-23
