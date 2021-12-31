@@ -5,6 +5,19 @@
 -- See LICENSE.md in the project directory for license information.
 
 -- ########## CONTROL ##########
+local function setup_loaders()
+	global.loaders = {}
+
+	for _, b in pairs(game.surfaces) do
+		local wagon=b.find_entities_filtered{type="cargo-wagon"}
+		if #wagon>0 then
+			for i,w in pairs(wagon) do
+				find_loader(w)
+			end
+		end
+	end
+end
+
 --clean_loaders
 function clean_loaders()
 	for i,t in pairs(global.loaders) do
@@ -19,6 +32,8 @@ end
 --find loader
 function find_loader(w,ent)
 	if (w.train.state==7 or w.train.state==9) and w.train.speed==0 then
+		if not global.loaders then setup_loaders() end
+
 		if w.orientation==0 or w.orientation==0.5 then
 			for j,loader in pairs(w.surface.find_entities_filtered{type="loader",area={{w.position.x-1.5,w.position.y-2.2},{w.position.x-0.5,w.position.y+2.2}}}) do
 				if ent and loader==ent then
@@ -81,25 +96,19 @@ end
 
 --on tick
 local function do_tick(event)
-	if global.loaders==nil then
-	--first load
-		global.loaders={}
-		for a,b in pairs(game.surfaces) do
-			local wagon=b.find_entities_filtered{type="cargo-wagon"}
-			if #wagon>0 then
-				for i,w in pairs(wagon) do
-					find_loader(w)
-				end
-			end
-		end
+	if not global.loaders then
+		setup_loaders()
 	elseif #global.loaders>0 then
 		clean_loaders()
-	--loaders work
+
+		--loaders work
 		for i,t in pairs(global.loaders) do
 			loader_work(t[1],t[2].get_inventory(defines.inventory.cargo_wagon),t[3])
 		end
 	end
 end
+
+
 
 function loader_active(ent,direction)
 	if ent.loader_type=="output" and ent.direction==direction then
