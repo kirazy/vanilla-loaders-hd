@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
 Version: 1.1.10
-Date: ????
+Date: 2021-12-31
   Bugfixes:
     - Fixed that placing a loader next to a cargo wagon in the map editor, in a new scenario that had never been unpaused, would cause a crash
 ---------------------------------------------------------------------------------------------------
