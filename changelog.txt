@@ -2,6 +2,7 @@
 Version: 1.1.11
 Date: ????
   Changes:
+    - Adjusted registering of loaders with Loader Redux to account for changes in Loader Redux version 1.7.2
 ---------------------------------------------------------------------------------------------------
 Version: 1.1.10
 Date: 2021-12-31

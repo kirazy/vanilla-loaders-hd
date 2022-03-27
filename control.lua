@@ -202,17 +202,20 @@ function loader_work(ent,w,direction)
 end
 
 -- ########## INIT ##########
-
-local function do_init()
+local function register_loaders()
 	if remote.interfaces["loader-redux"] then
-		-- add basic-loader to the snapping whitelist
+		-- add loaders to the snapping whitelist
 		remote.call("loader-redux", "add_loader", "basic-loader")
 		remote.call("loader-redux", "add_loader", "ub-ultra-fast-loader")
 		remote.call("loader-redux", "add_loader", "ub-extreme-fast-loader")
 		remote.call("loader-redux", "add_loader", "ub-ultra-express-loader")
 		remote.call("loader-redux", "add_loader", "ub-extreme-express-loader")
 		remote.call("loader-redux", "add_loader", "ub-ultimate-loader")
+	end
+end
 
+local function do_init()
+	if remote.interfaces["loader-redux"] then
 		-- LoaderRedux will handle control functionality
 		script.on_event(defines.events.on_train_changed_state, nil)
 		script.on_event(defines.events.on_built_entity, nil)
@@ -227,10 +230,15 @@ local function do_init()
 	end
 end
 
+script.on_configuration_changed(function()
+	register_loaders()
+end)
+
 script.on_load(function()
 	do_init()
 end)
 
 script.on_init(function()
 	do_init()
+	register_loaders()
 end)
