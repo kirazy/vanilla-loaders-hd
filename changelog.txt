@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
 Version: 1.1.12
-Date: ????
+Date: 2022-08-14
   Changes:
     - Adjusted control-stage logic to be compatible with the upcoming Expansion, and made updates to take advantage of the latest Factorio API. Courtesy of Quezler
 ---------------------------------------------------------------------------------------------------
