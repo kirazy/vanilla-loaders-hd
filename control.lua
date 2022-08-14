@@ -1,5 +1,5 @@
 -- Copyright (c) 2017 Thaui
--- Copyright (c) 2018 Kirazy
+-- Copyright (c) 2022 Kirazy
 -- Part of Vanilla Loaders HD
 --
 -- See LICENSE.md in the project directory for license information.
@@ -127,8 +127,6 @@ local function do_tick(event)
 		end
 	end
 end
-
-
 
 function loader_active(ent,direction)
 	if ent.loader_type=="output" and ent.direction==direction then
