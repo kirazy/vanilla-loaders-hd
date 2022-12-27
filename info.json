@@ -1,15 +1,17 @@
 {
-  "name": "vanilla-loaders-hd",
-  "version": "0.18.9",
-  "factorio_version": "0.18",
-  "title": "Vanilla Loaders HD",
-  "author": "Kirazy",
-  "contact": "kirazy@live.com",
-  "description": "Adds the vanilla loaders to the game with customizable recipe difficulty, and with support for cargo wagons via lua scripting. Supports belts added by Bob's Logistics. When installed side-by-side with Loader Redux, will use Loader Redux's snapping logic and train loading. Additionally, with a startup setting, may be used as a dumb mod to simply reskin Loader Redux.",
-  "dependencies": [	"base >= 0.18.0",
-    "? boblibrary >=0.18.0",
-    "? boblogistics >=0.18.0",					
-    "? bobplates >=0.18.0",
-    "? bobelectronics >= 0.18.0",
-    "? LoaderRedux >= 1.5.0"]
+    "name": "vanilla-loaders-hd",
+    "version": "1.1.13",
+    "factorio_version": "1.1",
+    "title": "Vanilla Loaders",
+    "author": "Kirazy",
+    "contact": "kirazy@live.com",
+    "dependencies": [
+        "base",
+        "? boblibrary",
+        "? boblogistics",
+        "? bobplates",
+        "? bobelectronics",
+        "? LoaderRedux",
+        "? UltimateBelts"
+    ]
 }
