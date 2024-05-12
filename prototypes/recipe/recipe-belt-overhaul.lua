@@ -1,113 +1,89 @@
--- Copyright (c) 2022 Kirazy
--- Part of Vanilla Loaders HD
+-- Copyright (c) 2024 Kirazy
+-- Part of Vanilla Loaders
 --
 -- See LICENSE.md in the project directory for license information.
 
--- These instructions replace ingredients in the core set of loaders for vanilla Factorio and Bob's logistics only
+if not mods["boblogistics"] then return end
+if settings.startup["vanillaLoaders-recipes-loaderOverhaul"].value ~= true then return end
+if settings.startup["bobmods-logistics-beltoverhaul"].value ~= true then return end
 
--- Check if we're only reskinning Loader Redux.
-if mods["LoaderRedux"] and settings.startup["vanillaLoaders-reskinLoaderReduxOnly"].value == true then return end
+--- This module replaces more conventional ingredients with more advanced and varied materials
+--- available in Bob's mods, consistent with the changes made by Bob Mod's belt overhaul.
 
--- When Bob's Logistics is present.
-if mods["boblogistics"] then
-	-- If both Bob's Logistics Belt Overhaul and Vanilla Loaders Overhaul are enabled
-	if settings.startup["bobmods-logistics-beltoverhaul"].value == true and settings.startup["vanillaLoaders-recipes-loaderOverhaul"].value == true then
-		-- Start replacing basic materials with more complex materials depending on what is present in the game.
+local recipe = bobmods.lib.recipe
+local items = data.raw.item
 
-		-- Replace Iron Plate with Tin Plate in loaders
-		if data.raw.item["tin-plate"] then
-			bobmods.lib.recipe.replace_ingredient("loader","iron-plate","tin-plate")
-		end
+local num_bearings = settings.startup["bobmods-logistics-beltrequireprevious"].value and 14 or 6
 
-		-- Replace Electronic Circuit with Basic Circuit in loaders
-		if data.raw.item["basic-circuit-board"] then
-			bobmods.lib.recipe.replace_ingredient("loader","electronic-circuit","basic-circuit-board")
-		end
+---Gets the name of the first item found in `data.raw.items` from among the given list of names.
+---@param ... string # An ordered list of item names to check.
+---@return string|nil # The name of the first item found, or `nil`.
+local function get_first_item_that_exists(...)
+    for _, name in pairs({ ... }) do
+        if items[name] then return name end
+    end
+end
 
-		-- Replace Steel with Bronze Plate in fast loaders
-		if data.raw.item["bronze-alloy"] then
-			bobmods.lib.recipe.replace_ingredient("fast-loader","steel-plate","bronze-alloy")
-		end
+--- Adjustments for Tier 1 loaders.
+if items["tin-plate"] then
+    recipe.replace_ingredient("loader", "iron-plate", "tin-plate")
+end
 
-		-- Replace Iron Gears with Steel Gears in fast loaders
-		if data.raw.item["steel-gear-wheel"] then
-			bobmods.lib.recipe.replace_ingredient("fast-loader","iron-gear-wheel","steel-gear-wheel")
-		end
+if items["basic-circuit-board"] then
+    recipe.replace_ingredient("loader", "electronic-circuit", "basic-circuit-board")
+end
 
-		-- Replace Steel with Aluminium Plate in express loaders
-		if data.raw.item["aluminium-plate"] then
-			bobmods.lib.recipe.replace_ingredient("express-loader","steel-plate","aluminium-plate")
-		end
+--- Adjustments for Tier 2 loaders.
+if items["bronze-alloy"] then
+    recipe.replace_ingredient("fast-loader", "steel-plate", "bronze-alloy")
+end
 
-		-- Add Cobalt Steel Bearings or Brass Bearings or Steel Bearings to express loaders.
-		if data.raw.item["steel-bearing"] then
-			if settings.startup["bobmods-logistics-beltrequireprevious"].value == true then
-				if data.raw.item["cobalt-steel-bearing"] then
-					bobmods.lib.recipe.add_ingredient("express-loader", {"cobalt-steel-bearing", 14})
-				elseif data.raw.item["brass-bearing"] then
-					bobmods.lib.recipe.add_ingredient("express-loader", {"brass-bearing", 14})
-				else
-					bobmods.lib.recipe.add_ingredient("express-loader", {"steel-bearing", 14})
-				end
-			else
-				if data.raw.item["cobalt-steel-bearing"] then
-					bobmods.lib.recipe.add_ingredient("express-loader", {"cobalt-steel-bearing", 6})
-				elseif data.raw.item["brass-bearing"] then
-					bobmods.lib.recipe.add_ingredient("express-loader", {"brass-bearing", 6})
-				else
-					bobmods.lib.recipe.add_ingredient("express-loader", {"steel-bearing", 6})
-				end
-			end
-		end
+if items["steel-gear-wheel"] then
+    recipe.replace_ingredient("fast-loader", "iron-gear-wheel", "steel-gear-wheel")
+end
 
-		-- Replace Iron Gears with Cobalt Steel Gears in express loaders.
-		if data.raw.item["cobalt-steel-gear-wheel"] then
-			bobmods.lib.recipe.replace_ingredient("express-loader","iron-gear-wheel","cobalt-steel-gear-wheel")
-		elseif data.raw.item["brass-gear-wheel"] then
-			bobmods.lib.recipe.replace_ingredient("express-loader","iron-gear-wheel","brass-gear-wheel")
-		end
+--- Adjustments for Tier 3 loaders.
+if items["aluminium-plate"] then
+    recipe.replace_ingredient("express-loader", "steel-plate", "aluminium-plate")
+end
 
-		-- Replace Steel with Titanium Plate in purple loaders.
-		if data.raw.item["titanium-plate"] then
-			bobmods.lib.recipe.replace_ingredient("purple-loader","steel-plate","titanium-plate")
-		end
+if items["steel-bearing"] then
+    local item_to_use = get_first_item_that_exists("cobalt-steel-bearing", "brass-bearing", "steel-bearing")
+    recipe.add_ingredient("express-loader", { item_to_use, num_bearings })
+end
 
-		-- Add Titanium Bearings to purple loaders.
-		if data.raw.item["titanium-bearing"] then
-			if settings.startup["bobmods-logistics-beltrequireprevious"].value == true then
-				bobmods.lib.recipe.add_ingredient("purple-loader", {"titanium-bearing", 14})
-			else
-				bobmods.lib.recipe.add_ingredient("purple-loader", {"titanium-bearing", 6})
-			end
-		end
+if items["cobalt-steel-gear-wheel"] then
+    recipe.replace_ingredient("express-loader", "iron-gear-wheel", "cobalt-steel-gear-wheel")
+elseif items["brass-gear-wheel"] then
+    recipe.replace_ingredient("express-loader", "iron-gear-wheel", "brass-gear-wheel")
+end
 
-		-- Replace Iron Gears with Titanium Gears in purple loaders.
-		if data.raw.item["titanium-gear-wheel"] then
-			bobmods.lib.recipe.replace_ingredient("purple-loader","iron-gear-wheel","titanium-gear-wheel")
-		end
+--- Adjustments for Tier 4 loaders.
+if items["titanium-plate"] then
+    recipe.replace_ingredient("purple-loader", "steel-plate", "titanium-plate")
+end
 
-		-- Replace Steel with Nitinol Plate in green loaders.
-		if data.raw.item["nitinol-alloy"] then
-			bobmods.lib.recipe.replace_ingredient("green-loader","steel-plate","nitinol-alloy")
-		end
+if items["titanium-bearing"] then
+    recipe.add_ingredient("purple-loader", { "titanium-bearing", num_bearings })
+end
 
-		-- Add Nitinol Bearings to green loaders.
-		if data.raw.item["nitinol-bearing"] then
-			if settings.startup["bobmods-logistics-beltrequireprevious"].value == true then
-				bobmods.lib.recipe.add_ingredient("green-loader", {"nitinol-bearing", 14})
-			else
-				bobmods.lib.recipe.add_ingredient("green-loader", {"nitinol-bearing", 6})
-			end
-		end
+if items["titanium-gear-wheel"] then
+    recipe.replace_ingredient("purple-loader", "iron-gear-wheel", "titanium-gear-wheel")
+end
 
-		-- Replace Iron Gears with Nitinol Gears in green loaders.
-		if data.raw.item["nitinol-gear-wheel"] then
-			bobmods.lib.recipe.replace_ingredient("green-loader","iron-gear-wheel","nitinol-gear-wheel")
-		end
+--- Adjustments for Tier 5 loaders.
+if items["nitinol-alloy"] then
+    recipe.replace_ingredient("green-loader", "steel-plate", "nitinol-alloy")
+end
 
-		-- Replace Processing Unit with Advaned Processing Unit in green loaders.
-		if data.raw.item["advanced-processing-unit"] then
-			bobmods.lib.recipe.replace_ingredient("green-loader","processing-unit","advanced-processing-unit")
-		end
-	end
+if items["nitinol-bearing"] then
+    recipe.add_ingredient("green-loader", { "nitinol-bearing", num_bearings })
+end
+
+if items["nitinol-gear-wheel"] then
+    recipe.replace_ingredient("green-loader", "iron-gear-wheel", "nitinol-gear-wheel")
+end
+
+if items["advanced-processing-unit"] then
+    recipe.replace_ingredient("green-loader", "processing-unit", "advanced-processing-unit")
 end

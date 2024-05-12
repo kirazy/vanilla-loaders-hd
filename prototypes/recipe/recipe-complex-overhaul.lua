@@ -1,288 +1,259 @@
--- Copyright (c) 2022 Kirazy
--- Part of Vanilla Loaders HD
+-- Copyright (c) 2024 Kirazy
+-- Part of Vanilla Loaders
 --
 -- See LICENSE.md in the project directory for license information.
 
 -- Check for recipe overhaul, and if true, create base overhaul recipes.
-if settings.startup["vanillaLoaders-recipes-loaderOverhaul"].value == true then
-	-- Setup the complex recipes for the loaders for Ultimate Belts
-	if mods["UltimateBelts"] then
-        data:extend({
-            {
-                name = "ub-ultra-fast-loader",
-                type = "recipe",
-                enabled = false,
-                energy_required = 5,
-                ingredients = {
-                    {type = "item", name = "iron-gear-wheel", amount = 15},
-                    {type = "item", name = "advanced-circuit", amount = 10},
-                    {type = "item", name = "express-loader", amount = 2},
-                },
-                result_count = 1,
-                result = "ub-ultra-fast-loader",
-            },
-            {
-                name = "ub-extreme-fast-loader",
-                type = "recipe",
-                enabled = false,
-                energy_required = 5,
-                ingredients = {
-                    {type = "item", name = "iron-gear-wheel", amount = 15},
-                    {type = "item", name = "processing-unit", amount = 5},
-                    {type = "item", name = "express-loader", amount = 1},
-                    {type = "item", name = "ub-ultra-fast-loader", amount = 1},
-                },
-                result_count = 1,
-                result = "ub-extreme-fast-loader",
-            },
-            {
-                name = "ub-ultra-express-loader",
-                type = "recipe",
-                enabled = false,
-                energy_required = 5,
-                ingredients = {
-                    {type = "item", name = "iron-gear-wheel", amount = 15},
-                    {type = "item", name = "processing-unit", amount = 5},
-                    {type = "item", name = "express-loader", amount = 1},
-                    {type = "item", name = "ub-extreme-fast-loader", amount = 1},
-                    {type = "item", name = "speed-module", amount = 1},
-                },
-                result_count = 1,
-                result = "ub-ultra-express-loader",
-            },
-            {
-                name = "ub-extreme-express-loader",
-                type = "recipe",
-                enabled = false,
-                energy_required = 5,
-                ingredients = {
-                    {type = "item", name = "iron-gear-wheel", amount = 15},
-                    {type = "item", name = "processing-unit", amount = 5},
-                    {type = "item", name = "express-loader", amount = 1},
-                    {type = "item", name = "ub-ultra-express-loader", amount = 1},
-                    {type = "item", name = "speed-module-2", amount = 1},
-                },
-                result_count = 1,
-                result = "ub-extreme-express-loader",
-            },
-            {
-                name = "ub-ultimate-loader",
-                type = "recipe",
-                enabled = false,
-                energy_required = 5,
-                ingredients = {
-                    {type = "item", name = "iron-gear-wheel", amount = 15},
-                    {type = "item", name = "processing-unit", amount = 5},
-                    {type = "item", name = "express-loader", amount = 1},
-                    {type = "item", name = "ub-extreme-express-loader", amount = 1},
-                    {type = "item", name = "speed-module-3", amount = 1},
-                },
-                result_count = 1,
-                result = "ub-ultimate-loader",
-            },
-        })
+if settings.startup["vanillaLoaders-recipes-loaderOverhaul"].value ~= true then return end
+
+---Checks if the given set of `ingredients` involves a fluid.
+---@param ingredients data.IngredientPrototype[]
+---@return boolean # `true` if any of the ingredients in `ingredients` are `type = "fluid"`; otherwise, `false`.
+local function is_crafted_with_fluid(ingredients)
+    for _, ingredient in pairs(ingredients) do
+        if ingredient.type == "fluid" then return true end
     end
 
-	-- Check if we're only reskinning Loader Redux.
-	if mods["LoaderRedux"] and settings.startup["vanillaLoaders-reskinLoaderReduxOnly"].value == true then return end
+    return false
+end
 
-	-- Create the Vanilla Complex base loader recipes
-	data:extend({
-		{	name = "loader", -- Loader (Yellow)
-			type = "recipe",
-			enabled = false,
-			energy_required = 5,
-			ingredients = {
-				{"electronic-circuit", 5},
-				{"transport-belt", 5},
-				{"iron-gear-wheel", 8},
-				{"iron-plate", 16},
-				{"inserter", 4}
-			},
-			result_count = 1,
-			result = "loader",
-		},
-		{	name = "fast-loader", -- Fast Loader (Red)
-			type = "recipe",
-			enabled = false,
-			energy_required = 5,
-			ingredients = {
-				{"electronic-circuit", 10},
-				{"loader", 1},
-				{"iron-gear-wheel", 24},
-				{"fast-transport-belt", 5}
-			},
-			result_count = 1,
-			result = "fast-loader",
-		},
-		{	name = "express-loader", -- Express Loader (Blue)
-			type = "recipe",
-			category = "crafting-with-fluid",
-			enabled = false,
-			energy_required = 5,
-			ingredients = {
-				{"advanced-circuit", 10},
-				{"fast-loader", 1},
-				{"iron-gear-wheel", 32},
-				{"express-transport-belt", 5},
-				{amount = 40, name = "lubricant", type = "fluid"}
-			},
-			result_count = 1,
-			result = "express-loader",
-		}
-	})
+--- Creates the recipe for a loader with the given `name` from the given `ingredients` in a
+--- common format, resulting in 1 unit produced over 5 seconds.
+---@param name string # The name of the loader.
+---@param ingredients data.IngredientPrototype[] # The ingredients to include in the recipe.
+---@return data.RecipePrototype # The loader recipe.
+local function create_recipe_from_ingredients(name, ingredients)
+    ---@type data.RecipePrototype
+    local recipe = {
+        name = name,
+        type = "recipe",
+        category = is_crafted_with_fluid(ingredients) and "crafting-with-fluid" or nil,
+        enabled = false,
+        energy_required = 5,
+        ingredients = ingredients,
+        result_count = 1,
+        result = name,
+    }
 
-	-- Check for presense of Bob's Logistics
-	if mods["boblogistics"] then
-		-- Check to see if we're using Bob's Logistics transport belt overhaul, and if so, create Bob-style loader base recipes.
-		if settings.startup["bobmods-logistics-beltoverhaul"].value == true then
-			data:extend({
-				{	name = "loader", -- Loader (Yellow) (Bob Overhaul Base)
-					type = "recipe",
-					enabled = false,
-					energy_required = 5,
-					ingredients = {
-						{"electronic-circuit", 5},
-						{"transport-belt", 5},
-						{"iron-gear-wheel", 6},
-						{"iron-plate", 6}
-					},
-					result_count = 1,
-					result = "loader",
-				},
-				{	name = "fast-loader", -- Fast Loader (Red) (Bob Overhaul Base)
-					type = "recipe",
-					enabled = false,
-					energy_required = 5,
-					ingredients = {
-						{"electronic-circuit", 5},
-						{"fast-transport-belt", 5},
-						{"iron-gear-wheel", 6},
-						{"steel-plate", 6}
-					},
-					result_count = 1,
-					result = "fast-loader",
-				},
-				{	name = "express-loader", -- Express Loader (Blue) (Bob Overhaul Base)
-					type = "recipe",
-					enabled = false,
-					energy_required = 5,
-					ingredients = {
-						{"advanced-circuit", 5},
-						{"express-transport-belt", 5},
-						{"iron-gear-wheel", 6},
-						{"steel-plate", 6}
-					},
-					result_count = 1,
-					result = "express-loader",
-				},
-				{	name = "purple-loader", -- Turbo Loader (Purple) (Bob Overhaul Base)
-					type = "recipe",
-					enabled = false,
-					energy_required = 5,
-					ingredients = {
-						{"processing-unit", 5},
-						{"turbo-transport-belt", 5},
-						{"iron-gear-wheel", 6},
-						{"steel-plate", 6}
-					},
-					result_count = 1,
-					result = "purple-loader",
-				},
-				{	name = "green-loader", -- Ultimate Loader (Green) (Bob Overhaul Base)
-					type = "recipe",
-					enabled = false,
-					energy_required = 5,
-					ingredients = {
-						{"processing-unit", 5},
-						{"ultimate-transport-belt", 5},
-						{"iron-gear-wheel", 6},
-						{"steel-plate", 6}
-					},
-					result_count = 1,
-					result = "green-loader",
-				},
-			})
+    return recipe
+end
 
-			-- Check if we want inserters.
-			if settings.startup["vanillaLoaders-recipes-includeInserters"].value == true then
-				-- Check if we're using Bob's Logistics inserter overhaul
-				if settings.startup["bobmods-logistics-inserteroverhaul"].value == true then
-					-- Add overhauled inserters to loader recipes.
-					bobmods.lib.recipe.add_ingredient("basic-loader", {"burner-inserter", 5})
-					bobmods.lib.recipe.add_ingredient("loader", {"yellow-filter-inserter", 5})
-					bobmods.lib.recipe.add_ingredient("fast-loader", {"red-stack-filter-inserter", 5})
-					bobmods.lib.recipe.add_ingredient("express-loader", {"stack-filter-inserter", 5})
-					bobmods.lib.recipe.add_ingredient("purple-loader", {"turbo-stack-filter-inserter", 5})
-					bobmods.lib.recipe.add_ingredient("green-loader", {"express-stack-filter-inserter", 5})
-				else
-					-- Add default inserters to loader recipes.
-					bobmods.lib.recipe.add_ingredient("basic-loader", {"burner-inserter", 5})
-					bobmods.lib.recipe.add_ingredient("loader", {"inserter", 5})
-					bobmods.lib.recipe.add_ingredient("fast-loader", {"long-handed-inserter", 5})
-					bobmods.lib.recipe.add_ingredient("express-loader", {"fast-inserter", 5})
-					bobmods.lib.recipe.add_ingredient("purple-loader", {"stack-inserter", 5})
-					bobmods.lib.recipe.add_ingredient("green-loader", {"express-stack-inserter", 5})
-				end
-			end
+-- Create the Vanilla Complex base loader recipes
+---@type data.RecipePrototype[]
+local base_complex_recipes = {
+    create_recipe_from_ingredients("loader", {
+        { type = "item", amount = 5,  name = "electronic-circuit" },
+        { type = "item", amount = 5,  name = "transport-belt" },
+        { type = "item", amount = 8,  name = "iron-gear-wheel" },
+        { type = "item", amount = 16, name = "iron-plate" },
+        { type = "item", amount = 4,  name = "inserter" },
+    }),
+    create_recipe_from_ingredients("fast-loader", {
+        { type = "item", amount = 10, name = "electronic-circuit" },
+        { type = "item", amount = 1,  name = "loader" },
+        { type = "item", amount = 24, name = "iron-gear-wheel" },
+        { type = "item", amount = 5,  name = "fast-transport-belt" },
+    }),
+    create_recipe_from_ingredients("express-loader", {
+        { type = "item",  amount = 10, name = "advanced-circuit" },
+        { type = "item",  amount = 1,  name = "fast-loader" },
+        { type = "item",  amount = 32, name = "iron-gear-wheel" },
+        { type = "item",  amount = 5,  name = "express-transport-belt" },
+        { type = "fluid", amount = 40, name = "lubricant" },
+    }),
+}
+data:extend(base_complex_recipes)
 
-			-- Check if we want to require the previous tier.
-			if settings.startup["bobmods-logistics-beltrequireprevious"].value == true then
-				bobmods.lib.recipe.add_ingredient("loader", {"basic-loader", 1})
-				bobmods.lib.recipe.add_ingredient("loader", {"iron-gear-wheel", 10})
-				bobmods.lib.recipe.add_ingredient("loader", {"iron-plate", 4})
+--- Creates the Vanilla Complex recipes for the tier 4 and 5 loaders added for Bob's mods.
+---
+--- Use when preference is given to Vanilla Loader's complex recipe mode.
+local function create_vanilla_complex_recipes_for_bobs_loaders()
+    ---@type data.RecipePrototype[]
+    local bob_complex_recipes = {
+        create_recipe_from_ingredients("purple-loader", {
+            { type = "item",  amount = 10, name = "processing-unit" },
+            { type = "item",  amount = 1,  name = "express-loader" },
+            { type = "item",  amount = 48, name = "iron-gear-wheel" },
+            { type = "item",  amount = 5,  name = "turbo-transport-belt" },
+            { type = "fluid", amount = 80, name = "lubricant" },
+        }),
+        create_recipe_from_ingredients("green-loader", {
+            { type = "item",  amount = 10,  name = "processing-unit" },
+            { type = "item",  amount = 1,   name = "purple-loader" },
+            { type = "item",  amount = 60,  name = "iron-gear-wheel" },
+            { type = "item",  amount = 5,   name = "ultimate-transport-belt" },
+            { type = "fluid", amount = 120, name = "lubricant" },
+        }),
+    }
+    data:extend(bob_complex_recipes)
+end
 
-				bobmods.lib.recipe.add_ingredient("fast-loader", {"loader", 1})
-				bobmods.lib.recipe.add_ingredient("fast-loader", {"iron-gear-wheel", 10})
-				bobmods.lib.recipe.add_ingredient("fast-loader", {"steel-plate", 4})
+if mods["boblogistics"] then
+    --- Creates recipes in the style of Bob's Belt Overhaul for the loaders added by this mod.
+    ---
+    --- Use when preference is given to Bob's Mods overhaul mode.
+    local function create_bobs_overhaul_recipes_for_loaders()
+        ---@type data.RecipePrototype[]
+        local bob_overhaul_recipes = {
+            create_recipe_from_ingredients("loader", {
+                { type = "item", amount = 5, name = "electronic-circuit" },
+                { type = "item", amount = 5, name = "transport-belt" },
+                { type = "item", amount = 6, name = "iron-gear-wheel" },
+                { type = "item", amount = 6, name = "iron-plate" },
+            }),
+            create_recipe_from_ingredients("fast-loader", {
+                { type = "item", amount = 5, name = "electronic-circuit" },
+                { type = "item", amount = 5, name = "fast-transport-belt" },
+                { type = "item", amount = 6, name = "iron-gear-wheel" },
+                { type = "item", amount = 6, name = "steel-plate" },
+            }),
+            create_recipe_from_ingredients("express-loader", {
+                { type = "item", amount = 5, name = "advanced-circuit" },
+                { type = "item", amount = 5, name = "express-transport-belt" },
+                { type = "item", amount = 6, name = "iron-gear-wheel" },
+                { type = "item", amount = 6, name = "steel-plate" },
+            }),
+            create_recipe_from_ingredients("purple-loader", {
+                { type = "item", amount = 5, name = "processing-unit" },
+                { type = "item", amount = 5, name = "turbo-transport-belt" },
+                { type = "item", amount = 6, name = "iron-gear-wheel" },
+                { type = "item", amount = 6, name = "steel-plate" },
+            }),
+            create_recipe_from_ingredients("green-loader", {
+                { type = "item", amount = 5, name = "processing-unit" },
+                { type = "item", amount = 5, name = "ultimate-transport-belt" },
+                { type = "item", amount = 6, name = "iron-gear-wheel" },
+                { type = "item", amount = 6, name = "steel-plate" },
+            }),
+        }
+        data:extend(bob_overhaul_recipes)
+    end
 
-				bobmods.lib.recipe.add_ingredient("express-loader", {"fast-loader", 1})
-				bobmods.lib.recipe.add_ingredient("express-loader", {"iron-gear-wheel", 10})
-				bobmods.lib.recipe.add_ingredient("express-loader", {"steel-plate", 4})
+    --- Adds standard inserters as ingredients to loaders.
+    local function add_standard_inserter_ingredients_to_loader_recipes()
+        local loader_ingredients_map = {
+            ["basic-loader"]   = { type = "item", amount = 5, name = "burner-inserter" },
+            ["loader"]         = { type = "item", amount = 5, name = "inserter" },
+            ["fast-loader"]    = { type = "item", amount = 5, name = "long-handed-inserter" },
+            ["express-loader"] = { type = "item", amount = 5, name = "fast-inserter" },
+            ["purple-loader"]  = { type = "item", amount = 5, name = "stack-inserter" },
+            ["green-loader"]   = { type = "item", amount = 5, name = "express-stack-inserter" },
+        }
 
-				bobmods.lib.recipe.add_ingredient("purple-loader", {"express-loader", 1})
-				bobmods.lib.recipe.add_ingredient("purple-loader", {"iron-gear-wheel", 10})
-				bobmods.lib.recipe.add_ingredient("purple-loader", {"steel-plate", 4})
+        for loader, ingredient in pairs(loader_ingredients_map) do
+            bobmods.lib.recipe.add_ingredient(loader, ingredient)
+        end
+    end
 
-				bobmods.lib.recipe.add_ingredient("green-loader", {"purple-loader", 1})
-				bobmods.lib.recipe.add_ingredient("green-loader", {"iron-gear-wheel", 10})
-				bobmods.lib.recipe.add_ingredient("green-loader", {"steel-plate", 4})
-			end
+    --- Adds Bob's overhaul inserters as ingredients to loaders.
+    local function add_bobs_overhaul_inserter_ingredients_to_loader_recipes()
+        local loader_ingredients_map = {
+            ["basic-loader"]   = { type = "item", amount = 5, name = "burner-inserter" },
+            ["loader"]         = { type = "item", amount = 5, name = "yellow-filter-inserter" },
+            ["fast-loader"]    = { type = "item", amount = 5, name = "red-stack-filter-inserter" },
+            ["express-loader"] = { type = "item", amount = 5, name = "stack-filter-inserter" },
+            ["purple-loader"]  = { type = "item", amount = 5, name = "turbo-stack-filter-inserter" },
+            ["green-loader"]   = { type = "item", amount = 5, name = "express-stack-filter-inserter" },
+        }
 
-		else
-		-- Create the Vanilla Complex modded loader recipies
-		data:extend({
-			{	name = "purple-loader",	-- Turbo Loader (Purple)
-				type = "recipe",
-				category = "crafting-with-fluid",
-				enabled = false,
-				energy_required = 5,
-				ingredients = {
-					{"processing-unit", 10},
-					{"express-loader", 1},
-					{"iron-gear-wheel", 48},
-					{"turbo-transport-belt", 5},
-					{ amount = 80, name = "lubricant", type = "fluid"}
-				},
-				result_count = 1,
-				result = "purple-loader",
-			},
-			{	name = "green-loader", -- Ultimate Loader (Green)
-				type = "recipe",
-				category = "crafting-with-fluid",
-				enabled = false,
-				energy_required = 5,
-				ingredients = {
-					{"processing-unit", 10},
-					{"purple-loader", 1},
-					{"iron-gear-wheel", 60},
-					{"ultimate-transport-belt", 5},
-					{amount = 120, name = "lubricant", type = "fluid"}
-				},
-				result_count = 1,
-				result = "green-loader",
-			}
-		})
-		end
-	end
+        for loader, ingredient in pairs(loader_ingredients_map) do
+            bobmods.lib.recipe.add_ingredient(loader, ingredient)
+        end
+    end
+
+    --- Adds the previous tier loader as ingredients to loaders.
+    local function add_previous_tier_ingredients_to_loader_recipes()
+        local loader_ingredients_map = {
+            ["loader"] = {
+                { type = "item", amount = 1,  name = "basic-loader" },
+                { type = "item", amount = 10, name = "iron-gear-wheel" },
+                { type = "item", amount = 4,  name = "iron-plate" },
+            },
+            ["fast-loader"] = {
+                { type = "item", amount = 1,  name = "loader" },
+                { type = "item", amount = 10, name = "iron-gear-wheel" },
+                { type = "item", amount = 4,  name = "steel-plate" },
+            },
+            ["express-loader"] = {
+                { type = "item", amount = 1,  name = "fast-loader" },
+                { type = "item", amount = 10, name = "iron-gear-wheel" },
+                { type = "item", amount = 4,  name = "steel-plate" },
+            },
+            ["purple-loader"] = {
+                { type = "item", amount = 1,  name = "express-loader" },
+                { type = "item", amount = 10, name = "iron-gear-wheel" },
+                { type = "item", amount = 4,  name = "steel-plate" },
+            },
+            ["green-loader"] = {
+                { type = "item", amount = 1,  name = "purple-loader" },
+                { type = "item", amount = 10, name = "iron-gear-wheel" },
+                { type = "item", amount = 4,  name = "steel-plate" },
+            },
+        }
+
+        for loader, ingredients in pairs(loader_ingredients_map) do
+            for _, ingredient in pairs(ingredients) do
+                bobmods.lib.recipe.add_ingredient(loader, ingredient)
+            end
+        end
+    end
+
+    if settings.startup["bobmods-logistics-beltoverhaul"].value == true then
+        create_bobs_overhaul_recipes_for_loaders()
+
+        if settings.startup["vanillaLoaders-recipes-includeInserters"].value == true then
+            if settings.startup["bobmods-logistics-inserteroverhaul"].value == true then
+                add_bobs_overhaul_inserter_ingredients_to_loader_recipes()
+            else
+                add_standard_inserter_ingredients_to_loader_recipes()
+            end
+        end
+
+        if settings.startup["bobmods-logistics-beltrequireprevious"].value == true then
+            add_previous_tier_ingredients_to_loader_recipes()
+        end
+    else
+        create_vanilla_complex_recipes_for_bobs_loaders()
+    end
+end
+
+-- Setup the complex recipes for the loaders for Ultimate Belts
+if mods["UltimateBelts"] then
+    ---@type data.RecipePrototype[]
+    local ultimate_belts_complex_recipes = {
+        create_recipe_from_ingredients("ub-ultra-fast-loader", {
+            { type = "item", amount = 15, name = "iron-gear-wheel" },
+            { type = "item", amount = 10, name = "advanced-circuit" },
+            { type = "item", amount = 2,  name = "express-loader" },
+        }),
+        create_recipe_from_ingredients("ub-extreme-fast-loader", {
+            { type = "item", amount = 15, name = "iron-gear-wheel" },
+            { type = "item", amount = 5,  name = "processing-unit" },
+            { type = "item", amount = 1,  name = "express-loader" },
+            { type = "item", amount = 1,  name = "ub-ultra-fast-loader" },
+        }),
+        create_recipe_from_ingredients("ub-ultra-express-loader", {
+            { type = "item", amount = 15, name = "iron-gear-wheel" },
+            { type = "item", amount = 5,  name = "processing-unit" },
+            { type = "item", amount = 1,  name = "express-loader" },
+            { type = "item", amount = 1,  name = "ub-extreme-fast-loader" },
+            { type = "item", amount = 1,  name = "speed-module" },
+        }),
+        create_recipe_from_ingredients("ub-extreme-express-loader", {
+            { type = "item", amount = 15, name = "iron-gear-wheel" },
+            { type = "item", amount = 5,  name = "processing-unit" },
+            { type = "item", amount = 1,  name = "express-loader" },
+            { type = "item", amount = 1,  name = "ub-ultra-express-loader" },
+            { type = "item", amount = 1,  name = "speed-module-2" },
+        }),
+        create_recipe_from_ingredients("ub-ultimate-loader", {
+            { type = "item", amount = 15, name = "iron-gear-wheel" },
+            { type = "item", amount = 5,  name = "processing-unit" },
+            { type = "item", amount = 1,  name = "express-loader" },
+            { type = "item", amount = 1,  name = "ub-extreme-express-loader" },
+            { type = "item", amount = 1,  name = "speed-module-3" },
+        }),
+    }
+
+    data:extend(ultimate_belts_complex_recipes)
 end

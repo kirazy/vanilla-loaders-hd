@@ -1,7 +1,13 @@
 ---------------------------------------------------------------------------------------------------
-Version: 1.1.13
+Version: 2.0.0
 Date: ????
+  Features:
+    - Added native loader snapping.
   Changes:
+    - Removed control logic now that loader interfacing with trains is natively implemented
+    - Changed global function host from vanillaHD to vanilla_loaders to conform to snake_case
+    - Dropped support for reskinning LoaderRedux.
+    - Removed API function addLoader; use create_loader.
 ---------------------------------------------------------------------------------------------------
 Version: 1.1.12
 Date: 2022-08-14
