@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
 Version: 2.0.1
-Date: ????
+Date: 2024-08-31
   Locale:
     - Updated localizations for Ukranian, Czech
     - Added localization for Dutch, Russian
