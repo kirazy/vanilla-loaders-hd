@@ -31,8 +31,7 @@ local function create_recipe_from_ingredients(name, ingredients)
         enabled = false,
         energy_required = 5,
         ingredients = ingredients,
-        result_count = 1,
-        result = name,
+        results = { { type = "item", amount = 1, name = name } },
     }
 
     return recipe
