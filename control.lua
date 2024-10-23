@@ -135,7 +135,7 @@ end
 ---Handles the creation event for a loader entity.
 ---@param event EventData.on_built_entity|EventData.on_robot_built_entity|EventData.on_entity_cloned|EventData.script_raised_built|EventData.script_raised_revive
 local function on_entity_created_handler(event)
-    local entity = event.created_entity or event.entity or event.destination
+    local entity = event.entity or event.destination
     if not storage.subscribed_loaders[entity.name] then return end
 
     snap_to_neighbor(entity)
