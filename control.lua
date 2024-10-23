@@ -171,6 +171,7 @@ local native_loaders = {
     "loader",
     "fast-loader",
     "express-loader",
+    "turbo-loader",
     "basic-loader",
     "purple-loader",
     "green-loader",
