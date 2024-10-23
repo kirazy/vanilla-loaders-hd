@@ -5,6 +5,10 @@
 
 require("prototypes.mods.base")
 
+if mods["space-age"] then
+    require("prototypes.mods.space-age")
+end
+
 if mods["boblogistics"] then
     require("prototypes.mods.bobs-logistics")
 end

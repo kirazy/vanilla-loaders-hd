@@ -61,6 +61,17 @@ local base_complex_recipes = {
         { type = "fluid", amount = 40, name = "lubricant" },
     }),
 }
+
+if mods["space-age"] then
+    table.insert(base_complex_recipes, create_recipe_from_ingredients("turbo-loader", {
+        { type = "item",  amount = 2,  name = "processing-unit" },
+        { type = "item",  amount = 1,  name = "express-loader" },
+        { type = "item",  amount = 24, name = "tungsten-plate" },
+        { type = "item",  amount = 5,  name = "turbo-transport-belt" },
+        { type = "fluid", amount = 40, name = "lubricant" },
+    }))
+end
+
 data:extend(base_complex_recipes)
 
 --- Creates the Vanilla Complex recipes for the tier 4 and 5 loaders added for Bob's mods.
