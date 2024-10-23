@@ -10,7 +10,7 @@ Date: 2024-10-23
     - Added support for the Turbo loader added by Space Age
   Changes:
     - Removed deprecated API functions.
-    - Removed `vanilla_loaders` global function host; impacted mods should required the api.lua file in their mods
+    - Removed `vanilla_loaders` global function host; impacted mods should require the api.lua file in their mods
 ---------------------------------------------------------------------------------------------------
 Version: 2.0.1
 Date: 2024-08-31
