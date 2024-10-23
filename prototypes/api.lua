@@ -103,18 +103,18 @@ local function create_loader_remnants(loader_name, mask_tint, base_tint)
             -- Base.
             {
                 filename = "__vanilla-loaders-hd__/graphics/entity/loader/remnants/loader-remnants-base.png",
-                    width = 212,
-                    height = 192,
-                    direction_count = 8,
-                    scale = 0.5,
+                width = 212,
+                height = 192,
+                direction_count = 8,
+                scale = 0.5,
             },
             -- Mask.
             {
                 filename = "__vanilla-loaders-hd__/graphics/entity/loader/remnants/loader-remnants-base.png",
-                    width = 212,
-                    height = 192,
-                    direction_count = 8,
-                    scale = 0.5,
+                width = 212,
+                height = 192,
+                direction_count = 8,
+                scale = 0.5,
             },
         },
     }
@@ -148,11 +148,11 @@ local function get_loader_structure(mask_tint, base_tint)
         back_patch = {
             sheet = {
                 filename = "__vanilla-loaders-hd__/graphics/entity/loader/loader-structure-back-patch.png",
-                    priority = "extra-high",
-                    width = 212,
-                    height = 192,
-                    tint = base_tint,
-                    scale = 0.5,
+                priority = "extra-high",
+                width = 212,
+                height = 192,
+                tint = base_tint,
+                scale = 0.5,
             },
         },
         direction_in = {
@@ -160,29 +160,29 @@ local function get_loader_structure(mask_tint, base_tint)
                 -- Base
                 {
                     filename = "__vanilla-loaders-hd__/graphics/entity/loader/loader-structure-base.png",
-                        priority = "extra-high",
-                        width = 212,
-                        height = 192,
-                        tint = base_tint,
-                        scale = 0.5,
+                    priority = "extra-high",
+                    width = 212,
+                    height = 192,
+                    tint = base_tint,
+                    scale = 0.5,
                 },
                 -- Mask
                 {
                     filename = "__vanilla-loaders-hd__/graphics/entity/loader/loader-structure-mask.png",
-                        priority = "extra-high",
-                        width = 212,
-                        height = 192,
-                        tint = mask_tint,
-                        scale = 0.5,
+                    priority = "extra-high",
+                    width = 212,
+                    height = 192,
+                    tint = mask_tint,
+                    scale = 0.5,
                 },
                 -- Shadow
                 {
                     filename = "__vanilla-loaders-hd__/graphics/entity/loader/loader-structure-shadow.png",
-                        priority = "extra-high",
-                        width = 212,
-                        height = 192,
-                        draw_as_shadow = true,
-                        scale = 0.5,
+                    priority = "extra-high",
+                    width = 212,
+                    height = 192,
+                    draw_as_shadow = true,
+                    scale = 0.5,
                 },
             },
         },
@@ -191,43 +191,43 @@ local function get_loader_structure(mask_tint, base_tint)
                 -- Base
                 {
                     filename = "__vanilla-loaders-hd__/graphics/entity/loader/loader-structure-base.png",
-                        priority = "extra-high",
-                        width = 212,
-                        height = 192,
-                        y = 192,
-                        tint = base_tint,
-                        scale = 0.5,
+                    priority = "extra-high",
+                    width = 212,
+                    height = 192,
+                    y = 192,
+                    tint = base_tint,
+                    scale = 0.5,
                 },
                 -- Mask
                 {
                     filename = "__vanilla-loaders-hd__/graphics/entity/loader/loader-structure-mask.png",
-                        priority = "extra-high",
-                        width = 212,
-                        height = 192,
-                        y = 192,
-                        tint = mask_tint,
-                        scale = 0.5,
+                    priority = "extra-high",
+                    width = 212,
+                    height = 192,
+                    y = 192,
+                    tint = mask_tint,
+                    scale = 0.5,
                 },
                 -- Shadow
                 {
                     filename = "__vanilla-loaders-hd__/graphics/entity/loader/loader-structure-shadow.png",
-                        priority = "extra-high",
-                        width = 212,
-                        height = 192,
-                        y = 192,
-                        draw_as_shadow = true,
-                        scale = 0.5,
+                    priority = "extra-high",
+                    width = 212,
+                    height = 192,
+                    y = 192,
+                    draw_as_shadow = true,
+                    scale = 0.5,
                 },
             },
         },
         front_patch = {
             sheet = {
                 filename = "__vanilla-loaders-hd__/graphics/entity/loader/loader-structure-front-patch.png",
-                    priority = "extra-high",
-                    width = 212,
-                    height = 192,
-                    tint = base_tint,
-                    scale = 0.5,
+                priority = "extra-high",
+                width = 212,
+                height = 192,
+                tint = base_tint,
+                scale = 0.5,
             },
         },
     }
@@ -340,6 +340,7 @@ function api.create_loader(name, belt_name, parameters)
     local loader_item = data.raw.item[name]
     if loader_item then
         set_item_icon_and_order(loader_item, belt_item, parameters.mask_tint, parameters.base_tint)
+        loader_item.hidden = nil
     else
         loader_item = util.copy(data.raw.item.loader)
         loader_item.name = name
@@ -376,6 +377,7 @@ function api.create_loader(name, belt_name, parameters)
     local loader_entity = data.raw.loader[name]
     if loader_entity then
         set_entity_sprites_and_properties(loader_entity, belt_entity, parameters.mask_tint, parameters.base_tint)
+        loader_entity.hidden = nil
     else
         loader_entity = util.copy(data.raw.loader["loader"])
         loader_entity.name = name
