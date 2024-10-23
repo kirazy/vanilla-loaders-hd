@@ -102,7 +102,7 @@ local function create_loader_remnants(loader_name, mask_tint, base_tint)
         layers = {
             -- Base.
             {
-                    filename = "__vanilla-loaders-hd__/graphics/entity/loader/remnants/hr-loader-remnants-base.png",
+                filename = "__vanilla-loaders-hd__/graphics/entity/loader/remnants/loader-remnants-base.png",
                     width = 212,
                     height = 192,
                     direction_count = 8,
@@ -110,7 +110,7 @@ local function create_loader_remnants(loader_name, mask_tint, base_tint)
             },
             -- Mask.
             {
-                    filename = "__vanilla-loaders-hd__/graphics/entity/loader/remnants/hr-loader-remnants-base.png",
+                filename = "__vanilla-loaders-hd__/graphics/entity/loader/remnants/loader-remnants-base.png",
                     width = 212,
                     height = 192,
                     direction_count = 8,
@@ -147,7 +147,7 @@ local function get_loader_structure(mask_tint, base_tint)
     local structure = {
         back_patch = {
             sheet = {
-                    filename = "__vanilla-loaders-hd__/graphics/entity/loader/hr-loader-structure-back-patch.png",
+                filename = "__vanilla-loaders-hd__/graphics/entity/loader/loader-structure-back-patch.png",
                     priority = "extra-high",
                     width = 212,
                     height = 192,
@@ -159,7 +159,7 @@ local function get_loader_structure(mask_tint, base_tint)
             sheets = {
                 -- Base
                 {
-                        filename = "__vanilla-loaders-hd__/graphics/entity/loader/hr-loader-structure-base.png",
+                    filename = "__vanilla-loaders-hd__/graphics/entity/loader/loader-structure-base.png",
                         priority = "extra-high",
                         width = 212,
                         height = 192,
@@ -168,7 +168,7 @@ local function get_loader_structure(mask_tint, base_tint)
                 },
                 -- Mask
                 {
-                        filename = "__vanilla-loaders-hd__/graphics/entity/loader/hr-loader-structure-mask.png",
+                    filename = "__vanilla-loaders-hd__/graphics/entity/loader/loader-structure-mask.png",
                         priority = "extra-high",
                         width = 212,
                         height = 192,
@@ -177,7 +177,7 @@ local function get_loader_structure(mask_tint, base_tint)
                 },
                 -- Shadow
                 {
-                        filename = "__vanilla-loaders-hd__/graphics/entity/loader/hr-loader-structure-shadow.png",
+                    filename = "__vanilla-loaders-hd__/graphics/entity/loader/loader-structure-shadow.png",
                         priority = "extra-high",
                         width = 212,
                         height = 192,
@@ -190,7 +190,7 @@ local function get_loader_structure(mask_tint, base_tint)
             sheets = {
                 -- Base
                 {
-                        filename = "__vanilla-loaders-hd__/graphics/entity/loader/hr-loader-structure-base.png",
+                    filename = "__vanilla-loaders-hd__/graphics/entity/loader/loader-structure-base.png",
                         priority = "extra-high",
                         width = 212,
                         height = 192,
@@ -200,7 +200,7 @@ local function get_loader_structure(mask_tint, base_tint)
                 },
                 -- Mask
                 {
-                        filename = "__vanilla-loaders-hd__/graphics/entity/loader/hr-loader-structure-mask.png",
+                    filename = "__vanilla-loaders-hd__/graphics/entity/loader/loader-structure-mask.png",
                         priority = "extra-high",
                         width = 212,
                         height = 192,
@@ -210,7 +210,7 @@ local function get_loader_structure(mask_tint, base_tint)
                 },
                 -- Shadow
                 {
-                        filename = "__vanilla-loaders-hd__/graphics/entity/loader/hr-loader-structure-shadow.png",
+                    filename = "__vanilla-loaders-hd__/graphics/entity/loader/loader-structure-shadow.png",
                         priority = "extra-high",
                         width = 212,
                         height = 192,
@@ -222,7 +222,7 @@ local function get_loader_structure(mask_tint, base_tint)
         },
         front_patch = {
             sheet = {
-                    filename = "__vanilla-loaders-hd__/graphics/entity/loader/hr-loader-structure-front-patch.png",
+                filename = "__vanilla-loaders-hd__/graphics/entity/loader/loader-structure-front-patch.png",
                     priority = "extra-high",
                     width = 212,
                     height = 192,
