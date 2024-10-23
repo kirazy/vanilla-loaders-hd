@@ -136,7 +136,7 @@ end
 ---@param event EventData.on_built_entity|EventData.on_robot_built_entity|EventData.on_entity_cloned|EventData.script_raised_built|EventData.script_raised_revive
 local function on_entity_created_handler(event)
     local entity = event.created_entity or event.entity or event.destination
-    if not global.subscribed_loaders[entity.name] then return end
+    if not storage.subscribed_loaders[entity.name] then return end
 
     snap_to_neighbor(entity)
 end
@@ -152,8 +152,8 @@ script.on_event(defines.events.script_raised_revive, on_entity_created_handler, 
 local function subscribe(loader_name)
     if not loader_name then return end
 
-    global.subscribed_loaders = global.subscribed_loaders or {}
-    global.subscribed_loaders[loader_name] = true
+    storage.subscribed_loaders = storage.subscribed_loaders or {}
+    storage.subscribed_loaders[loader_name] = true
 end
 
 ---Unsubscribes the loader entity with the given `name` from the snapping logic.
@@ -161,8 +161,8 @@ end
 local function unsubscribe(loader_name)
     if not loader_name then return end
 
-    global.subscribed_loaders = global.subscribed_loaders or {}
-    global.subscribed_loaders[loader_name] = nil
+    storage.subscribed_loaders = storage.subscribed_loaders or {}
+    storage.subscribed_loaders[loader_name] = nil
 end
 
 remote.add_interface("vanilla-loaders", { subscribe = subscribe, unsubscribe = unsubscribe })
