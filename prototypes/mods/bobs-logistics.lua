@@ -3,8 +3,11 @@
 --
 -- See LICENSE.md in the project directory for license information.
 
+---@type VanillaLoadersApi
+local api = require("prototypes.api")
+
 if data.raw["transport-belt"]["basic-transport-belt"] then
-    vanilla_loaders.create_loader("basic-loader", "basic-transport-belt", {
+    api.create_loader("basic-loader", "basic-transport-belt", {
         next_tier = "loader",
         ingredients = {
             { type = "item", amount = 6, name = "wood" },
@@ -20,13 +23,13 @@ if data.raw["transport-belt"]["basic-transport-belt"] then
     })
 end
 
-vanilla_loaders.create_loader("purple-loader", "turbo-transport-belt", {
+api.create_loader("purple-loader", "turbo-transport-belt", {
     previous_tier = "express-loader",
     technology = "logistics-4",
     mask_tint = mods["boblogistics-belt-reskin"] and util.color("df1ee5d1") or util.color("a510e5d1"),
 })
 
-vanilla_loaders.create_loader("green-loader", "ultimate-transport-belt", {
+api.create_loader("green-loader", "ultimate-transport-belt", {
     previous_tier = "purple-loader",
     technology = "logistics-5",
     mask_tint = util.color("16f263d1"),

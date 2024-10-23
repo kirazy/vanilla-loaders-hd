@@ -5,6 +5,7 @@ Date: ????
     - Compatibility with 2.0
   Changes:
     - Removed deprecated API functions.
+    - Removed `vanilla_loaders` global function host; impacted mods should required the api.lua file in their mods
 ---------------------------------------------------------------------------------------------------
 Version: 2.0.1
 Date: 2024-08-31

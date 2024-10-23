@@ -3,10 +3,6 @@
 --
 -- See LICENSE.md in the project directory for license information.
 
--- Vanilla Loaders global function host.
----@type VanillaLoadersApi
-vanilla_loaders = require("prototypes.api")
-
 require("prototypes.mods.base")
 
 if mods["boblogistics"] then
