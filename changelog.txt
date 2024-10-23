@@ -3,6 +3,8 @@ Version: 2.1.0
 Date: ????
   Features:
     - Compatibility with 2.0
+  Changes:
+    - Removed deprecated API functions.
 ---------------------------------------------------------------------------------------------------
 Version: 2.0.1
 Date: 2024-08-31

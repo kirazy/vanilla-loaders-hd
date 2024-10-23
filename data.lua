@@ -7,8 +7,6 @@
 ---@type VanillaLoadersApi
 vanilla_loaders = require("prototypes.api")
 
-require("prototypes.api-deprecated")
-
 require("prototypes.mods.base")
 
 if mods["boblogistics"] then
