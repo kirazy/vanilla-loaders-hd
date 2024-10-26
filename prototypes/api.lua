@@ -361,14 +361,13 @@ function api.create_loader(name, belt_name, parameters)
             name = name,
             enabled = false,
             energy_required = 5,
-            ingredients = parameters.ingredients or
-                parameters.previous_tier and ({
-                    { parameters.previous_tier, 1 },
-                    { belt_name,                5 },
-                }) or ({
-                    { belt_name, 5 },
-                }),
-            result = name,
+            ingredients = parameters.ingredients or parameters.previous_tier and ({
+                { type = "item", amount = 1, name = parameters.previous_tier },
+                { type = "item", amount = 5, name = belt_name },
+            }) or ({
+                { belt_name, 5 },
+            }),
+            results = { { type = "item", amount = 1, name = name } },
         }
 
         data:extend({ recipe })
