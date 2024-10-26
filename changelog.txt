@@ -1,8 +1,10 @@
 ---------------------------------------------------------------------------------------------------
 Version: 2.1.2
 Date: ????
+  Features:
+    - Added support for Ultimate Belts Space Age
   Bugfixes:
-    - Fixed that the recipes created by `create_loader` were invalid.
+    - Fixed that the recipes created by `create_loader` were invalid
 ---------------------------------------------------------------------------------------------------
 Version: 2.1.1
 Date: 2024-10-23

@@ -13,7 +13,7 @@ if mods["boblogistics"] then
     require("prototypes.mods.bobs-logistics")
 end
 
-if mods["UltimateBelts"] then
+if mods["UltimateBelts"] or mods["UltimateBeltsSpaceAge"] then
     require("prototypes.mods.ultimate-belts")
 end
 
