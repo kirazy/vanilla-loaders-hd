@@ -1,7 +1,9 @@
 ---------------------------------------------------------------------------------------------------
 Version: 2.1.3
 Date: ????
-  Changes:
+  Features:
+    - Added support for Aquilo, Loaders will now freeze and require 60 kW of energy to remain unfrozen
+    - Added `heating_energy` as a parameter to the `create_loader` APi function.
 ---------------------------------------------------------------------------------------------------
 Version: 2.1.2
 Date: 2024-10-26
