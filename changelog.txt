@@ -2,6 +2,7 @@
 Version: 2.1.5
 Date: ????
   Changes:
+    - Fixed the cardinal sin of conditional requires
 ---------------------------------------------------------------------------------------------------
 Version: 2.1.4
 Date: 2024-10-27

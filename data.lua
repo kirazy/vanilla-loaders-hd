@@ -4,18 +4,9 @@
 -- See LICENSE.md in the project directory for license information.
 
 require("prototypes.mods.base")
-
-if mods["space-age"] then
-    require("prototypes.mods.space-age")
-end
-
-if mods["boblogistics"] then
-    require("prototypes.mods.bobs-logistics")
-end
-
-if mods["UltimateBelts"] or mods["UltimateBeltsSpaceAge"] or mods["UltimateBelts_Owoshima_And_Pankeko-Mod"] then
-    require("prototypes.mods.ultimate-belts")
-end
+require("prototypes.mods.space-age")
+require("prototypes.mods.bobs-logistics")
+require("prototypes.mods.ultimate-belts")
 
 -- Process recipe updates
 require("prototypes.recipe.recipe-complex-overhaul")

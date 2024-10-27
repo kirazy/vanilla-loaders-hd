@@ -6,6 +6,8 @@
 ---@type VanillaLoadersApi
 local api = require("prototypes.api")
 
+if not mods["boblogistics"] then return end
+
 if data.raw["transport-belt"]["basic-transport-belt"] then
     api.create_loader("basic-loader", "basic-transport-belt", {
         next_tier = "loader",

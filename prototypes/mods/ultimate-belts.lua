@@ -3,11 +3,17 @@
 --
 -- See LICENSE.md in the project directory for license information.
 
-local is_using_owoshima = mods["UltimateBelts_Owoshima_And_Pankeko-Mod"] and true or false
-local is_using_space_age = mods["space-age"] and true or false
-
 ---@type VanillaLoadersApi
 local api = require("prototypes.api")
+
+local is_using_ultimate_belts = mods["UltimateBelts"]
+    or mods["UltimateBeltsSpaceAge"]
+    or mods["UltimateBelts_Owoshima_And_Pankeko-Mod"]
+
+if not is_using_ultimate_belts then return end
+
+local is_using_owoshima = mods["UltimateBelts_Owoshima_And_Pankeko-Mod"] and true or false
+local is_using_space_age = mods["space-age"] and true or false
 
 api.create_loader("ub-ultra-fast-loader", "ultra-fast-belt", {
     technology = "ultra-fast-logistics",
