@@ -13,11 +13,10 @@ local is_using_ultimate_belts = mods["UltimateBelts"]
 if not is_using_ultimate_belts then return end
 
 local is_using_owoshima = mods["UltimateBelts_Owoshima_And_Pankeko-Mod"] and true or false
-local is_using_space_age = mods["space-age"] and true or false
 
 api.create_loader("ub-ultra-fast-loader", "ultra-fast-belt", {
     technology = "ultra-fast-logistics",
-    previous_tier = is_using_space_age and "turbo-loader" or "express-loader",
+    previous_tier = "express-loader",
     mask_tint = is_using_owoshima and util.color("2bc24bDB") or util.color("00b30cFF"),
     base_tint = util.color("404040"),
 })
