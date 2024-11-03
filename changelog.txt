@@ -2,6 +2,11 @@
 Version: 2.1.7
 Date: ????
   Changes:
+    - [space-age] Turbo loader can now be crafted only in the Foundry, and has the same surface conditions as the other turbo belt entities
+  Bugfixes:
+    - [space-age] Fixed that loader, fast loader, and express loader could not be crafted in the Foundry
+  Locale:
+    - Updated Russian localization
 ---------------------------------------------------------------------------------------------------
 Version: 2.1.6
 Date: 2024-10-30
@@ -21,26 +26,26 @@ Date: 2024-10-27
 Version: 2.1.3
 Date: 2024-10-27
   Features:
-    - Added support for Aquilo, Loaders will now freeze and require 60 kW of energy to remain unfrozen
-    - Added `heating_energy` as a parameter to the `create_loader` APi function.
+    - [space-age] Added support for Aquilo, Loaders will now freeze and require 60 kW of energy to remain unfrozen
+    - [space-age] Added `heating_energy` as a parameter to the `create_loader` APi function.
 ---------------------------------------------------------------------------------------------------
 Version: 2.1.2
 Date: 2024-10-26
   Features:
-    - Added support for Ultimate Belts Space Age
+    - [space-age] Added support for Ultimate Belts Space Age
   Bugfixes:
     - Fixed that the recipes created by `create_loader` were invalid
 ---------------------------------------------------------------------------------------------------
 Version: 2.1.1
 Date: 2024-10-23
   Bugfixes:
-    - Fixed that the Turbo loader was not setup to use the snapping logic
+    - [space-age] Fixed that the Turbo loader was not setup to use the snapping logic
 ---------------------------------------------------------------------------------------------------
 Version: 2.1.0
 Date: 2024-10-23
   Features:
     - Compatibility with 2.0
-    - Added support for the Turbo loader added by Space Age
+    - [space-age] Added support for the Turbo loader added by Space Age
   Changes:
     - Removed deprecated API functions.
     - Removed `vanilla_loaders` global function host; impacted mods should require the api.lua file in their mods

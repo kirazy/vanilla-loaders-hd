@@ -357,9 +357,12 @@ function api.create_loader(name, belt_name, parameters)
     end
 
     local loader_recipe = data.raw.recipe[name]
+    local belt_recipe = data.raw.recipe[belt_name]
     if loader_recipe then
         loader_recipe.energy_required = 5
         loader_recipe.hidden = nil
+        loader_recipe.category = belt_recipe and belt_recipe.category or loader_recipe.category
+        loader_recipe.surface_conditions = belt_recipe and belt_recipe.surface_conditions or nil
     else
         ---@type data.RecipePrototype
         local recipe = {
@@ -374,6 +377,8 @@ function api.create_loader(name, belt_name, parameters)
                 { belt_name, 5 },
             }),
             results = { { type = "item", amount = 1, name = name } },
+            category = belt_recipe and belt_recipe.category,
+            surface_conditions = belt_recipe and belt_recipe.surface_conditions or nil
         }
 
         data:extend({ recipe })

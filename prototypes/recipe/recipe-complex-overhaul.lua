@@ -8,7 +8,7 @@ if settings.startup["vanillaLoaders-recipes-loaderOverhaul"].value ~= true then 
 
 ---Checks if the given set of `ingredients` involves a fluid.
 ---@param ingredients data.IngredientPrototype[]
----@return boolean # `true` if any of the ingredients in `ingredients` are `type = "fluid"`; otherwise, `false`.
+---@return boolean `true` if any of the ingredients in `ingredients` are `type = "fluid"`; otherwise, `false`.
 local function is_crafted_with_fluid(ingredients)
     for _, ingredient in pairs(ingredients) do
         if ingredient.type == "fluid" then return true end
@@ -17,17 +17,37 @@ local function is_crafted_with_fluid(ingredients)
     return false
 end
 
+---Gets the standard crafting category for a loader with the given `ingredients`.
+---@param ingredients data.IngredientPrototype[] The incredients to include in the recipe.
+---@return data.RecipeCategoryID|nil
+local function get_crafting_category(ingredients)
+    local is_using_fluids = is_crafted_with_fluid(ingredients)
+    local is_using_space_age = mods["space-age"]
+
+    local category
+    if is_using_space_age and is_using_fluids then
+        category = "crafting-with-fluid-or-metallurgy"
+    elseif is_using_space_age then
+        category = "pressing"
+    elseif is_using_fluids then
+        category = "crafting-with-fluid"
+    end
+
+    return category
+end
+
 --- Creates the recipe for a loader with the given `name` from the given `ingredients` in a
 --- common format, resulting in 1 unit produced over 5 seconds.
----@param name string # The name of the loader.
----@param ingredients data.IngredientPrototype[] # The ingredients to include in the recipe.
----@return data.RecipePrototype # The loader recipe.
-local function create_recipe_from_ingredients(name, ingredients)
+---@param name string The name of the loader.
+---@param ingredients data.IngredientPrototype[] The ingredients to include in the recipe.
+---@param category? data.RecipeCategoryID The category of the recipe.
+---@return data.RecipePrototype The loader recipe.
+local function create_recipe_from_ingredients(name, ingredients, category)
     ---@type data.RecipePrototype
     local recipe = {
         name = name,
         type = "recipe",
-        category = is_crafted_with_fluid(ingredients) and "crafting-with-fluid" or nil,
+        category = category or get_crafting_category(ingredients),
         enabled = false,
         energy_required = 5,
         ingredients = ingredients,
@@ -63,13 +83,23 @@ local base_complex_recipes = {
 }
 
 if mods["space-age"] then
-    table.insert(base_complex_recipes, create_recipe_from_ingredients("turbo-loader", {
+    local recipe = create_recipe_from_ingredients("turbo-loader", {
         { type = "item",  amount = 2,  name = "processing-unit" },
         { type = "item",  amount = 1,  name = "express-loader" },
         { type = "item",  amount = 24, name = "tungsten-plate" },
         { type = "item",  amount = 5,  name = "turbo-transport-belt" },
         { type = "fluid", amount = 40, name = "lubricant" },
-    }))
+    }, "metallurgy")
+
+    recipe.surface_conditions = {
+        {
+            property = "pressure",
+            min = 4000,
+            max = 4000,
+        },
+    }
+
+    table.insert(base_complex_recipes, recipe)
 end
 
 data:extend(base_complex_recipes)
