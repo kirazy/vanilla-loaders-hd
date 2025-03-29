@@ -110,18 +110,18 @@ data:extend(base_complex_recipes)
 local function create_vanilla_complex_recipes_for_bobs_loaders()
     ---@type data.RecipePrototype[]
     local bob_complex_recipes = {
-        create_recipe_from_ingredients("purple-loader", {
+        create_recipe_from_ingredients("bob-turbo-loader", {
             { type = "item",  amount = 10, name = "processing-unit" },
             { type = "item",  amount = 1,  name = "express-loader" },
             { type = "item",  amount = 48, name = "iron-gear-wheel" },
-            { type = "item",  amount = 5,  name = "turbo-transport-belt" },
+            { type = "item",  amount = 5,  name = "bob-turbo-transport-belt" },
             { type = "fluid", amount = 80, name = "lubricant" },
         }),
-        create_recipe_from_ingredients("green-loader", {
+        create_recipe_from_ingredients("bob-ultimate-loader", {
             { type = "item",  amount = 10,  name = "processing-unit" },
-            { type = "item",  amount = 1,   name = "purple-loader" },
+            { type = "item",  amount = 1,   name = "bob-turbo-loader" },
             { type = "item",  amount = 60,  name = "iron-gear-wheel" },
-            { type = "item",  amount = 5,   name = "ultimate-transport-belt" },
+            { type = "item",  amount = 5,   name = "bob-ultimate-transport-belt" },
             { type = "fluid", amount = 120, name = "lubricant" },
         }),
     }
@@ -153,15 +153,15 @@ if mods["boblogistics"] then
                 { type = "item", amount = 6, name = "iron-gear-wheel" },
                 { type = "item", amount = 6, name = "steel-plate" },
             }),
-            create_recipe_from_ingredients("purple-loader", {
+            create_recipe_from_ingredients("bob-turbo-loader", {
                 { type = "item", amount = 5, name = "processing-unit" },
-                { type = "item", amount = 5, name = "turbo-transport-belt" },
+                { type = "item", amount = 5, name = "bob-turbo-transport-belt" },
                 { type = "item", amount = 6, name = "iron-gear-wheel" },
                 { type = "item", amount = 6, name = "steel-plate" },
             }),
-            create_recipe_from_ingredients("green-loader", {
+            create_recipe_from_ingredients("bob-ultimate-loader", {
                 { type = "item", amount = 5, name = "processing-unit" },
-                { type = "item", amount = 5, name = "ultimate-transport-belt" },
+                { type = "item", amount = 5, name = "bob-ultimate-transport-belt" },
                 { type = "item", amount = 6, name = "iron-gear-wheel" },
                 { type = "item", amount = 6, name = "steel-plate" },
             }),
@@ -172,12 +172,12 @@ if mods["boblogistics"] then
     --- Adds standard inserters as ingredients to loaders.
     local function add_standard_inserter_ingredients_to_loader_recipes()
         local loader_ingredients_map = {
-            ["basic-loader"]   = { type = "item", amount = 5, name = "burner-inserter" },
+            ["bob-basic-loader"]   = { type = "item", amount = 5, name = "burner-inserter" },
             ["loader"]         = { type = "item", amount = 5, name = "inserter" },
             ["fast-loader"]    = { type = "item", amount = 5, name = "long-handed-inserter" },
             ["express-loader"] = { type = "item", amount = 5, name = "fast-inserter" },
-            ["purple-loader"]  = { type = "item", amount = 5, name = "stack-inserter" },
-            ["green-loader"]   = { type = "item", amount = 5, name = "express-stack-inserter" },
+            ["bob-turbo-loader"]  = { type = "item", amount = 5, name = "bulk-inserter" },
+            ["bob-ultimate-loader"]   = { type = "item", amount = 5, name = "bob-express-bulk-inserter" },
         }
 
         for loader, ingredient in pairs(loader_ingredients_map) do
@@ -188,12 +188,12 @@ if mods["boblogistics"] then
     --- Adds Bob's overhaul inserters as ingredients to loaders.
     local function add_bobs_overhaul_inserter_ingredients_to_loader_recipes()
         local loader_ingredients_map = {
-            ["basic-loader"]   = { type = "item", amount = 5, name = "burner-inserter" },
-            ["loader"]         = { type = "item", amount = 5, name = "yellow-filter-inserter" },
-            ["fast-loader"]    = { type = "item", amount = 5, name = "red-stack-filter-inserter" },
-            ["express-loader"] = { type = "item", amount = 5, name = "stack-filter-inserter" },
-            ["purple-loader"]  = { type = "item", amount = 5, name = "turbo-stack-filter-inserter" },
-            ["green-loader"]   = { type = "item", amount = 5, name = "express-stack-filter-inserter" },
+            ["bob-basic-loader"]   = { type = "item", amount = 5, name = "burner-inserter" },
+            ["loader"]         = { type = "item", amount = 5, name = "inserter" },
+            ["fast-loader"]    = { type = "item", amount = 5, name = "bob-red-bulk-inserter" },
+            ["express-loader"] = { type = "item", amount = 5, name = "bulk-inserter" },
+            ["bob-turbo-loader"]  = { type = "item", amount = 5, name = "bob-turbo-bulk-inserter" },
+            ["bob-ultimate-loader"]   = { type = "item", amount = 5, name = "bob-express-bulk-inserter" },
         }
 
         for loader, ingredient in pairs(loader_ingredients_map) do
@@ -205,7 +205,7 @@ if mods["boblogistics"] then
     local function add_previous_tier_ingredients_to_loader_recipes()
         local loader_ingredients_map = {
             ["loader"] = {
-                { type = "item", amount = 1,  name = "basic-loader" },
+                { type = "item", amount = 1,  name = "bob-basic-loader" },
                 { type = "item", amount = 10, name = "iron-gear-wheel" },
                 { type = "item", amount = 4,  name = "iron-plate" },
             },
@@ -219,13 +219,13 @@ if mods["boblogistics"] then
                 { type = "item", amount = 10, name = "iron-gear-wheel" },
                 { type = "item", amount = 4,  name = "steel-plate" },
             },
-            ["purple-loader"] = {
+            ["bob-turbo-loader"] = {
                 { type = "item", amount = 1,  name = "express-loader" },
                 { type = "item", amount = 10, name = "iron-gear-wheel" },
                 { type = "item", amount = 4,  name = "steel-plate" },
             },
-            ["green-loader"] = {
-                { type = "item", amount = 1,  name = "purple-loader" },
+            ["bob-ultimate-loader"] = {
+                { type = "item", amount = 1,  name = "bob-turbo-loader" },
                 { type = "item", amount = 10, name = "iron-gear-wheel" },
                 { type = "item", amount = 4,  name = "steel-plate" },
             },

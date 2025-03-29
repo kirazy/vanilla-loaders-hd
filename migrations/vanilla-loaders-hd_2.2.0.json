@@ -1,0 +1,20 @@
+{
+  "item":
+  [
+    ["basic-loader", "bob-basic-loader"],
+    ["purple-loader", "bob-turbo-loader"],
+    ["green-loader", "bob-ultimate-loader"]
+  ],
+  "recipe":
+  [
+    ["basic-loader", "bob-basic-loader"],
+    ["purple-loader", "bob-turbo-loader"],
+    ["green-loader", "bob-ultimate-loader"]
+  ],
+  "entity":
+  [
+    ["basic-loader", "bob-basic-loader"],
+    ["purple-loader", "bob-turbo-loader"],
+    ["green-loader", "bob-ultimate-loader"]
+  ]
+}

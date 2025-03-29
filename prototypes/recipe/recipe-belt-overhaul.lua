@@ -25,65 +25,65 @@ local function get_first_item_that_exists(...)
 end
 
 --- Adjustments for Tier 1 loaders.
-if items["tin-plate"] then
-    recipe.replace_ingredient("loader", "iron-plate", "tin-plate")
+if items["bob-tin-plate"] then
+    recipe.replace_ingredient("loader", "iron-plate", "bob-tin-plate")
 end
 
-if items["basic-circuit-board"] then
-    recipe.replace_ingredient("loader", "electronic-circuit", "basic-circuit-board")
+if items["bob-basic-circuit-board"] then
+    recipe.replace_ingredient("loader", "electronic-circuit", "bob-basic-circuit-board")
 end
 
 --- Adjustments for Tier 2 loaders.
-if items["bronze-alloy"] then
-    recipe.replace_ingredient("fast-loader", "steel-plate", "bronze-alloy")
+if items["bob-bronze-alloy"] then
+    recipe.replace_ingredient("fast-loader", "steel-plate", "bob-bronze-alloy")
 end
 
-if items["steel-gear-wheel"] then
-    recipe.replace_ingredient("fast-loader", "iron-gear-wheel", "steel-gear-wheel")
+if items["bob-steel-gear-wheel"] then
+    recipe.replace_ingredient("fast-loader", "iron-gear-wheel", "bob-steel-gear-wheel")
 end
 
 --- Adjustments for Tier 3 loaders.
-if items["aluminium-plate"] then
-    recipe.replace_ingredient("express-loader", "steel-plate", "aluminium-plate")
+if items["bob-aluminium-plate"] then
+    recipe.replace_ingredient("express-loader", "steel-plate", "bob-aluminium-plate")
 end
 
-if items["steel-bearing"] then
-    local item_to_use = get_first_item_that_exists("cobalt-steel-bearing", "brass-bearing", "steel-bearing")
+if items["bob-steel-bearing"] then
+    local item_to_use = get_first_item_that_exists("bob-cobalt-steel-bearing", "bob-brass-bearing", "bob-steel-bearing")
     recipe.add_ingredient("express-loader", { item_to_use, num_bearings })
 end
 
-if items["cobalt-steel-gear-wheel"] then
-    recipe.replace_ingredient("express-loader", "iron-gear-wheel", "cobalt-steel-gear-wheel")
-elseif items["brass-gear-wheel"] then
-    recipe.replace_ingredient("express-loader", "iron-gear-wheel", "brass-gear-wheel")
+if items["bob-cobalt-steel-gear-wheel"] then
+    recipe.replace_ingredient("express-loader", "iron-gear-wheel", "bob-cobalt-steel-gear-wheel")
+elseif items["bob-brass-gear-wheel"] then
+    recipe.replace_ingredient("express-loader", "iron-gear-wheel", "bob-brass-gear-wheel")
 end
 
 --- Adjustments for Tier 4 loaders.
-if items["titanium-plate"] then
-    recipe.replace_ingredient("purple-loader", "steel-plate", "titanium-plate")
+if items["bob-titanium-plate"] then
+    recipe.replace_ingredient("bob-turbo-loader", "steel-plate", "bob-titanium-plate")
 end
 
-if items["titanium-bearing"] then
-    recipe.add_ingredient("purple-loader", { "titanium-bearing", num_bearings })
+if items["bob-titanium-bearing"] then
+    recipe.add_ingredient("bob-turbo-loader", { "bob-titanium-bearing", num_bearings })
 end
 
-if items["titanium-gear-wheel"] then
-    recipe.replace_ingredient("purple-loader", "iron-gear-wheel", "titanium-gear-wheel")
+if items["bob-titanium-gear-wheel"] then
+    recipe.replace_ingredient("bob-turbo-loader", "iron-gear-wheel", "bob-titanium-gear-wheel")
 end
 
 --- Adjustments for Tier 5 loaders.
-if items["nitinol-alloy"] then
-    recipe.replace_ingredient("green-loader", "steel-plate", "nitinol-alloy")
+if items["bob-nitinol-alloy"] then
+    recipe.replace_ingredient("bob-ultimate-loader", "steel-plate", "bob-nitinol-alloy")
 end
 
-if items["nitinol-bearing"] then
-    recipe.add_ingredient("green-loader", { "nitinol-bearing", num_bearings })
+if items["bob-nitinol-bearing"] then
+    recipe.add_ingredient("bob-ultimate-loader", { "bob-nitinol-bearing", num_bearings })
 end
 
-if items["nitinol-gear-wheel"] then
-    recipe.replace_ingredient("green-loader", "iron-gear-wheel", "nitinol-gear-wheel")
+if items["bob-nitinol-gear-wheel"] then
+    recipe.replace_ingredient("bob-ultimate-loader", "iron-gear-wheel", "bob-nitinol-gear-wheel")
 end
 
-if items["advanced-processing-unit"] then
-    recipe.replace_ingredient("green-loader", "processing-unit", "advanced-processing-unit")
+if items["bob-advanced-processing-unit"] then
+    recipe.replace_ingredient("bob-ultimate-loader", "processing-unit", "bob-advanced-processing-unit")
 end

@@ -1,7 +1,12 @@
 ---------------------------------------------------------------------------------------------------
-Version: 2.1.8
+Version: 2.2.0
 Date: ????
   Changes:
+    - Updated with support for Bob's 2.0.0
+  Breaking Changes:
+    - Changed `basic-loader` to `bob-basic-loader` to match Bob's naming convention
+    - Changed `purple-loader` to `bob-turbo-loader` to match Bob's naming convention
+    - Changed `green-loader` to `bob-ultimate-loader` to match Bob's naming convention
 ---------------------------------------------------------------------------------------------------
 Version: 2.1.7
 Date: 2024-11-03
