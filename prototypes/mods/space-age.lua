@@ -1,4 +1,4 @@
--- Copyright (c) 2024 Kirazy
+-- Copyright (c) 2018-2026 Kirazy
 -- Part of Vanilla Loaders
 --
 -- See LICENSE.md in the project directory for license information.
