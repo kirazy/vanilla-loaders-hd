@@ -7,6 +7,7 @@
     "contact": "kirazy@live.com",
     "dependencies": [
         "base",
+        "flib",
         "? space-age",
         "? boblibrary",
         "? boblogistics",

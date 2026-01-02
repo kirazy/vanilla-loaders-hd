@@ -241,8 +241,8 @@ end
 ---@param loader data.Loader1x2Prototype The loader prototype definition to be reskinned.
 ---@param transport_belt data.TransportBeltPrototype The transport belt providing the animation set and speed.
 ---@param mask_tint data.Color The color of the loader's directional arrows.
----@param base_tint? data.Color The color of the loader's metal frame and housing.
----@param heating_energy? string The energy cost of heating the loader. If omitted, defaults to "60kW". Only used if loaded with Factorio: Space Age.
+---@param base_tint data.Color|nil The color of the loader's metal frame and housing.
+---@param heating_energy data.Energy|nil The energy cost of heating the loader. If omitted, defaults to "60kW". Only used if loaded with Factorio: Space Age.
 local function set_entity_sprites_and_properties(loader, transport_belt, mask_tint, base_tint, heating_energy)
     loader.icons = get_loader_icons_data(mask_tint, base_tint)
 
@@ -253,7 +253,13 @@ local function set_entity_sprites_and_properties(loader, transport_belt, mask_ti
     loader.speed = transport_belt.speed
 
     if feature_flags.freezing then
-        loader.heating_energy = heating_energy or "60kW"
+        if heating_energy ~= nil then
+            loader.heating_energy = heating_energy
+        else
+            local data_utils = require("__flib__.data-util")
+            local value, _ = data_utils.get_energy_value(transport_belt.heating_energy)
+            loader.heating_energy = tostring(15 * (value or 0)) .. "W"
+        end
     end
 
     loader.structure = get_loader_structure(mask_tint, base_tint)
@@ -295,7 +301,7 @@ end
 ---@field previous_tier? string The name of the previous tier of loader. Sets the `next_tier` property on the given loader, and to provide an additional ingredient to the default recipe.
 ---@field next_tier? string The name of the loader that this loader will be upgraded to when used with the Upgrade Planner.
 ---@field technology? string The name of the technology that unlocks the loader.
----@field heating_energy? string The energy cost of heating the loader. If omitted, defaults to "60kW". Only used if loaded with Factorio: Space Age.
+---@field heating_energy? data.Energy The energy cost of heating the loader. If omitted, defaults to a multiple of the reference belt heating energy. Only used if loaded with Factorio: Space Age.
 
 ---Creates, or if a loader already exists, reskins, the loader with the given `loader` name and
 ---associates it with the transport belt prototype with the given `transport_belt` name, for the
@@ -386,14 +392,14 @@ function api.create_loader(name, belt_name, parameters)
 
     local loader_entity = data.raw.loader[name]
     if loader_entity then
-        set_entity_sprites_and_properties(loader_entity, belt_entity, parameters.mask_tint, parameters.base_tint)
+        set_entity_sprites_and_properties(loader_entity, belt_entity, parameters.mask_tint, parameters.base_tint, parameters.heating_energy)
         loader_entity.hidden = nil
     else
         loader_entity = util.copy(data.raw.loader["loader"])
         loader_entity.name = name
         loader_entity.minable.result = name
 
-        set_entity_sprites_and_properties(loader_entity, belt_entity, parameters.mask_tint, parameters.base_tint)
+        set_entity_sprites_and_properties(loader_entity, belt_entity, parameters.mask_tint, parameters.base_tint, parameters.heating_energy)
         data:extend({ loader_entity })
     end
 

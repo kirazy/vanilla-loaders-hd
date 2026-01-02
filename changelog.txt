@@ -1,7 +1,13 @@
 ---------------------------------------------------------------------------------------------------
 Version: 2.2.2
 Date: ????
+  Features:
+    - Added Factorio Library as a required dependency.
   Changes:
+    - [space-age] The required heating energy for loaders added by this mod has changed to be 15 times the heating energy required for the reference transport belt
+    - [space-age] When the `heating_energy` parameter to the `create_loader` API function is omitted, the loader will default to 15 times the required heating energy of the reference transport belt. Changed from the previous default of 60kW
+  Bugfixes:
+    - [space-age] Fixed that `heating_energy` parameter to the `create_loader` API function was unhandled.
 ---------------------------------------------------------------------------------------------------
 Version: 2.2.1
 Date: 2025-04-23
