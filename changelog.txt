@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
 Version: 2.2.2
-Date: ????
+Date: 2026-01-02
   Features:
     - [space-age] Added optional support for belt stacking
     - Added support for More Belts
