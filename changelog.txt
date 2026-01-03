@@ -3,6 +3,7 @@ Version: 2.2.2
 Date: ????
   Features:
     - [space-age] Added optional support for belt stacking
+    - Added support for More Belts
     - Added Factorio Library as a required dependency
   Changes:
     - [space-age] The required heating energy for loaders added by this mod has changed to be 15 times the heating energy required for the reference transport belt

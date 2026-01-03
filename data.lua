@@ -7,11 +7,13 @@ require("prototypes.mods.base")
 require("prototypes.mods.space-age")
 require("prototypes.mods.bobs-logistics")
 require("prototypes.mods.ultimate-belts")
+require("prototypes.mods.more-belts")
 
 -- Process recipe updates
 require("prototypes.recipe.base-complex")
 require("prototypes.recipe.space-age-complex")
 require("prototypes.recipe.bobs-logistics-complex")
 require("prototypes.recipe.ultimate-belts-complex")
+require("prototypes.recipe.more-belts-complex")
 
 require("prototypes.recipe.bobs-logistics-overhaul")
