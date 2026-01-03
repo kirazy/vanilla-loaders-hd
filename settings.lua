@@ -19,6 +19,17 @@ data:extend({
     },
 })
 
+if feature_flags.space_travel then
+    data:extend({
+        {
+            type = "bool-setting",
+            name = "vanilla-loaders-enable-loader-belt-stacking",
+            setting_type = "startup",
+            default_value = true,
+        }
+    })
+end
+
 if mods["boblogistics"] then
     data:extend({
         {

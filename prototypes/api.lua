@@ -262,6 +262,11 @@ local function set_entity_sprites_and_properties(loader, transport_belt, mask_ti
         end
     end
 
+    if feature_flags.space_travel and settings.startup["vanilla-loaders-enable-loader-belt-stacking"].value then
+        loader.max_belt_stack_size = data.raw["utility-constants"].default.max_belt_stack_size
+        loader.adjustable_belt_stack_size = true
+    end
+
     loader.structure = get_loader_structure(mask_tint, base_tint)
 end
 
