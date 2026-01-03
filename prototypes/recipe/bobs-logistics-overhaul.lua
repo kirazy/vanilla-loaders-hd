@@ -1,7 +1,9 @@
--- Copyright (c) 2018-2026 Kirazy
+-- Copyright (c) Kirazy
 -- Part of Vanilla Loaders
 --
 -- See LICENSE.md in the project directory for license information.
+
+-- cspell: words aluminium nitinol beltoverhaul beltrequireprevious
 
 if not mods["boblogistics"] then return end
 if settings.startup["vanillaLoaders-recipes-loaderOverhaul"].value ~= true then return end

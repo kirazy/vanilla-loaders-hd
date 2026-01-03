@@ -8,6 +8,7 @@ Date: ????
     - [space-age] When the `heating_energy` parameter to the `create_loader` API function is omitted, the loader will default to 15 times the required heating energy of the reference transport belt. Changed from the previous default of 60kW
   Bugfixes:
     - [space-age] Fixed that `heating_energy` parameter to the `create_loader` API function was unhandled
+    - Fixed that Ultimate Belt loader recipes were not correctly configured when using the Complex mode
   Locale:
     - Added partial localization for Catalan
 ---------------------------------------------------------------------------------------------------

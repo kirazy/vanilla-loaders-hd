@@ -9,5 +9,9 @@ require("prototypes.mods.bobs-logistics")
 require("prototypes.mods.ultimate-belts")
 
 -- Process recipe updates
-require("prototypes.recipe.recipe-complex-overhaul")
-require("prototypes.recipe.recipe-belt-overhaul")
+require("prototypes.recipe.base-complex")
+require("prototypes.recipe.space-age-complex")
+require("prototypes.recipe.bobs-logistics-complex")
+require("prototypes.recipe.ultimate-belts-complex")
+
+require("prototypes.recipe.bobs-logistics-overhaul")
