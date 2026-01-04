@@ -180,6 +180,11 @@ local native_loaders = {
     "ub-ultra-express-loader",
     "ub-extreme-express-loader",
     "ub-ultimate-loader",
+    "ddi-loader-mk4",
+    "ddi-loader-mk5",
+    "ddi-loader-mk6",
+    "ddi-loader-mk7",
+    "ddi-loader-mk8",
 }
 
 ---Subscribes all loaders natively managed by this mod to the snapping logic.
