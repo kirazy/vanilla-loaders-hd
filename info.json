@@ -9,7 +9,7 @@
         "base",
         "flib",
         "? space-age",
-        "? boblibrary",
+        "? boblibrary >= 2.1.0",
         "? boblogistics",
         "? bobplates",
         "? bobelectronics",

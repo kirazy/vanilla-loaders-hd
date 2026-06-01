@@ -1,6 +1,8 @@
 ---------------------------------------------------------------------------------------------------
 Version: 2.2.3
 Date: ????
+  Changes:
+    - Updated for Bob's mods 2.1+
   Bugfixes:
     - Fixed that loaders for More Belts did not support snapping as intended
 ---------------------------------------------------------------------------------------------------

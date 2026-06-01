@@ -19,7 +19,7 @@ local function extend_vanilla_complex_recipes_for_bobs_loaders()
 			{ type = "item", amount = 10, name = "processing-unit" },
 			{ type = "item", amount = 1, name = "express-loader" },
 			{ type = "item", amount = 48, name = "iron-gear-wheel" },
-			{ type = "item", amount = 5, name = "bob-turbo-transport-belt" },
+			{ type = "item", amount = 5, name = "turbo-transport-belt" },
 			{ type = "fluid", amount = 80, name = "lubricant" },
 		}),
 		recipe_utils.create_recipe_from_ingredients("bob-ultimate-loader", {
@@ -57,7 +57,7 @@ local function extend_bobs_overhaul_recipes_for_loaders()
 		}),
 		recipe_utils.create_recipe_from_ingredients("bob-turbo-loader", {
 			{ type = "item", amount = 5, name = "processing-unit" },
-			{ type = "item", amount = 5, name = "bob-turbo-transport-belt" },
+			{ type = "item", amount = 5, name = "turbo-transport-belt" },
 			{ type = "item", amount = 6, name = "iron-gear-wheel" },
 			{ type = "item", amount = 6, name = "steel-plate" },
 		}),

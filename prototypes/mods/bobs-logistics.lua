@@ -23,7 +23,7 @@ if data.raw["transport-belt"]["bob-basic-transport-belt"] then
     })
 end
 
-api.create_loader("bob-turbo-loader", "bob-turbo-transport-belt", {
+api.create_loader("bob-turbo-loader", "turbo-transport-belt", {
     previous_tier = "express-loader",
     technology = "logistics-4",
     mask_tint = util.color("a510e5d1"),
