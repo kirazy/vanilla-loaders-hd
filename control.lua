@@ -74,18 +74,18 @@ local function snap_to_neighbor(loader)
     end
 
     if original_type == "output" then
-        -- If loader outputs onto a belt-connectible entity, then exit
+        -- If loader outputs onto a belt-connectable entity, then exit
         if next(loader.belt_neighbours.outputs) then return end
 
         -- Note whether loader would output from an entity in original configuration
         loader.update_connections()
         if loader.loader_container then is_entity_connected = true end
 
-        -- Switch loader type and see if it connects to a belt-connectible entity
+        -- Switch loader type and see if it connects to a belt-connectable entity
         loader.loader_type = "input"
         if next(loader.belt_neighbours.inputs) then return end
 
-        -- Flip loader and see if it connects to a belt connectible entity or container
+        -- Flip loader and see if it connects to a belt connectable entity or container
         loader.direction = original_direction
         if next(loader.belt_neighbours.inputs) then return end
 
@@ -102,18 +102,18 @@ local function snap_to_neighbor(loader)
             loader.direction = original_direction
         end
     else
-        -- If loader takes input from a belt-connectible entity, then exit
+        -- If loader takes input from a belt-connectable entity, then exit
         if next(loader.belt_neighbours.inputs) then return end
 
         -- Note whether loader would input to an entity in original configuration
         loader.update_connections()
         if loader.loader_container then is_entity_connected = true end
 
-        -- Switch loader type and see if it connects to a belt-connectible entity
+        -- Switch loader type and see if it connects to a belt-connectable entity
         loader.loader_type = "output"
         if next(loader.belt_neighbours.outputs) then return end
 
-        -- Flip loader and see if it connects to a belt connectible entity or container
+        -- Flip loader and see if it connects to a belt connectable entity or container
         loader.direction = original_direction
         if next(loader.belt_neighbours.outputs) then return end
 
