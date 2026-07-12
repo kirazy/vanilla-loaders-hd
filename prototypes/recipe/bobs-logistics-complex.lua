@@ -19,7 +19,7 @@ local recipe_utils = require("recipe-utils")
 --- Use when preference is given to Vanilla Loader's complex recipe mode.
 local function extend_vanilla_complex_recipes_for_bobs_loaders()
 	data:extend({
-		recipe_utils.create_recipe_from_ingredients("bob-turbo-loader", {
+		recipe_utils.create_recipe_from_ingredients("turbo-loader", {
 			{ type = "item", amount = 10, name = "processing-unit" },
 			{ type = "item", amount = 1, name = "express-loader" },
 			{ type = "item", amount = 48, name = "iron-gear-wheel" },
@@ -28,7 +28,7 @@ local function extend_vanilla_complex_recipes_for_bobs_loaders()
 		}),
 		recipe_utils.create_recipe_from_ingredients("bob-ultimate-loader", {
 			{ type = "item", amount = 10, name = "processing-unit" },
-			{ type = "item", amount = 1, name = "bob-turbo-loader" },
+			{ type = "item", amount = 1, name = "turbo-loader" },
 			{ type = "item", amount = 60, name = "iron-gear-wheel" },
 			{ type = "item", amount = 5, name = "bob-ultimate-transport-belt" },
 			{ type = "fluid", amount = 120, name = "lubricant" },
@@ -59,7 +59,7 @@ local function extend_bobs_overhaul_recipes_for_loaders()
 			{ type = "item", amount = 6, name = "iron-gear-wheel" },
 			{ type = "item", amount = 6, name = "steel-plate" },
 		}),
-		recipe_utils.create_recipe_from_ingredients("bob-turbo-loader", {
+		recipe_utils.create_recipe_from_ingredients("turbo-loader", {
 			{ type = "item", amount = 5, name = "processing-unit" },
 			{ type = "item", amount = 5, name = "turbo-transport-belt" },
 			{ type = "item", amount = 6, name = "iron-gear-wheel" },
@@ -81,7 +81,7 @@ local function add_standard_inserter_ingredients_to_loader_recipes()
 		["loader"] = { type = "item", amount = 5, name = "inserter" },
 		["fast-loader"] = { type = "item", amount = 5, name = "long-handed-inserter" },
 		["express-loader"] = { type = "item", amount = 5, name = "fast-inserter" },
-		["bob-turbo-loader"] = { type = "item", amount = 5, name = "bulk-inserter" },
+		["turbo-loader"] = { type = "item", amount = 5, name = "bulk-inserter" },
 		["bob-ultimate-loader"] = { type = "item", amount = 5, name = "bob-express-bulk-inserter" },
 	}
 
@@ -97,7 +97,7 @@ local function add_bobs_overhaul_inserter_ingredients_to_loader_recipes()
 		["loader"] = { type = "item", amount = 5, name = "inserter" },
 		["fast-loader"] = { type = "item", amount = 5, name = "bob-red-bulk-inserter" },
 		["express-loader"] = { type = "item", amount = 5, name = "bulk-inserter" },
-		["bob-turbo-loader"] = { type = "item", amount = 5, name = "bob-turbo-bulk-inserter" },
+		["turbo-loader"] = { type = "item", amount = 5, name = "bob-turbo-bulk-inserter" },
 		["bob-ultimate-loader"] = { type = "item", amount = 5, name = "bob-express-bulk-inserter" },
 	}
 
@@ -124,13 +124,13 @@ local function add_previous_tier_ingredients_to_loader_recipes()
 			{ type = "item", amount = 10, name = "iron-gear-wheel" },
 			{ type = "item", amount = 4, name = "steel-plate" },
 		},
-		["bob-turbo-loader"] = {
+		["turbo-loader"] = {
 			{ type = "item", amount = 1, name = "express-loader" },
 			{ type = "item", amount = 10, name = "iron-gear-wheel" },
 			{ type = "item", amount = 4, name = "steel-plate" },
 		},
 		["bob-ultimate-loader"] = {
-			{ type = "item", amount = 1, name = "bob-turbo-loader" },
+			{ type = "item", amount = 1, name = "turbo-loader" },
 			{ type = "item", amount = 10, name = "iron-gear-wheel" },
 			{ type = "item", amount = 4, name = "steel-plate" },
 		},

@@ -253,7 +253,6 @@ local native_loaders = {
 	"express-loader",
 	"turbo-loader",
 	"bob-basic-loader",
-	"bob-turbo-loader",
 	"bob-ultimate-loader",
 	"ub-ultra-fast-loader",
 	"ub-extreme-fast-loader",
