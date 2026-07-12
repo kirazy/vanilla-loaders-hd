@@ -7,11 +7,11 @@
 ---@param technology string The prototype name of the technology.
 ---@param recipe string The prototype name of the recipe.
 local function unlock_recipe_if_technology_is_researched(technology, recipe)
-    for _, force in pairs(game.forces) do
-        if force.technologies[technology] then
-            force.recipes[recipe].enabled = force.technologies[technology].researched
-        end
-    end
+	for _, force in pairs(game.forces) do
+		if force.technologies[technology] then
+			force.recipes[recipe].enabled = force.technologies[technology].researched
+		end
+	end
 end
 
 unlock_recipe_if_technology_is_researched("logistics", "loader")

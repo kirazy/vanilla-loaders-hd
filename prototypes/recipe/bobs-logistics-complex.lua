@@ -5,8 +5,12 @@
 
 -- cspell: words beltoverhaul beltrequireprevious inserteroverhaul
 
-if settings.startup["vanillaLoaders-recipes-loaderOverhaul"].value ~= true then return end
-if not mods["boblogistics"] then return end
+if settings.startup["vanillaLoaders-recipes-loaderOverhaul"].value ~= true then
+	return
+end
+if not mods["boblogistics"] then
+	return
+end
 
 local recipe_utils = require("recipe-utils")
 
