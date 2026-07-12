@@ -3,7 +3,6 @@
 --
 -- See LICENSE.md in the project directory for license information.
 
----@type VanillaLoadersApi
 local api = require("prototypes.api")
 
 local is_using_ultimate_belts = mods["UltimateBelts"]

@@ -1,9 +1,11 @@
+---@namespace VanillaLoaders
+
 -- Copyright (c) Kirazy
 -- Part of Vanilla Loaders
 --
 -- See LICENSE.md in the project directory for license information.
 
----@class VanillaLoadersApi
+---@class Api
 local api = {}
 
 ---Toggles debug mode. When `true`, debugging errors and logging are enabled.
@@ -251,8 +253,8 @@ end
 ---@param loader data.Loader1x2Prototype The loader prototype definition to be reskinned.
 ---@param transport_belt data.TransportBeltPrototype The transport belt providing the animation set and speed.
 ---@param mask_tint data.Color The color of the loader's directional arrows.
----@param base_tint data.Color|nil The color of the loader's metal frame and housing.
----@param heating_energy data.Energy|nil The energy cost of heating the loader. If omitted, defaults to "60kW". Only used if loaded with Factorio: Space Age.
+---@param base_tint? data.Color The color of the loader's metal frame and housing.
+---@param heating_energy? data.Energy The energy cost of heating the loader. If omitted, defaults to "60kW". Only used if loaded with Factorio: Space Age.
 local function set_entity_sprites_and_properties(loader, transport_belt, mask_tint, base_tint, heating_energy)
 	loader.icons = get_loader_icons_data(mask_tint, base_tint)
 

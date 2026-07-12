@@ -1,3 +1,5 @@
+---@namespace VanillaLoaders
+
 -- Copyright (c) Kirazy
 -- Part of Vanilla Loaders
 --
