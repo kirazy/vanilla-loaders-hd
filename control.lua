@@ -56,6 +56,7 @@ local function snap_to_neighbor(loader)
     local original_direction = loader.direction
     local original_type = loader.loader_type
     local x, y = loader.position.x, loader.position.y
+    if (x == nil or y == nil) then return end
     local from_x, from_y, to_x, to_y
     local is_entity_connected
 
@@ -136,6 +137,7 @@ end
 ---@param event EventData.on_built_entity|EventData.on_robot_built_entity|EventData.on_entity_cloned|EventData.script_raised_built|EventData.script_raised_revive
 local function on_entity_created_handler(event)
     local entity = event.entity or event.destination
+    if not entity then return end
     if not storage.subscribed_loaders[entity.name] then return end
 
     snap_to_neighbor(entity)
