@@ -9,7 +9,7 @@
 local api = {}
 
 ---Toggles debug mode. When `true`, debugging errors and logging are enabled.
-local is_debug_mode = true
+local is_debug_mode = false
 
 ---Raises an error with the given `message` when `is_debug_mode` is `true`.
 ---@param message string
@@ -61,6 +61,7 @@ local function create_explosion_prototype_with_particles(loader_name, mask_tint,
 	---@type data.ExplosionPrototype
 	local explosion = util.copy(data.raw.explosion["splitter-explosion"])
 	explosion.name = "vanilla-loaders-" .. loader_name .. "-explosion"
+	explosion.icon = nil
 	explosion.icons = get_loader_icons_data(mask_tint, base_tint)
 
 	-- A map of particle materials to its index in the default splitter particle prototypes.
@@ -105,6 +106,7 @@ local function create_loader_remnants(loader_name, mask_tint, base_tint)
 	---@type data.CorpsePrototype
 	local remnants = util.copy(data.raw.corpse["underground-belt-remnants"])
 	remnants.name = "vanilla-loaders-" .. loader_name .. "-remnants"
+	remnants.icon = nil
 	remnants.icons = get_loader_icons_data(mask_tint, base_tint)
 	remnants.selection_box = { { -0.5, -1 }, { 0.5, 1 } }
 	remnants.tile_width = 1
@@ -143,6 +145,7 @@ end
 ---@param mask_tint data.Color # The color of the loader's directional arrows.
 ---@param base_tint? data.Color # The color of the loader's metal frame and housing.
 local function set_item_icon_and_order(loader_item, belt_item, mask_tint, base_tint)
+	loader_item.icon = nil
 	loader_item.icons = get_loader_icons_data(mask_tint, base_tint)
 	loader_item.flags = nil
 
@@ -256,6 +259,7 @@ end
 ---@param base_tint? data.Color The color of the loader's metal frame and housing.
 ---@param heating_energy? data.Energy The energy cost of heating the loader. If omitted, defaults to "60kW". Only used if loaded with Factorio: Space Age.
 local function set_entity_sprites_and_properties(loader, transport_belt, mask_tint, base_tint, heating_energy)
+	loader.icon = nil
 	loader.icons = get_loader_icons_data(mask_tint, base_tint)
 
 	-- loader_entity.corpse = create_loader_remnants(entity.name)
