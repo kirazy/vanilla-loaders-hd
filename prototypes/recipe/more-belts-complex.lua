@@ -3,8 +3,12 @@
 --
 -- See LICENSE.md in the project directory for license information.
 
-if settings.startup["vanillaLoaders-recipes-loaderOverhaul"].value ~= true then return end
-if not mods["more-belts"] then return end
+if settings.startup["vanillaLoaders-recipes-loaderOverhaul"].value ~= true then
+	return
+end
+if not mods["more-belts"] then
+	return
+end
 
 local recipe_utils = require("recipe-utils")
 

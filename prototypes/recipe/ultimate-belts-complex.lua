@@ -3,13 +3,17 @@
 --
 -- See LICENSE.md in the project directory for license information.
 
-if settings.startup["vanillaLoaders-recipes-loaderOverhaul"].value ~= true then return end
+if settings.startup["vanillaLoaders-recipes-loaderOverhaul"].value ~= true then
+	return
+end
 
 local is_using_ultimate_belts = mods["UltimateBelts"]
 	or mods["UltimateBeltsSpaceAge"]
 	or mods["UltimateBelts_Owoshima_And_Pankeko-Mod"]
 
-if not is_using_ultimate_belts then return end
+if not is_using_ultimate_belts then
+	return
+end
 
 local recipe_utils = require("recipe-utils")
 

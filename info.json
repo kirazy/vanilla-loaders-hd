@@ -1,21 +1,21 @@
 {
-    "name": "vanilla-loaders-hd",
-    "version": "2.3.0",
-    "factorio_version": "2.1",
-    "title": "Vanilla Loaders",
-    "author": "Kirazy",
-    "contact": "kirazy@live.com",
-    "dependencies": [
-        "base",
-        "flib",
-        "? space-age",
-        "? boblibrary",
-        "? boblogistics",
-        "? bobplates",
-        "? bobelectronics",
-        "? more-belts",
-        "? UltimateBelts",
-        "? UltimateBelts_Owoshima_And_Pankeko-Mod",
-        "? UltimateBeltsSpaceAge"
-    ]
+	"name": "vanilla-loaders-hd",
+	"version": "2.3.0",
+	"factorio_version": "2.1",
+	"title": "Vanilla Loaders",
+	"author": "Kirazy",
+	"contact": "kirazy@live.com",
+	"dependencies": [
+		"base",
+		"flib",
+		"? space-age",
+		"? boblibrary",
+		"? boblogistics",
+		"? bobplates",
+		"? bobelectronics",
+		"? more-belts",
+		"? UltimateBelts",
+		"? UltimateBelts_Owoshima_And_Pankeko-Mod",
+		"? UltimateBeltsSpaceAge"
+	]
 }

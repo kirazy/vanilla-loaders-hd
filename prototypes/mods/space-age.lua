@@ -6,10 +6,12 @@
 ---@type VanillaLoadersApi
 local api = require("prototypes.api")
 
-if not mods["space-age"] then return end
+if not mods["space-age"] then
+	return
+end
 
 api.create_loader("turbo-loader", "turbo-transport-belt", {
-    previous_tier = "express-loader",
-    technology = "turbo-transport-belt",
-    mask_tint = util.color("94cc33d1"),
+	previous_tier = "express-loader",
+	technology = "turbo-transport-belt",
+	mask_tint = util.color("94cc33d1"),
 })
