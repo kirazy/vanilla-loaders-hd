@@ -70,15 +70,15 @@ end
 
 --- Adjustments for Tier 4 loaders.
 if items["bob-titanium-plate"] then
-	recipe.replace_ingredient("bob-turbo-loader", "steel-plate", "bob-titanium-plate")
+	recipe.replace_ingredient("turbo-loader", "steel-plate", "bob-titanium-plate")
 end
 
 if items["bob-titanium-bearing"] then
-	recipe.add_ingredient("bob-turbo-loader", { "bob-titanium-bearing", num_bearings })
+	recipe.add_ingredient("turbo-loader", { "bob-titanium-bearing", num_bearings })
 end
 
 if items["bob-titanium-gear-wheel"] then
-	recipe.replace_ingredient("bob-turbo-loader", "iron-gear-wheel", "bob-titanium-gear-wheel")
+	recipe.replace_ingredient("turbo-loader", "iron-gear-wheel", "bob-titanium-gear-wheel")
 end
 
 --- Adjustments for Tier 5 loaders.

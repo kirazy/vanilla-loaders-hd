@@ -1,0 +1,20 @@
+{
+	"item": [
+		[
+			"bob-turbo-loader",
+			"turbo-loader"
+		]
+	],
+	"recipe": [
+		[
+			"bob-turbo-loader",
+			"turbo-loader"
+		]
+	],
+	"entity": [
+		[
+			"bob-turbo-loader",
+			"turbo-loader"
+		]
+	]
+}
