@@ -23,35 +23,43 @@ end
 
 ---Gets the standard crafting category for a loader with the given `ingredients`.
 ---@param ingredients data.IngredientPrototype[] The ingredients to include in the recipe.
----@return data.RecipeCategoryID|nil
-function recipe_utils.get_crafting_category(ingredients)
+---@return data.RecipeCategoryID[]|nil
+function recipe_utils.get_crafting_categories(ingredients)
 	local is_using_fluids = recipe_utils.is_crafted_with_fluid(ingredients)
 	local is_using_space_age = mods["space-age"]
 
-	local category
-	if is_using_space_age and is_using_fluids then
-		category = "crafting-with-fluid-or-metallurgy"
-	elseif is_using_space_age then
-		category = "pressing"
-	elseif is_using_fluids then
-		category = "crafting-with-fluid"
+	---@type data.RecipeCategoryID[]
+	local categories = {}
+	if is_using_fluids then
+		categories[#categories + 1] = "crafting-with-fluid"
+		if is_using_space_age then
+			categories[#categories + 1] = "metallurgy"
+		end
 	end
 
-	return category
+	return #categories >= 1 and categories or nil
 end
 
 --- Creates the recipe for a loader with the given `name` from the given `ingredients` in a
 --- common format, resulting in 1 unit produced over 5 seconds.
 ---@param name string The name of the loader.
 ---@param ingredients data.IngredientPrototype[] The ingredients to include in the recipe.
----@param category? data.RecipeCategoryID The category of the recipe.
+---@param categories? data.RecipeCategoryID[] The category of the recipe.
 ---@return data.RecipePrototype The loader recipe.
-function recipe_utils.create_recipe_from_ingredients(name, ingredients, category)
+function recipe_utils.create_recipe_from_ingredients(name, ingredients, categories)
+	if categories then
+		assert(
+			type(categories) == "table",
+			"categories must be table, but was " .. type(categories) .. ": " .. serpent.block(categories) .. "."
+		)
+		assert(#categories >= 1, "categories must contain at least one element")
+	end
+
 	---@type data.RecipePrototype
 	local recipe = {
 		name = name,
 		type = "recipe",
-		category = category or recipe_utils.get_crafting_category(ingredients),
+		categories = categories or recipe_utils.get_crafting_categories(ingredients),
 		enabled = false,
 		energy_required = 5,
 		ingredients = ingredients,

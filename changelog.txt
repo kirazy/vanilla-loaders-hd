@@ -5,6 +5,7 @@ Date: ????
     - Moved to Factorio 2.1
   Breaking Changes:
     - Changed `bob-turbo-loader` to `turbo-loader` to align to Bob's Logistics
+    - `recipe_utils.get_crafting_categories` now takes and returns arrays of category names as opposed to a single category
 ---------------------------------------------------------------------------------------------------
 Version: 2.2.3
 Date: 2026-06-01

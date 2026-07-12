@@ -19,7 +19,7 @@ local recipe = recipe_utils.create_recipe_from_ingredients("turbo-loader", {
 	{ type = "item", amount = 24, name = "tungsten-plate" },
 	{ type = "item", amount = 5, name = "turbo-transport-belt" },
 	{ type = "fluid", amount = 40, name = "lubricant" },
-}, "metallurgy")
+}, { "metallurgy" })
 
 recipe.surface_conditions = {
 	{
