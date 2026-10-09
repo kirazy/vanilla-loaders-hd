@@ -16,7 +16,8 @@
 		"? more-belts",
 		"? UltimateBelts",
 		"? UltimateBelts_Owoshima_And_Pankeko-Mod",
-		"? UltimateBeltsSpaceAge"
+		"? UltimateBeltsSpaceAge",
+		"? UltimateBeltsSpaceAgePlus"
 	],
 	"package": {
 		"git_publish_branch": "dev2.1"
