@@ -7,6 +7,7 @@ local api = require("prototypes.api")
 
 local is_using_ultimate_belts = mods["UltimateBelts"]
 	or mods["UltimateBeltsSpaceAge"]
+	or mods["UltimateBeltsSpaceAgePlus"]
 	or mods["UltimateBelts_Owoshima_And_Pankeko-Mod"]
 
 if not is_using_ultimate_belts then
